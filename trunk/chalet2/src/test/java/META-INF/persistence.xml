@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<persistence
+	xmlns="http://java.sun.com/xml/ns/persistence"
+   	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+    					http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+   version="1.0">
+   
+	<persistence-unit name="chalet" transaction-type="RESOURCE_LOCAL">
+		
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		
+		<!-- List of annotated classes
+		<class>it.coopservice.ordinativi.par.base.Articolo</class>
+		<class>it.coopservice.ordinativi.par.base.Classe</class>
+		<class>it.coopservice.ordinativi.par.base.Documento</class>
+		<class>it.coopservice.ordinativi.par.base.Marca</class>
+		<class>it.coopservice.ordinativi.par.base.Tipologia</class>
+		<exclude-unlisted-classes/>
+		 -->
+
+		<properties>
+		
+			<!-- not necessary if binding DataSource from JNDI -->
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/chalet" />
+			<property name="hibernate.connection.username" value="chalet" />
+			<property name="hibernate.connection.password" value="chalet"/>
+		
+			<!-- Print SQL to stdout -->
+			<property name="hibernate.show_sql" value="true"/>
+			
+			<property name="hibernate.format_sql" value="true" />
+			
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+			<!-- 
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" /> 			
+			 -->
+
+			<!-- Automatic detection of annotated classes and XML mapping files -->
+			<property name="hibernate.archive.autodetection" value="class"/> 
+			
+			<!--  create non-existing tables automatically  -->
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+			
+		</properties>
+		
+	</persistence-unit>
+   
+</persistence>
+
