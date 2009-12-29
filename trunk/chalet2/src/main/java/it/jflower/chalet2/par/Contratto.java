@@ -29,6 +29,8 @@ public class Contratto implements Serializable {
 	private Float acconto;
 	private Float sconto;
 	private Float extra;
+	
+	private boolean attivo;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -117,6 +119,14 @@ public class Contratto implements Serializable {
 
 	public void addServizio(Servizio servizio) {
 		getServizi().add(servizio);
+	}
+	
+	public boolean isAttivo() {
+		return attivo;
+	}
+
+	public void setAttivo(boolean attivo) {
+		this.attivo = attivo;
 	}
 
 }

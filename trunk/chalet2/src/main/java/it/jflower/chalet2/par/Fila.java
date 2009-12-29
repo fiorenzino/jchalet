@@ -2,32 +2,37 @@ package it.jflower.chalet2.par;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 @Entity
-public class Tariffa implements Serializable {
+public class Fila implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Long id;
-	private Fila fila;
+	private String nome;
 	private Long anno;
+	private Float stagionale;
 	private List<Servizio> servizi;
-	private Map<String, Costo> costi;
-	
+	private List<Tariffa> tariffe;
+
 	private boolean modificabile;
 	private boolean attivo;
+
+	public Fila() {
+		
+	}
+
+	public Fila(boolean attivo) {
+		this.attivo = attivo;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,29 +44,12 @@ public class Tariffa implements Serializable {
 		this.id = id;
 	}
 
-	@OneToMany(mappedBy = "tariffa")
-	@MapKey(name = "giorno")
-	public Map<String, Costo> getCosti() {
-		if (this.costi == null)
-			this.costi = new HashMap<String, Costo>();
-		return costi;
+	public String getFila() {
+		return nome;
 	}
 
-	public void setCosti(Map<String, Costo> costi) {
-		this.costi = costi;
-	}
-
-	public void addCosti(String giorno, Costo costo) {
-		getCosti().put(giorno, costo);
-	}
-
-	@ManyToOne
-	public Fila getFila() {
-		return fila;
-	}
-
-	public void setFila(Fila fila) {
-		this.fila = fila;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public Long getAnno() {
@@ -72,7 +60,15 @@ public class Tariffa implements Serializable {
 		this.anno = anno;
 	}
 
-	@ManyToMany(mappedBy = "tariffe")
+	public Float getStagionale() {
+		return stagionale;
+	}
+
+	public void setStagionale(Float stagionale) {
+		this.stagionale = stagionale;
+	}
+
+	@OneToMany(mappedBy = "fila", cascade = { CascadeType.ALL })
 	public List<Servizio> getServizi() {
 		if (servizi == null)
 			this.servizi = new ArrayList<Servizio>();
@@ -86,7 +82,22 @@ public class Tariffa implements Serializable {
 	public void addServizio(Servizio servizio) {
 		getServizi().add(servizio);
 	}
-	
+
+	@OneToMany(mappedBy = "fila", cascade = { CascadeType.ALL })
+	public List<Tariffa> getTariffe() {
+		if (tariffe == null)
+			this.tariffe = new ArrayList<Tariffa>();
+		return tariffe;
+	}
+
+	public void setTariffe(List<Tariffa> tariffe) {
+		this.tariffe = tariffe;
+	}
+
+	public void addTariffa(Tariffa tariffa) {
+		getTariffe().add(tariffa);
+	}
+
 	@Transient
 	public boolean isModificabile() {
 		return modificabile;

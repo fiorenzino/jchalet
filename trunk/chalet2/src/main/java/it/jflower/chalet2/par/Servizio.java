@@ -14,7 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -24,13 +26,14 @@ public class Servizio implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Long id;
-	private String fila;
+	private Fila fila;
 	private String numero;
-	private Long anno;
 	private String tipo;
 	private List<Tariffa> tariffe;
 	private List<Contratto> contratti;
-	private Float stagionale;
+	
+	private boolean modificabile;
+	private boolean attivo;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -42,20 +45,13 @@ public class Servizio implements Serializable {
 		this.id = id;
 	}
 
-	public String getFila() {
+	@ManyToOne
+	public Fila getFila() {
 		return fila;
 	}
 
-	public void setFila(String fila) {
+	public void setFila(Fila fila) {
 		this.fila = fila;
-	}
-
-	public Long getAnno() {
-		return anno;
-	}
-
-	public void setAnno(Long anno) {
-		this.anno = anno;
 	}
 
 	public String getTipo() {
@@ -90,20 +86,29 @@ public class Servizio implements Serializable {
 		this.contratti = contratti;
 	}
 
-	public Float getStagionale() {
-		return stagionale;
-	}
-
-	public void setStagionale(Float stagionale) {
-		this.stagionale = stagionale;
-	}
-
 	public String getNumero() {
 		return numero;
 	}
 
 	public void setNumero(String numero) {
 		this.numero = numero;
+	}
+	
+	@Transient
+	public boolean isModificabile() {
+		return modificabile;
+	}
+
+	public void setModificabile(boolean modificabile) {
+		this.modificabile = modificabile;
+	}
+
+	public boolean isAttivo() {
+		return attivo;
+	}
+
+	public void setAttivo(boolean attivo) {
+		this.attivo = attivo;
 	}
 
 }

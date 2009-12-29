@@ -14,7 +14,7 @@ public class Costo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String giorno;
-	private Float normale;
+	private Float prezzo;
 	private Tariffa tariffa;
 
 	@Id
@@ -35,12 +35,12 @@ public class Costo implements Serializable {
 		this.giorno = giorno;
 	}
 
-	public Float getNormale() {
-		return normale;
+	public Float getPrezzo() {
+		return prezzo;
 	}
 
-	public void setNormale(Float normale) {
-		this.normale = normale;
+	public void setPrezzo(Float prezzo) {
+		this.prezzo = prezzo;
 	}
 
 	@ManyToOne

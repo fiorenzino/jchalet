@@ -10,5 +10,5 @@ import javax.inject.Qualifier;
 @Qualifier
 @Target( { ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface WidgetRepository {
+public @interface ChaletRepository {
 }
