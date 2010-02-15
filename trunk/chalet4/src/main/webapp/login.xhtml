@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a="http://topnet.it/facelets"
+	xmlns:fn="http://topnet.it/functions"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+<head>
+
+<title><ui:insert name="title" /></title>
+<link
+	href="#{facesContext.externalContext.requestContextPath}/style/bugsstyles.css"
+	rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div id="wrap">
+<div id="header"></div>
+<div id="navbar"><h:form>
+	<a href="http://simonellimoto.it">simonellimoto.it</a>
+	<a href="http://google.it">google.com</a>
+
+</h:form></div>
+<div id="contentarea"><h:outputText value="login" escape="false" />
+
+<form action="j_security_check" method="post">
+<p><label id="j_usernameLabel" class="label2" for="j_username">username:</label>
+<input type="text" id="j_username" name="j_username" size="16"
+	maxlength="40" class="styled" /></p>
+<p><label id="j_passwordLabel" class="label2" for="j_password">
+password:</label><input type="password" styleClass="input2" id="j_password"
+	name="j_password" size="16" maxlength="40" class="styled" /></p>
+<p><input class="input2" type="submit" value="accedi" /></p>
+</form>
+
+
+
+<div id="footer">
+<p>j2flower</p>
+</div>
+</div>
+</div>
+</body>
+</html>
