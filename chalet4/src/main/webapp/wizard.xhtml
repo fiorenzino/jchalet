@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h1>Hello World!</h1>
+
+		<h:form id="bv">
+			<h3>Start: #{serviziHandler.start}</h3>
+			<h3>id: #{conversation.id}</h3>
+			<p:panel id="coms" height="250" width="600"
+				rendered="#{serviziHandler.start != null}">
+				<h:outputLink value="#" onclick="wiz.previous();">Indietro</h:outputLink>
+				<h:outputText value=" " />
+				<h:outputLink value="#" onclick="wiz.next();">Avanti</h:outputLink>
+			</p:panel>
+			<br />
+			<br />
+			<p:panel height="250" width="600">
+				<p:wizard id="wizard" customUI="true" widgetVar="wiz" height="250"
+					width="600" speed="175">
+
+					<p:tab>
+						<p:panel header="Step 1">
+
+							<h:messages errorClass="error" />
+
+							<h:panelGrid columns="2" columnClasses="label, value">
+								<h:outputText value="Nome: " />
+								<h:inputText value="#{serviziHandler.cliente.nome}" />
+
+								<h:outputText value="Cognome: " />
+								<h:inputText value="#{serviziHandler.cliente.cognome}" />
+
+								<h:outputText value="Data Nascita: " />
+								<p:calendar value="#{serviziHandler.cliente.dataNascita}"
+									locale="it" />
+							</h:panelGrid>
+						</p:panel>
+					</p:tab>
+
+					<p:tab>
+						<p:panel header="Step 2">
+
+							<h:messages errorClass="error" />
+
+							<h:panelGrid columns="2" columnClasses="label, value">
+								<h:outputText value="Citta' Nascita: " />
+								<h:inputText value="#{serviziHandler.cliente.cityNascitaName}" />
+
+								<h:outputText value="Provincia Nascita: " />
+								<h:inputText
+									value="#{serviziHandler.cliente.provinciaNascitaName}" />
+
+								<h:outputText value="Nazione Nascita: " />
+								<h:inputText
+									value="#{serviziHandler.cliente.nazioneNascitaName}" />
+							</h:panelGrid>
+						</p:panel>
+					</p:tab>
+
+					<p:tab>
+						<p:panel header="Confirmation">
+
+							<p:growl id="growl" sticky="true" showDetail="true" />
+
+							<h:panelGrid id="confirmation" columns="6">
+								<h:outputText value="Firstname: " />
+								<h:outputText value="#{serviziHandler.cliente.nome}"
+									styleClass="outputLabel" />
+
+								<h:outputText value="Lastname: " />
+								<h:outputText value="#{serviziHandler.cliente.cognome}"
+									styleClass="outputLabel" />
+
+								<h:outputText value="Data Nascita: " />
+								<h:outputText value="#{serviziHandler.cliente.dataNascita}">
+									<f:convertDateTime locale="IT" type="date" dateStyle="medium" />
+								</h:outputText>
+
+								<h:outputText value="Citta' Nascita: " />
+								<h:outputText value="#{serviziHandler.cliente.cityNascitaName}" />
+
+								<h:outputText value="Provincia Nascita: " />
+								<h:outputText
+									value="#{serviziHandler.cliente.provinciaNascitaName}" />
+
+								<h:outputText value="Nazione Nascita: " />
+								<h:outputText
+									value="#{serviziHandler.cliente.nazioneNascitaName}" />
+
+
+							</h:panelGrid>
+
+							<p:commandButton value="Submit"
+								actionListener="#{serviziHandler.save}" update="growl,coms" />
+
+						</p:panel>
+					</p:tab>
+
+				</p:wizard>
+			</p:panel>
+
+
+			<p:ajaxStatus>
+				<f:facet name="start">
+					<h:graphicImage value="/images/ajaxloading.gif" />
+				</f:facet>
+
+				<f:facet name="complete">
+					<h:outputText value="" />
+				</f:facet>
+			</p:ajaxStatus>
+		</h:form>
+	</ui:define>
+</ui:composition>

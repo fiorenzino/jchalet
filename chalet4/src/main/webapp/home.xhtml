@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h1>Hello World!</h1>
+
+		<h:form id="bv">
+			<h3>Simple Panel</h3>
+
+			<p:panel header="Start Wizard" height="250" width="600"
+				footer="vediamo">
+				<h:commandLink action="wizard?faces-redirect=true" value="start"
+					target="_blank" />
+				<br />
+				<br />
+				<p:dataTable var="car" value="#{allHandler.allConvs} ">
+					<p:column>
+						<f:facet name="header">id</f:facet>
+						<h:outputText value="#{car} " />
+					</p:column>
+				</p:dataTable>
+
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a="http://topnet.it/facelets"
+	xmlns:fn="http://topnet.it/functions"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+
+<ui:composition template="/WEB-INF/layout/t_single.xhtml">
+	<ui:define name="title">Gestione Prenotazioni</ui:define>
+	<ui:define name="content">
+		<h:form id="formCerca">
+			<h2>Preventivo</h2>
+			<rich:panel id="cercaScooter">
+				<a:field id="scooter" label="Cilindrata:" type="selOneM"
+					entityId="#{preventiviHandler}" fieldName="cil"
+					entityList="#{scootersHandler}" fieldNameList="cilindrateItems" />
+
+				<a:field id="dataInit" label="Data Inizio(*):" fieldName="dataInit"
+					type="dateTime" entity="#{preventiviHandler.contratto}"
+					required="true" />
+
+				<a:field id="dataEnd" label="Data Riconsegna(*):"
+					fieldName="dataEnd" type="dateTime"
+					entity="#{preventiviHandler.contratto}" required="true" />
+
+				<a4j:commandButton id="cercaButton"
+					action="#{preventiviHandler.aggColonne}" value="cerca"
+					reRender="cercaScooterResult, cercaScooter, preventivoResult"
+					immediate="false" />
+
+			</rich:panel>
+		</h:form>
+		<h:form id="form2Cerca">
+			<rich:panel id="cercaScooterResult">
+				<rich:dataTable id="colTable"
+					value="#{preventiviHandler.searchModel}" var="res">
+					<f:facet name="header">
+						<h:outputText value="Test Prenotazioni"></h:outputText>
+					</f:facet>
+					<rich:columns value="#{preventiviHandler.colonne}" var="col"
+						index="ind" begin="#{preventiviHandler.begin}"
+						end="#{preventiviHandler.end}">
+						<f:facet name="header">
+							<h:outputText value="#{col}" />
+						</f:facet>
+						<h:outputText value="#{res[ind].nome}" rendered="#{ind == '0'}" />
+						<h:outputText styleClass="#{res[ind].styleClass}"
+							value="#{res[ind].symbol}" rendered="#{ind != '0'}" />
+					</rich:columns>
+				</rich:dataTable>
+			</rich:panel>
+			<rich:panel id="preventivoResult">
+				costo euro <h:outputText value=" " />
+				<h:outputText value="#{preventiviHandler.preventivo}">
+					<f:converter converterId="CustomFloatConverter" />
+				</h:outputText>
+			</rich:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
