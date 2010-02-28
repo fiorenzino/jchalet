@@ -14,8 +14,8 @@ public class FilaOmbrelloni implements Serializable {
 
 	private Long id;
 	private Integer numero;
-	private Long dal;
-	private Long al;
+	private Integer dal;
+	private Integer al;
 	private Configurazione configurazione;
 
 	@Id
@@ -28,19 +28,19 @@ public class FilaOmbrelloni implements Serializable {
 		this.id = id;
 	}
 
-	public Long getDal() {
+	public Integer getDal() {
 		return dal;
 	}
 
-	public void setDal(Long dal) {
+	public void setDal(Integer dal) {
 		this.dal = dal;
 	}
 
-	public Long getAl() {
+	public Integer getAl() {
 		return al;
 	}
 
-	public void setAl(Long al) {
+	public void setAl(Integer al) {
 		this.al = al;
 	}
 

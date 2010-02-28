@@ -2,6 +2,7 @@ package it.jflower.chalet4.par;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 @Entity
 public class Tariffa implements Serializable {
@@ -20,7 +22,10 @@ public class Tariffa implements Serializable {
 	private Long id;
 	private String nome;
 	private Map<String, Costo> costi;
+	private List<Costo> costiValues;
 	private List<Servizio> servizi;
+	private Date dal;
+	private Date al;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,8 +53,20 @@ public class Tariffa implements Serializable {
 		return costi;
 	}
 
+	@Transient
+	public List<Costo> getCostiValues() {
+		if (this.costi != null)
+			costiValues = new ArrayList<Costo>();
+		costiValues.addAll(costi.values());
+		return new ArrayList<Costo>();
+	}
+
 	public void setCosti(Map<String, Costo> costi) {
 		this.costi = costi;
+	}
+
+	public void addCosto(String nome, Costo costo) {
+		getCosti().put(nome, costo);
 	}
 
 	@ManyToMany(mappedBy = "tariffe")
@@ -61,6 +78,22 @@ public class Tariffa implements Serializable {
 
 	public void setServizi(List<Servizio> servizi) {
 		this.servizi = servizi;
+	}
+
+	public Date getDal() {
+		return dal;
+	}
+
+	public void setDal(Date dal) {
+		this.dal = dal;
+	}
+
+	public Date getAl() {
+		return al;
+	}
+
+	public void setAl(Date al) {
+		this.al = al;
 	}
 
 }

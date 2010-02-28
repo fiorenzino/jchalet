@@ -19,7 +19,7 @@ public class Contratto implements Serializable {
 	private Long id;
 	private Cliente cliente;
 	private boolean aperto;
-	private List<Servizio> servizi;
+	private List<ServizioPrenotato> serviziPrenotati;
 	private Date dataStipula;
 	private Date dataInit;
 	private Date dataEnd;
@@ -28,7 +28,6 @@ public class Contratto implements Serializable {
 	private Float importoFinale;
 	private Float acconto;
 	private Float sconto;
-	private Float extra;
 
 	private boolean attivo;
 
@@ -98,27 +97,19 @@ public class Contratto implements Serializable {
 		this.importoIniziale = importoIniziale;
 	}
 
-	public Float getExtra() {
-		return extra;
-	}
-
-	public void setExtra(Float extra) {
-		this.extra = extra;
-	}
-
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, targetEntity = Servizio.class)
-	public List<Servizio> getServizi() {
-		if (this.servizi == null)
-			this.servizi = new ArrayList<Servizio>();
-		return servizi;
+	public List<ServizioPrenotato> getServiziPrenotati() {
+		if (this.serviziPrenotati == null)
+			this.serviziPrenotati = new ArrayList<ServizioPrenotato>();
+		return serviziPrenotati;
 	}
 
-	public void setServizi(List<Servizio> servizi) {
-		this.servizi = servizi;
+	public void setServizi(List<ServizioPrenotato> serviziPrenotati) {
+		this.serviziPrenotati = serviziPrenotati;
 	}
 
-	public void addServizio(Servizio servizio) {
-		getServizi().add(servizio);
+	public void addServizio(ServizioPrenotato servizioPrenotato) {
+		getServiziPrenotati().add(servizioPrenotato);
 	}
 
 	public boolean isAttivo() {
@@ -127,6 +118,30 @@ public class Contratto implements Serializable {
 
 	public void setAttivo(boolean attivo) {
 		this.attivo = attivo;
+	}
+
+	public Float getImportoFinale() {
+		return importoFinale;
+	}
+
+	public void setImportoFinale(Float importoFinale) {
+		this.importoFinale = importoFinale;
+	}
+
+	public Float getAcconto() {
+		return acconto;
+	}
+
+	public void setAcconto(Float acconto) {
+		this.acconto = acconto;
+	}
+
+	public Float getSconto() {
+		return sconto;
+	}
+
+	public void setSconto(Float sconto) {
+		this.sconto = sconto;
 	}
 
 }
