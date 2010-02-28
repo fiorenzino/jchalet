@@ -57,6 +57,10 @@ public class Servizio implements Serializable {
 		this.tariffe = tariffe;
 	}
 
+	public void addTariffa(Tariffa tariffa) {
+		getTariffe().add(tariffa);
+	}
+
 	public boolean isAttivo() {
 		return attivo;
 	}
