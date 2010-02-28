@@ -1,4 +1,4 @@
-package it.jflower.chalet4.ejb;
+package it.jflower.chalet4.ann;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 import javax.inject.Qualifier;
 
 @Qualifier
-@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
+@Target( { ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ChaletRepository {}
+public @interface Log {
+}
