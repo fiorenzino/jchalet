@@ -5,6 +5,7 @@ import it.jflower.chalet4.par.Ombrellone;
 import java.util.List;
 
 public interface OmbrelloniSession {
+	
 	public List<Ombrellone> getAllOmbrelloni();
 
 	public Ombrellone find(Long id);
