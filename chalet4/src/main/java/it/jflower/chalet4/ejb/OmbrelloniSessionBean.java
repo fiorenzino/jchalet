@@ -8,8 +8,12 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import javax.ejb.Local;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+@Stateless
+@Local(OmbrelloniSession.class)
 public class OmbrelloniSessionBean implements OmbrelloniSession {
 
 	@Inject
@@ -49,6 +53,15 @@ public class OmbrelloniSessionBean implements OmbrelloniSession {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	public void update(Ombrellone ombrellone) {
+		try {
+			em.merge(ombrellone);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

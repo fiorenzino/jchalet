@@ -1,5 +1,6 @@
 package it.jflower.chalet4.ejb;
 
+import it.jflower.chalet4.ann.ChaletRepository;
 import it.jflower.chalet4.par.Widget;
 
 import java.util.List;

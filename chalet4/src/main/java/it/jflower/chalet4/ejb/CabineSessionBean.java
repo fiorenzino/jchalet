@@ -7,9 +7,13 @@ import it.jflower.chalet4.par.Lettino;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.Local;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+@Stateless
+@Local(CabineSession.class)
 public class CabineSessionBean implements CabineSession {
 
 	@Inject
