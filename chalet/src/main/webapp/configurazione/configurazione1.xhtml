@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h1>Creazione Configurazione - I step</h1>
+		<h:form id="bv">
+			<p><h:outputText
+				value="lasciare un tot di righe in piu', davanti e dietro!" /></p>
+			<p><h:outputLabel for="numeroColonne" value="Numero Colonne" />
+			<h:inputText id="numeroColonne"
+				value="#{configurazioneHandler.configurazione.numeroColonne}" /> <h:message
+				for="numeroColonne" errorClass="invalid" /></p>
+			<p><h:outputLabel for="numeroRighe" value="Numero Righe:" /> <h:inputText
+				id="numeroRighe"
+				value="#{configurazioneHandler.configurazione.numeroRighe}" /> <h:message
+				for="numeroRighe" errorClass="invalid" /></p>
+			<p><h:outputLabel for="numeroFile" value="Numero File:" /> <h:inputText
+				id="numeroFile"
+				value="#{configurazioneHandler.configurazione.numeroFile}" /> <h:message
+				for="numeroFile" errorClass="invalid" /></p>
+				
+			<p><h:outputLabel for="numeroFile" value="Numero Lettini:" /> <h:inputText
+				id="numeroLettini"
+				value="#{configurazioneHandler.configurazione.numeroLettini}" /> <h:message
+				for="numeroLettini" errorClass="invalid" /></p>
+				
+			<p><h:outputLabel for="numeroFile" value="Numero sdraio:" /> <h:inputText
+				id="numeroSdraio"
+				value="#{configurazioneHandler.configurazione.numeroSdraio}" /> <h:message
+				for="numeroSdraio" errorClass="invalid" /></p>
+			
+			<p><h:outputLabel for="numeroFile" value="Numero cabine:" /> <h:inputText
+				id="numeroCabine"
+				value="#{configurazioneHandler.configurazione.numeroCabine}" /> <h:message
+				for="numeroCabine" errorClass="invalid" /></p>
+				
+			<p><h:commandButton id="check"
+				action="#{configurazioneHandler.step2}" value="Vai Alla fase 2" />
+			<h:outputText value=" All clear!"
+				rendered="#{facesContext.postback and empty facesContext.messageList}"
+				style="color: green;" /></p>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

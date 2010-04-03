@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>JChalet - Weld inside PrimeFaces</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/css/screen.css" />
+	<style type="text/css">
+#yui-dt0-paginator0 {
+	font-size: 0px;
+}
+
+.pf-breadCrumb {
+	margin: 0;
+	padding: 0;
+	float: left;
+	display: block;
+	height: 21px;
+	overflow: hidden;
+	width: 200px;
+	padding: 5px;
+	border: solid 1px #dedede;
+	background: #fff;
+}
+</style>
+</h:head>
+<h:body>
+	<div id="container">
+	<div id="content"><p:breadCrumb>
+		<ui:repeat value="#{propertiesHandler.menuItems}" var="menuIt">
+			<p:menuitem label="#{menuIt.label}" url="#{menuIt.link}" />
+		</ui:repeat>
+	</p:breadCrumb>
+	<div style="clear: both;"></div>
+	<div id="sidebar">
+	<h3>JChalet</h3>
+	<ul>
+		<li><a href="#{request.contextPath}/">home page</a></li>
+	</ul>
+
+	<h:form id="menudx">
+		<ui:insert name="menudx">
+			<ul>
+				<li><a href="#{request.contextPath}/configurazione/">configurazione</a></li>
+				<li><a href="#{request.contextPath}/clienti/">clienti</a></li>
+				<li><a href="#{request.contextPath}/contratti">contratti</a></li>
+				<li><a href="#{request.contextPath}/prenotazioni">prenotazioni</a></li>
+				<li><a href="#{request.contextPath}/tariffe">tariffe</a></li>
+				<li><a href="#{request.contextPath}/logout.jsp">logout</a></li>
+			</ul>
+		</ui:insert>
+	</h:form></div>
+
+	<ui:insert name="content">
+               [Template content will be inserted here]
+            </ui:insert></div>
+	<div id="footer"><h:graphicImage value="/images/weld.png"
+		alt="Weld logo" />
+	<p>jchalet project - 2010<br />
+	</p>
+	</div>
+	</div>
+</h:body>
+</html>
