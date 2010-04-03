@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h:form id="bv">
+			<p:dataTable var="costo" id="filaTb" rows="10"
+				value="#{tariffeHandler.tariffa.costiValues}">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="giorno" />
+					</f:facet>
+					<h:inputText value="#{costo.giorno}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="prezzo" />
+					</f:facet>
+					<h:inputText value="#{costo.prezzo}" />
+				</p:column>
+			</p:dataTable>
+
+			<p><h:commandButton id="check" action="#{tariffeHandler.step3}"
+				value="Vai Alla fase 3" /> <h:outputText value=" All clear!"
+				rendered="#{facesContext.postback and empty facesContext.messageList}"
+				style="color: green;" /></p>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
