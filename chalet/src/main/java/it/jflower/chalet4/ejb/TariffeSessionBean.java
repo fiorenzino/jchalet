@@ -6,16 +6,21 @@ import it.jflower.chalet4.par.Cabina;
 import it.jflower.chalet4.par.Costo;
 import it.jflower.chalet4.par.Lettino;
 import it.jflower.chalet4.par.Ombrellone;
+import it.jflower.chalet4.par.Preventivo;
 import it.jflower.chalet4.par.Sdraio;
 import it.jflower.chalet4.par.Tariffa;
+import it.jflower.chalet4.web.utils.Tariffeutils;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -51,7 +56,7 @@ public class TariffeSessionBean implements TariffeSession {
 			for (Costo costo : costi) {
 				costo.setTariffa(tariffa);
 				em.persist(costo);
-				tariffa.addCosto("" + costo.getGiorno(), costo);
+				tariffa.addCosto(costo.getGiorno(), costo);
 			}
 			switch (tariffa.getServiceType()) {
 			case 1:
@@ -117,6 +122,7 @@ public class TariffeSessionBean implements TariffeSession {
 		try {
 			Tariffa tariffa = em.find(Tariffa.class, id);
 			tariffa.getCosti().size();
+			tariffa.getServizi().size();
 			return tariffa;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -160,21 +166,23 @@ public class TariffeSessionBean implements TariffeSession {
 		}
 	}
 
-	public List<Tariffa> getTariffeInPeriod(Date start, Date stop,
-			List<String> servizi) {
-		List<Tariffa> result = new ArrayList<Tariffa>();
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public List<Preventivo> getTariffeInPeriod(Date start, Date stop,
+			Map<String, Long> servizi) {
+		List<Preventivo> result = new ArrayList<Preventivo>();
 		try {
 			List<Tariffa> resultP = (List<Tariffa>) em
 					.createQuery(
-							"select t from Tariffa t where (t.dal >= :START AND  t.al <= :STOP) order by t.nome")
+							"select t from Tariffa t where (t.dal <= :START OR  t.al >= :STOP) order by t.nome")
 					.setParameter("START", start).setParameter("STOP", stop)
 					.getResultList();
 			for (Tariffa tariffa : resultP) {
-				if (servizi.contains(tariffa.getServiceName())) {
-					log.info("Num costi: " + tariffa.getCosti().size());
-					log.info("ADD: " + tariffa.getServiceName());
+				if (servizi.containsKey(tariffa.getServiceName())) {
+					Preventivo pre = Tariffeutils.getPrenotazione(tariffa,
+							start, stop, servizi.get(tariffa.getServiceName()));
+					result.add(pre);
 				}
-				result.add(tariffa);
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

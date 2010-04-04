@@ -15,6 +15,8 @@ public class Ombrellone extends Servizio implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String fila;
+	private String riga;
+	private String colonna;
 
 	public Ombrellone() {
 		super.setTipo(TIPO);
@@ -26,6 +28,22 @@ public class Ombrellone extends Servizio implements Serializable {
 
 	public void setFila(String fila) {
 		this.fila = fila;
+	}
+
+	public String getRiga() {
+		return riga;
+	}
+
+	public void setRiga(String riga) {
+		this.riga = riga;
+	}
+
+	public String getColonna() {
+		return colonna;
+	}
+
+	public void setColonna(String colonna) {
+		this.colonna = colonna;
 	}
 
 }

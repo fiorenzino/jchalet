@@ -13,7 +13,9 @@ import it.jflower.chalet4.web.utils.Tariffeutils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.SessionScoped;
@@ -39,38 +41,37 @@ public class PrenotazioniHandler implements Serializable {
 
 	public String calcolaPreventivo() {
 		this.ricerca = new Ricerca();
-		return "/prenotazioni/calcola-preventivo";
+		return "/prenotazioni/calcola-preventivo?faces-redirect=true";
 	}
 
 	public String creaPrenotazione() {
 		this.ricerca = new Ricerca();
-		return "/prenotazioni/gestione-prenotazione1";
+		return "/prenotazioni/gestione-prenotazione1?faces-redirect=true";
 	}
 
 	public void calcolaPrezzo() {
-		List<String> servizi = new ArrayList<String>();
+		this.total = 0;
+		Map<String, Long> servizi = new HashMap<String, Long>();
 		// numeroSdraie;
 		if (ricerca.getNumeroSdraie() > 0)
-			servizi.add(Sdraio.TIPO);
+			servizi.put(Sdraio.TIPO, new Long(ricerca.getNumeroSdraie()));
 		// numeroLettini;
 		if (ricerca.getNumeroLettini() > 0)
-			servizi.add(Lettino.TIPO);
+			servizi.put(Lettino.TIPO, new Long(ricerca.getNumeroLettini()));
 		// numeroCabine;
 		if (ricerca.getNumeroCabine() > 0)
-			servizi.add(Cabina.TIPO);
+			servizi.put(Cabina.TIPO, new Long(ricerca.getNumeroCabine()));
 		// numeroOmbrelloni
 		if (ricerca.getNumeroOmbrelloni() > 0)
-			servizi.add(Ombrellone.TIPO);
+			servizi.put(Ombrellone.TIPO,
+					new Long(ricerca.getNumeroOmbrelloni()));
 		// CERCO LE TARIFFE PER PERIODO
-		List<Tariffa> lista = tariffeSession.getTariffeInPeriod(ricerca
+		List<Preventivo> lista = tariffeSession.getTariffeInPeriod(ricerca
 				.getDal(), ricerca.getAl(), servizi);
 		// CALCOLO PER OGNI TARIFFA
 		this.preventivi = new ArrayList<Preventivo>();
-		for (Tariffa tariffa : lista) {
-			Preventivo pre = Tariffeutils.getPrenotazione(tariffa, ricerca
-					.getDal(), ricerca.getAl());
-			if (pre.getTotal() != 0)
-				total += pre.getTotal();
+		for (Preventivo pre : lista) {
+			this.total = total + pre.getTotal();
 			this.preventivi.add(pre);
 		}
 	}

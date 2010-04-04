@@ -2,8 +2,10 @@ package it.jflower.chalet4.ejb;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import it.jflower.chalet4.par.Costo;
+import it.jflower.chalet4.par.Preventivo;
 import it.jflower.chalet4.par.Tariffa;
 
 public interface TariffeSession {
@@ -22,7 +24,7 @@ public interface TariffeSession {
 
 	public void update(Tariffa tariffa);
 
-	public List<Tariffa> getTariffeInPeriod(Date dal, Date al,
-			List<String> servizi);
+	public List<Preventivo> getTariffeInPeriod(Date dal, Date al,
+			Map<String, Long> servizi);
 
 }

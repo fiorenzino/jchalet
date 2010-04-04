@@ -25,7 +25,7 @@ public class Tariffa implements Serializable {
 
 	private Long id;
 	private String nome;
-	private Map<String, Costo> costi;
+	private Map<Long, Costo> costi;
 	private List<Costo> costiValues;
 	private List<Servizio> servizi;
 	private Date dal;
@@ -53,9 +53,9 @@ public class Tariffa implements Serializable {
 
 	@OneToMany(mappedBy = "tariffa")
 	@MapKey(name = "giorno")
-	public Map<String, Costo> getCosti() {
+	public Map<Long, Costo> getCosti() {
 		if (this.costi == null)
-			this.costi = new LinkedHashMap<String, Costo>();
+			this.costi = new LinkedHashMap<Long, Costo>();
 		return costi;
 	}
 
@@ -67,11 +67,11 @@ public class Tariffa implements Serializable {
 		return costiValues;
 	}
 
-	public void setCosti(Map<String, Costo> costi) {
+	public void setCosti(Map<Long, Costo> costi) {
 		this.costi = costi;
 	}
 
-	public void addCosto(String nome, Costo costo) {
+	public void addCosto(Long nome, Costo costo) {
 		getCosti().put(nome, costo);
 	}
 

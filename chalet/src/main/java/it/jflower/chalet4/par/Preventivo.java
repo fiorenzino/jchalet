@@ -6,22 +6,28 @@ import java.util.Date;
 public class Preventivo implements Serializable {
 
 	private String servizio;
-	private int num;
-	private int numGiorni;
+	private Long num;
+	private Long numGiorni;
 	private Date dal;
 	private Date al;
 	private double total;
+	private double costo;
+	private Long tariffa;
 
 	public Preventivo() {
 
 	}
 
-	public Preventivo(Date dal, Date al, String servizio, double total, int num) {
+	public Preventivo(Date dal, Date al, String servizio, double costo,
+			Long numGiorni, Long num, Long tariffa) {
 		this.dal = dal;
 		this.al = al;
 		this.servizio = servizio;
-		this.total = total;
+		this.total = num * costo;
 		this.num = num;
+		this.numGiorni = numGiorni;
+		this.costo = costo;
+		this.tariffa = tariffa;
 	}
 
 	public String getServizio() {
@@ -32,19 +38,19 @@ public class Preventivo implements Serializable {
 		this.servizio = servizio;
 	}
 
-	public int getNum() {
+	public Long getNum() {
 		return num;
 	}
 
-	public void setNum(int num) {
+	public void setNum(Long num) {
 		this.num = num;
 	}
 
-	public int getNumGiorni() {
+	public Long getNumGiorni() {
 		return numGiorni;
 	}
 
-	public void setNumGiorni(int numGiorni) {
+	public void setNumGiorni(Long numGiorni) {
 		this.numGiorni = numGiorni;
 	}
 
@@ -70,5 +76,21 @@ public class Preventivo implements Serializable {
 
 	public void setTotal(double total) {
 		this.total = total;
+	}
+
+	public double getCosto() {
+		return costo;
+	}
+
+	public void setCosto(double costo) {
+		this.costo = costo;
+	}
+
+	public Long getTariffa() {
+		return tariffa;
+	}
+
+	public void setTariffa(Long tariffa) {
+		this.tariffa = tariffa;
 	}
 }

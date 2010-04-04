@@ -46,7 +46,7 @@ public class ConfigurazioneHandler implements Serializable {
 			this.configurazione.setDataCreazione(new Date());
 		}
 
-		return "/configurazione/configurazione1";
+		return "/configurazione/configurazione1?faces-redirect=true";
 	}
 
 	public String step2() {
@@ -64,7 +64,7 @@ public class ConfigurazioneHandler implements Serializable {
 		}
 		configurazioneSession.update(configurazione);
 
-		return "/configurazione/configurazione2";
+		return "/configurazione/configurazione2?faces-redirect=true";
 	}
 
 	public String step3() {
@@ -101,7 +101,7 @@ public class ConfigurazioneHandler implements Serializable {
 			sdraio.setNumero(i + "");
 			configurazioneSession.persist(sdraio);
 		}
-		return "/configurazione/configurazione3";
+		return "/configurazione/configurazione3?faces-redirect=true";
 	}
 
 	public Configurazione getConfigurazione() {
