@@ -2,6 +2,9 @@ package it.jflower.chalet4.web.utils;
 
 import java.util.Date;
 
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+
 import it.jflower.chalet4.ejb.utils.TimeUtil;
 import it.jflower.chalet4.par.Costo;
 import it.jflower.chalet4.par.Prenotazione;
@@ -25,28 +28,25 @@ public class Tariffeutils {
 		return TimeUtil.getDiffDays(start, stop);
 	}
 
-	public static Preventivo getPrenotazione(Tariffa tariffa, Date dal, Date al) {
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public static Preventivo getPrenotazione(Tariffa tariffa, Date dal,
+			Date al, Long num) {
 		Preventivo preventivo = null;
-		Date start = new Date();
-		Date stop = new Date();
+		Date start = dal;
+		Date stop = al;
 
-		if (tariffa.getDal().compareTo(dal) < 0)
-			start = dal;
-		else
+		if (tariffa.getDal().compareTo(dal) > 0)
 			start = tariffa.getDal();
-
-		if (tariffa.getAl().compareTo(al) > 0)
-			stop = al;
-		else
+		if (tariffa.getAl().compareTo(al) < 0)
 			stop = tariffa.getAl();
-		Long num = TimeUtil.getDiffDays(start, stop);
-		Costo costo = tariffa.getCosti().get("" + num);
+		Long gg = TimeUtil.getDiffDays(start, stop);
+		Costo costo = tariffa.getCosti().get(num);
 		if (costo != null)
-			preventivo = new Preventivo(dal, al, tariffa.getServiceName(),
-					costo.getPrezzo(), num.intValue());
+			preventivo = new Preventivo(start, stop, tariffa.getServiceName(),
+					costo.getPrezzo(), gg, num, tariffa.getId());
 		else
-			preventivo = new Preventivo(dal, al, tariffa.getServiceName(), 0,
-					num.intValue());
+			preventivo = new Preventivo(start, stop, tariffa.getServiceName(),
+					0, gg, num, tariffa.getId());
 		return preventivo;
 	}
 }

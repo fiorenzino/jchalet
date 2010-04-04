@@ -13,7 +13,7 @@ public class Costo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Long id;
-	private Integer giorno;
+	private Long giorno;
 	private Float prezzo;
 	private Tariffa tariffa;
 
@@ -27,11 +27,11 @@ public class Costo implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getGiorno() {
+	public Long getGiorno() {
 		return giorno;
 	}
 
-	public void setGiorno(Integer giorno) {
+	public void setGiorno(Long giorno) {
 		this.giorno = giorno;
 	}
 

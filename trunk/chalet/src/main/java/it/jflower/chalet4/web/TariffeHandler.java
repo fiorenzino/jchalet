@@ -35,7 +35,7 @@ public class TariffeHandler implements Serializable {
 		this.tariffa = new Tariffa();
 		this.tariffa.setDal(new Date());
 		this.tariffa.setAl(new Date());
-		return "/tariffe/tariffa1";
+		return "/tariffe/tariffa1?faces-redirect=true";
 	}
 
 	public String step2() {
@@ -49,10 +49,10 @@ public class TariffeHandler implements Serializable {
 		log.info("DIFF NEW: " + num);
 		for (int i = 1; i <= num; i++) {
 			Costo costo = new Costo();
-			costo.setGiorno(i);
-			tariffa.addCosto(i + "", costo);
+			costo.setGiorno(new Long(i));
+			tariffa.addCosto(new Long(i), costo);
 		}
-		return "/tariffe/tariffa2";
+		return "/tariffe/tariffa2?faces-redirect=true";
 	}
 
 	public String step3() {
@@ -60,13 +60,13 @@ public class TariffeHandler implements Serializable {
 		tariffeSession.persist(tariffa);
 		log.info("tariffa creata!");
 		aggTariffeModel();
-		return "/tariffe/scheda-tariffa";
+		return "/tariffe/scheda-tariffa?faces-redirect=true";
 
 	}
 
 	public String scheda(Long id) {
 		this.tariffa = tariffeSession.fetch(id);
-		return "/tariffe/scheda-tariffa";
+		return "/tariffe/scheda-tariffa?faces-redirect=true";
 
 	}
 
