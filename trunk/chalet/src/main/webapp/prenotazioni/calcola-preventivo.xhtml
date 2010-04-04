@@ -45,7 +45,66 @@
 		</h:form>
 
 		<p:panel id="prev" header="Preventivo">
-			<h:outputText value="costo totale: #{prenotazioniHandler.total}" />
+			<h:form id="bv2">
+				<p:dataTable id="preventivi" var="preventivo"
+					value="#{prenotazioniHandler.preventivi}" paginator="false">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="servizio" />
+						</f:facet>
+						<h:commandLink
+							action="#{tariffeHandler.scheda(preventivo.tariffa)}">
+							<h:outputText value="#{preventivo.servizio}" />
+						</h:commandLink>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="num." />
+						</f:facet>
+						<h:outputText value="#{preventivo.num}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="costo servizio" />
+						</f:facet>
+						<h:outputText value="euro #{preventivo.costo}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="dal" />
+						</f:facet>
+						<h:outputText value="#{preventivo.dal}">
+							
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="al" />
+						</f:facet>
+						<h:outputText value="#{preventivo.al}">
+							
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="giorni" />
+						</f:facet>
+						<h:outputText value="#{preventivo.numGiorni}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="totale" />
+						</f:facet>
+						<h:outputText value="euro #{preventivo.total}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			<br />
+			<h:outputText style="color: red; font-weight:bold"
+				value="costo totale: euro #{prenotazioniHandler.total}" />
+
 		</p:panel>
 
 	</ui:define>
