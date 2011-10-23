@@ -1,0 +1,20 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<h:outputText escape="false"
+		value="&lt;i&gt;Gestione Chalet v1.0&lt;/i&gt; - " />
+
+	<h:outputText escape="false"
+		value="Login: &lt;b&gt;#{permissionController.loginAlias}&lt;/b&gt;" />
+
+	<h:outputText escape="false" value=" - " />
+	<h:outputText escape="false" value="#{coop:date()}">
+		<f:convertDateTime pattern="EEEE dd/MM/yyyy HH:mm"
+			timeZone="Europe/Rome" locale="it" />
+	</h:outputText>
+
+</ui:composition>

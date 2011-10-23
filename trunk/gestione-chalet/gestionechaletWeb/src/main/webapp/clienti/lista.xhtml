@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:coop="http://www.coopservice.it/commons2/taglib"
+	xmlns:perm="http://www.coopservice.it/commons2/permissions"
+	xmlns:form="http://www.coopservice.it/commons2/form"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">Lista Clienti</ui:define>
+
+	<ui:define name="content">
+		<h1>Lista Clienti</h1>
+		<h:form id="clienti">
+			<p:dataTable var="cliente" value="#{clientiController.model}"
+				paginator="true" rows="10" dynamic="true" lazy="true">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="id" />
+					</f:facet>
+					<h:outputText value="#{cliente.id}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="nome" />
+					</f:facet>
+					<h:commandLink action="#{clientiController.scheda(cliente.id)}">
+						<h:outputText value="#{cliente.nome}" />
+					</h:commandLink>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="cognome" />
+					</f:facet>
+					<h:outputText value="#{cliente.cognome}" />
+				</p:column>
+			</p:dataTable>
+			<p>
+				<h:commandLink action="#{clientiController.add}"
+					value="aggiungi cliente" />
+			</p>
+		</h:form>
+	</ui:define>
+</ui:composition>

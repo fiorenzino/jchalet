@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h1>Creazione Tariffa - I step</h1>
+		<h:form id="bv">
+			<p><h:outputLabel for="nome" value="Tipo Serivizio:" /><h:selectOneMenu
+				id="servizio" value="#{tariffeHandler.tariffa.serviceType}"
+				required="true">
+				<f:selectItems value="#{propertiesHandler.serviziItems}" />
+			</h:selectOneMenu></p>
+			<p><h:outputLabel for="nome" value="Nome Tariffa:" /> <h:inputText
+				id="nome" value="#{tariffeHandler.tariffa.nome}" /> <h:message
+				for="nome" errorClass="invalid" /></p>
+			<p><h:outputLabel for="dal" value="Dal:" /> <p:calendar id="dal"
+				value="#{tariffeHandler.tariffa.dal}" title="Data dal"
+				pattern="dd/MM/yyyy" locale="it" startWeekday="1" /> <h:message
+				for="dal" errorClass="invalid" /></p>
+			<p><h:outputLabel for="al" value="Al:" /> <p:calendar id="al"
+				value="#{tariffeHandler.tariffa.al}" pattern="dd/MM/yyyy"
+				title="Data al" locale="it" startWeekday="1" /> <h:message for="al"
+				errorClass="invalid" /></p>
+
+
+			<p><h:commandButton id="check" action="#{tariffeHandler.step2}"
+				value="Vai Alla fase 2" /> <h:outputText value=" All clear!"
+				rendered="#{facesContext.postback and empty facesContext.messageList}"
+				style="color: green;" /></p>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

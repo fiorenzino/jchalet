@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h1>jchalet</h1>
+		<h:outputLabel value="id:" for="id" />
+		<h:outputText id="id" value="#{clientiHandler.cliente.id}" />
+		<br />
+		<h:outputLabel value="nome:" for="nome" />
+		<h:outputText id="nome" value="#{clientiHandler.cliente.nome}" />
+		<br />
+		<h:outputLabel value="cognome:" for="cognome" />
+		<h:outputText id="cognome" value="#{clientiHandler.cliente.cognome}" />
+		<br />
+
+	</ui:define>
+</ui:composition>

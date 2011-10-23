@@ -1,0 +1,78 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:coop="http://www.coopservice.it/commons2/taglib"
+	xmlns:perm="http://www.coopservice.it/commons2/permissions"
+	xmlns:form="http://www.coopservice.it/commons2/form"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">Creazione Configurazione 1</ui:define>
+
+	<ui:define name="content">
+		<h1>Creazione Configurazione - I step</h1>
+		<h:form id="bv">
+			<p>
+				<h:outputText
+					value="lasciare un tot di righe in piu', davanti e dietro!" />
+			</p>
+			<p>
+				<h:outputLabel for="nome" value="Nome" />
+				<h:inputText id="nome"
+					value="#{configurazioneController.element.nome}" />
+				<h:message for="nome" errorClass="invalid" />
+			</p>
+			<p>
+				<h:outputLabel for="numeroColonne" value="Numero Colonne" />
+				<h:inputText id="numeroColonne"
+					value="#{configurazioneController.element.numeroColonne}" />
+				<h:message for="numeroColonne" errorClass="invalid" />
+			</p>
+			<p>
+				<h:outputLabel for="numeroRighe" value="Numero Righe:" />
+				<h:inputText id="numeroRighe"
+					value="#{configurazioneController.element.numeroRighe}" />
+				<h:message for="numeroRighe" errorClass="invalid" />
+			</p>
+			<p>
+				<h:outputLabel for="numeroFile" value="Numero File:" />
+				<h:inputText id="numeroFile"
+					value="#{configurazioneController.element.numeroFile}" />
+				<h:message for="numeroFile" errorClass="invalid" />
+			</p>
+
+			<p>
+				<h:outputLabel for="numeroFile" value="Numero Lettini:" />
+				<h:inputText id="numeroLettini"
+					value="#{configurazioneController.element.numeroLettini}" />
+				<h:message for="numeroLettini" errorClass="invalid" />
+			</p>
+
+			<p>
+				<h:outputLabel for="numeroFile" value="Numero sdraio:" />
+				<h:inputText id="numeroSdraio"
+					value="#{configurazioneController.element.numeroSdraio}" />
+				<h:message for="numeroSdraio" errorClass="invalid" />
+			</p>
+
+			<p>
+				<h:outputLabel for="numeroFile" value="Numero cabine:" />
+				<h:inputText id="numeroCabine"
+					value="#{configurazioneController.element.numeroCabine}" />
+				<h:message for="numeroCabine" errorClass="invalid" />
+			</p>
+
+			<p>
+				<h:commandButton id="check"
+					action="#{configurazioneController.step2}" value="Vai Alla fase 2" />
+				<h:outputText value=" All clear!"
+					rendered="#{facesContext.postback and empty facesContext.messageList}"
+					style="color: green;" />
+			</p>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
