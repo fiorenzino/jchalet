@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h:form id="bv">
+			<h2>Calcolo Preventivo</h2>
+			<p:ajaxStatus>
+				<f:facet name="start">
+					<h:graphicImage value="/images/ajaxloading.gif" />
+				</f:facet>
+				<f:facet name="complete">
+					<h:outputText value="" />
+				</f:facet>
+			</p:ajaxStatus>
+			<p><h:outputLabel for="dal" value="Dal:" /> <p:calendar id="dal"
+				value="#{prenotazioniHandler.ricerca.dal}" title="Data dal"
+				pattern="dd/MM/yyyy" locale="it" startWeekday="1" /> <h:outputLabel
+				for="al" value="Al:" /> <p:calendar id="al"
+				value="#{prenotazioniHandler.ricerca.al}" pattern="dd/MM/yyyy"
+				title="Data al" locale="it" startWeekday="1" /></p>
+
+			<p><h:outputLabel for="ombrelloni" value="Nro Ombrelloni:" /> <h:selectOneMenu
+				id="ombrelloni"
+				value="#{prenotazioniHandler.ricerca.numeroOmbrelloni}">
+				<f:selectItems value="#{propertiesHandler.numeroAccessori}" />
+			</h:selectOneMenu> <h:outputLabel for="sdraie" value="Nro sdraie:" /><h:selectOneMenu
+				id="sdraie" value="#{prenotazioniHandler.ricerca.numeroSdraie}">
+				<f:selectItems value="#{propertiesHandler.numeroAccessori}" />
+			</h:selectOneMenu> <h:outputLabel for="lettini" value="Nro lettini:" /><h:selectOneMenu
+				id="lettini" value="#{prenotazioniHandler.ricerca.numeroLettini}">
+				<f:selectItems value="#{propertiesHandler.numeroAccessori}" />
+			</h:selectOneMenu> <h:outputLabel for="cabine" value="Nro Cabine:" /><h:selectOneMenu
+				id="cabine" value="#{prenotazioniHandler.ricerca.numeroCabine}">
+				<f:selectItems value="#{propertiesHandler.numeroAccessori}" />
+			</h:selectOneMenu></p>
+
+
+			<p><p:commandButton id="addCliente"
+				action="#{prenotazioniHandler.calcolaPrezzo}" value="calcola prezzo"
+				update="prev" /></p>
+		</h:form>
+
+		<p:panel id="prev" header="Preventivo">
+			<h:form id="bv2">
+				<p:dataTable id="preventivi" var="preventivo"
+					value="#{prenotazioniHandler.preventivi}" paginator="false">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="servizio" />
+						</f:facet>
+						<h:commandLink
+							action="#{tariffeHandler.scheda(preventivo.tariffa)}">
+							<h:outputText value="#{preventivo.servizio}" />
+						</h:commandLink>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="num." />
+						</f:facet>
+						<h:outputText value="#{preventivo.num}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="costo servizio" />
+						</f:facet>
+						<h:outputText value="euro #{preventivo.costo}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="dal" />
+						</f:facet>
+						<h:outputText value="#{preventivo.dal}">
+							
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="al" />
+						</f:facet>
+						<h:outputText value="#{preventivo.al}">
+							
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="giorni" />
+						</f:facet>
+						<h:outputText value="#{preventivo.numGiorni}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="totale" />
+						</f:facet>
+						<h:outputText value="euro #{preventivo.total}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			<br />
+			<h:outputText style="color: red; font-weight:bold"
+				value="costo totale: euro #{prenotazioniHandler.total}" />
+
+		</p:panel>
+
+	</ui:define>
+</ui:composition>

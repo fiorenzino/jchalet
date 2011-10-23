@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:coop="http://www.coopservice.it/commons2/taglib"
+	xmlns:perm="http://www.coopservice.it/commons2/permissions"
+	xmlns:form="http://www.coopservice.it/commons2/form"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">Creazione Configurazione 1</ui:define>
+
+	<ui:define name="content">
+		<h1>Scheda Configurazione</h1>
+		<h:form id="bv">
+			<h:outputLabel value="id:" for="id" />
+			<h:outputText id="id" value="#{configurazioneController.element.id}" />
+			<br />
+			<h:outputLabel value="data creazione:" for="dataCreazione" />
+			<h:outputText id="dataCreazione"
+				value="#{configurazioneController.element.dataCreazione}">
+				<f:convertDateTime timeZone="Europe/Rome" pattern="dd/MM/yyyy" />
+			</h:outputText>
+			<br />
+			<h:outputLabel value="numero Colonne:" for="numeroColonne" />
+			<h:outputText id="numeroColonne"
+				value="#{configurazioneController.element.numeroColonne}" />
+			<br />
+			<h:outputLabel value="numero Righe:" for="numeroRighe" />
+			<h:outputText id="numeroRighe"
+				value="#{configurazioneController.element.numeroRighe}" />
+			<br />
+			<h:outputLabel value="numero File:" for="numeroFile" />
+			<h:outputText id="numeroFile"
+				value="#{configurazioneController.element.numeroFile}" />
+			<br />
+			<h:outputLabel value="numero Sdraio:" for="numeroSdraio" />
+			<h:outputText id="numeroSdraio"
+				value="#{configurazioneController.element.numeroSdraio}" />
+			<br />
+			<h:outputLabel value="numero Lettini:" for="numeroLettini" />
+			<h:outputText id="numeroLettini"
+				value="#{configurazioneController.element.numeroLettini}" />
+			<br />
+			<h:outputLabel value="numero Cabine:" for="numeroCabine" />
+			<h:outputText id="numeroCabine"
+				value="#{configurazioneController.element.numeroCabine}" />
+			<br />
+			<p:dataTable var="fila" id="filaTb" rows="10"
+				value="#{configurazioneController.element.fileOmbrelloni}">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Numero" />
+					</f:facet>
+					<h:outputText value="#{fila.numero}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Dal" />
+					</f:facet>
+					<h:outputText value="#{fila.dal}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Al" />
+					</f:facet>
+					<h:outputText value="#{fila.al}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

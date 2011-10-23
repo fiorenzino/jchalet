@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:coop="http://www.coopservice.it/commons2/taglib"
+	xmlns:perm="http://www.coopservice.it/commons2/permissions"
+	xmlns:form="http://www.coopservice.it/commons2/form"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">Creazione Configurazione 2</ui:define>
+
+	<ui:define name="content">
+		<h:form id="bv">
+			<p:dataTable var="fila" id="filaTb" rows="10"
+				value="#{configurazioneController.element.fileOmbrelloni}">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Numero" />
+					</f:facet>
+					<h:inputText value="#{fila.numero}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Dal" />
+					</f:facet>
+					<h:inputText value="#{fila.dal}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Al" />
+					</f:facet>
+					<h:inputText value="#{fila.al}" />
+				</p:column>
+			</p:dataTable>
+
+			<p>
+				<h:commandButton id="check"
+					action="#{configurazioneController.step3}" value="Vai Alla fase 2" />
+				<h:outputText value=" All clear!"
+					rendered="#{facesContext.postback and empty facesContext.messageList}"
+					style="color: green;" />
+			</p>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

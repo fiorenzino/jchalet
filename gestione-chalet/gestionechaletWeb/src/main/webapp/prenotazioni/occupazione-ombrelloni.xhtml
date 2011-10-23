@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h1>jchalet</h1>
+		<h:form id="bvcolonne">
+
+			<p><h:outputLabel for="dal" value="Dal:" /> <p:calendar id="dal"
+				value="#{columnTest.dal}" title="Data dal" pattern="dd/MM/yyyy"
+				locale="it" startWeekday="1" /> <h:outputLabel for="al" value="Al:" />
+			<p:calendar id="al" value="#{columnTest.al}" pattern="dd/MM/yyyy"
+				title="Data al" locale="it" startWeekday="1" /> <h:outputLabel
+				for="fila" value="Fila:" /> <h:selectOneMenu id="fila"
+				value="#{columnTest.fila}">
+				<f:selectItems value="#{propertiesHandler.fileItems}" />
+			</h:selectOneMenu></p>
+			<p><p:commandButton id="addCliente"
+				action="#{columnTest.calcolaColonne}" value="calcola colonne"
+				update="prev" /></p>
+			<p:panel id="prev" header="Colonne variabili">
+
+				<table border="1">
+					<tr>
+						<td><h:outputText value="num_riga" /></td>
+						<ui:repeat value="#{columnTest.numColonne}" var="ind"
+							varStatus="loop">
+							<th>#{ind}</th>
+						</ui:repeat>
+					</tr>
+					<ui:repeat value="#{columnTest.righe}" var="riga"
+						varStatus="loopInt">
+						<tr>
+							<td><h:outputText
+								value="#{columnTest.ombRighe[loopInt.index]}" /></td>
+							<ui:repeat value="#{columnTest.numColonne}" var="ind"
+								varStatus="loop">
+								<td bgcolor="green"><h:outputText
+									value="#{riga[loop.index]}" /></td>
+							</ui:repeat>
+						</tr>
+					</ui:repeat>
+				</table>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
