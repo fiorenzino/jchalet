@@ -15,6 +15,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.persistence.Query;
 
+import by.giava.gestionechalet.model.Configurazione;
 import by.giava.gestionechalet.model.Costo;
 import by.giava.gestionechalet.model.Tariffa;
 import by.giava.gestionechalet.model.servizi.Cabina;
@@ -44,7 +45,7 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 
 	@Override
 	protected String getDefaultOrderBy() {
-		return "numero";
+		return "nome";
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -174,6 +175,23 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 		}
 
 		return q;
+	}
+
+	public Tariffa fetch(Object key) {
+		logger.info("eseguo fetch tariffa");
+		List<Tariffa> result = new ArrayList<Tariffa>();
+		try {
+			result = em
+					.createQuery(
+							"select t from Tariffa t left join fetch t.costi ti where t.id = :KEY")
+					.setParameter("KEY", key).setMaxResults(1).getResultList();
+			if (result == null || result.isEmpty())
+				return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return result.get(0);
 	}
 
 }

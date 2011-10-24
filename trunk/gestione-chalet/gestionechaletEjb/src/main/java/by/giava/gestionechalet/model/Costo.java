@@ -16,9 +16,10 @@ public class Costo implements Serializable {
 	private Long giorno;
 	private Float prezzo;
 	private Tariffa tariffa;
+	private boolean attivo = true;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
@@ -50,5 +51,13 @@ public class Costo implements Serializable {
 
 	public void setTariffa(Tariffa tariffa) {
 		this.tariffa = tariffa;
+	}
+
+	public boolean isAttivo() {
+		return attivo;
+	}
+
+	public void setAttivo(boolean attivo) {
+		this.attivo = attivo;
 	}
 }

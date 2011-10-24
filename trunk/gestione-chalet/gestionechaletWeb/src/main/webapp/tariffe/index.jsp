@@ -1,1 +1,3 @@
-<% response.sendRedirect("home.jsf"); %>
+<%
+	response.sendRedirect("lista.jsf");
+%>

@@ -1,0 +1,62 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:coop="http://www.coopservice.it/commons2/taglib"
+	xmlns:perm="http://www.coopservice.it/commons2/permissions"
+	xmlns:form="http://www.coopservice.it/commons2/form"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/WEB-INF/layout/t.xhtml">
+	<ui:define name="title">Scheda Tariffa</ui:define>
+	<ui:define name="content">
+		<h1>Scheda Tariffa</h1>
+		<h:form id="bv">
+			<p>
+				<h:outputLabel for="nome" value="Nome Tariffa:" />
+				<h:outputText id="nome" value="#{tariffeController.element.nome}" />
+			</p>
+			<p>
+				<h:outputLabel for="serviceName" value="Servizio:" />
+				<h:outputText id="serviceName"
+					value="#{tariffeController.element.serviceName}" />
+			</p>
+
+			<p>
+				<h:outputLabel for="dataDal" value="Dal:" />
+				<h:outputText id="dataDal" value="#{tariffeController.element.dal}">
+					<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
+						locale="it" />
+				</h:outputText>
+			</p>
+
+			<p>
+				<h:outputLabel for="dataAl" value="Al:" />
+				<h:outputText id="dataAl" value="#{tariffeController.element.al}">
+					<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
+						locale="it" />
+				</h:outputText>
+			</p>
+			<p>
+				<p:dataTable var="costo" id="filaTb" rows="10"
+					value="#{tariffeController.element.costiValues}">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="giorno" />
+						</f:facet>
+						<h:outputText value="#{costo.giorno}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="prezzo" />
+						</f:facet>
+						<h:outputText value="#{costo.prezzo}" />
+					</p:column>
+				</p:dataTable>
+			</p>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

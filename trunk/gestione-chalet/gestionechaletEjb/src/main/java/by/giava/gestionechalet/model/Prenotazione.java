@@ -12,18 +12,18 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
-
 @Entity
 public class Prenotazione implements Serializable {
-	
+
 	private Long id;
 	private Contratto Contratto;
 	private Date data;
 	private String singleDayName;
 	private Servizio servizio;
+	private boolean attivo = true;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
@@ -67,5 +67,13 @@ public class Prenotazione implements Serializable {
 
 	public void setServizio(Servizio servizio) {
 		this.servizio = servizio;
+	}
+
+	public boolean isAttivo() {
+		return attivo;
+	}
+
+	public void setAttivo(boolean attivo) {
+		this.attivo = attivo;
 	}
 }

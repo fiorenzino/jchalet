@@ -29,7 +29,7 @@ public class ConfigurazioneRepository extends BaseRepository<Configurazione> {
 		try {
 			result = em
 					.createQuery(
-							"select t from Configurazione t order by t.id desc")
+							"select t from Configurazione t left join fetch t.fileOmbrelloni ti order by t.id desc")
 					.setFirstResult(0).setMaxResults(1).getResultList();
 			if (result == null || result.isEmpty())
 				return null;
@@ -39,7 +39,6 @@ public class ConfigurazioneRepository extends BaseRepository<Configurazione> {
 		}
 		return result.get(0);
 	}
-	
 
 	@Override
 	protected Query getRestrictions(Search<Configurazione> search,

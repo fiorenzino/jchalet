@@ -21,9 +21,10 @@ public class ServizioPrenotato {
 	private Date al;
 	private List<Prenotazione> prenotazioni;
 	private Contratto contratto;
+	private boolean attivo= true;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
@@ -72,5 +73,13 @@ public class ServizioPrenotato {
 
 	public void setContratto(Contratto contratto) {
 		this.contratto = contratto;
+	}
+
+	public boolean isAttivo() {
+		return attivo;
+	}
+
+	public void setAttivo(boolean attivo) {
+		this.attivo = attivo;
 	}
 }

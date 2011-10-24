@@ -12,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-
 @Entity
 public class Contratto implements Serializable {
 
@@ -30,10 +29,10 @@ public class Contratto implements Serializable {
 	private Float acconto;
 	private Float sconto;
 
-	private boolean attivo;
+	private boolean attivo = true;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}

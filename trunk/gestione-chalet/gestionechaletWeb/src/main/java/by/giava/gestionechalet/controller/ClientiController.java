@@ -5,6 +5,7 @@ import it.coopservice.commons2.annotations.ListPage;
 import it.coopservice.commons2.annotations.OwnRepository;
 import it.coopservice.commons2.annotations.ViewPage;
 import it.coopservice.commons2.controllers.AbstractController;
+import it.coopservice.commons2.controllers.AbstractLazyController;
 
 import java.util.Date;
 
@@ -17,7 +18,7 @@ import by.giava.gestionechalet.repository.ClientiRepository;
 
 @Named
 @SessionScoped
-public class ClientiController extends AbstractController<Cliente> {
+public class ClientiController extends AbstractLazyController<Cliente> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -34,6 +35,7 @@ public class ClientiController extends AbstractController<Cliente> {
 	@OwnRepository(ClientiRepository.class)
 	ClientiRepository clientiRepository;
 
+	
 	@Override
 	public Object getId(Cliente t) {
 		return t.getId();

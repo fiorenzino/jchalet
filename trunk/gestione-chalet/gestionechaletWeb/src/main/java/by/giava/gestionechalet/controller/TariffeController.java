@@ -1,19 +1,17 @@
 package by.giava.gestionechalet.controller;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import it.coopservice.commons2.annotations.EditPage;
 import it.coopservice.commons2.annotations.ListPage;
 import it.coopservice.commons2.annotations.OwnRepository;
 import it.coopservice.commons2.annotations.ViewPage;
-import it.coopservice.commons2.controllers.AbstractController;
+import it.coopservice.commons2.controllers.AbstractLazyController;
+
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.jboss.xb.binding.introspection.FieldInfo.GetValueAccessFactory;
 
 import by.giava.gestionechalet.model.Costo;
 import by.giava.gestionechalet.model.Tariffa;
@@ -23,7 +21,7 @@ import by.giava.gestionechalet.repository.util.TimeUtil;
 
 @Named
 @SessionScoped
-public class TariffeController extends AbstractController<Tariffa> {
+public class TariffeController extends AbstractLazyController<Tariffa> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,6 +33,10 @@ public class TariffeController extends AbstractController<Tariffa> {
 
 	@ViewPage
 	public static final String VIEW = "/tariffe/scheda.xhtml";
+
+	public static final String STEP1 = "/tariffe/step1.xhtml";
+
+	public static final String STEP2 = "/tariffe/step2.xhtml";
 
 	@Inject
 	@OwnRepository(TariffeRepository.class)
@@ -49,10 +51,13 @@ public class TariffeController extends AbstractController<Tariffa> {
 		setElement(new Tariffa());
 		getElement().setDal(new Date());
 		getElement().setAl(new Date());
-		return "/tariffe/tariffa1?faces-redirect=true";
+		return STEP1 + "?faces-redirect=true";
 	}
 
 	public String step2() {
+		if (getElement().getId() != null) {
+			getElement().setCosti(null);
+		}
 		logger.info("dal: " + getElement().getDal() + " - "
 				+ getElement().getAl());
 		logger.info("DIFF OLD: "
@@ -68,16 +73,30 @@ public class TariffeController extends AbstractController<Tariffa> {
 			costo.setGiorno(new Long(i));
 			getElement().addCosto(new Long(i), costo);
 		}
-		return "/tariffe/tariffa2?faces-redirect=true";
+		return STEP2 + "?faces-redirect=true";
 	}
 
 	public String step3() {
 		// peristo la tariffa coi costi
-		tariffeRepository.persist(getElement());
+		if (getElement().getId() != null)
+			save();
+		else
+			update();
 		logger.info("tariffa creata!");
-		super.reset();
 		return viewPage();
+	}
 
+	@Override
+	public String viewElement() {
+		// TODO Auto-generated method stub
+		return super.viewElement();
+	}
+
+	@Override
+	public String modElement() {
+		// TODO Auto-generated method stub
+		super.modElement();
+		return STEP1 + "?faces-redirect=true";
 	}
 
 }

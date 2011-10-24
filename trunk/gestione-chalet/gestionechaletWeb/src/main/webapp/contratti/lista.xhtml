@@ -1,20 +1,63 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	template="/WEB-INF/templates/default.xhtml">
-	<ui:define name="content">
-		<h1>jchalet</h1>
-		<h:outputLabel value="id:" for="id" />
-		<h:outputText id="id" value="#{clientiHandler.cliente.id}" />
-		<br />
-		<h:outputLabel value="nome:" for="nome" />
-		<h:outputText id="nome" value="#{clientiHandler.cliente.nome}" />
-		<br />
-		<h:outputLabel value="cognome:" for="cognome" />
-		<h:outputText id="cognome" value="#{clientiHandler.cliente.cognome}" />
-		<br />
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:coop="http://www.coopservice.it/commons2/taglib"
+	xmlns:perm="http://www.coopservice.it/commons2/permissions"
+	xmlns:form="http://www.coopservice.it/commons2/form"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/WEB-INF/layout/t.xhtml">
 
+	<ui:define name="title">Lista Contratti</ui:define>
+
+	<ui:define name="content">
+		<h1>Lista Contratti</h1>
+		<h:form id="contratti">
+			<p:dataTable var="contratto" value="#{contrattiController.model}"
+				paginator="true" rows="10" dynamic="true" lazy="true">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="id" />
+					</f:facet>
+					<h:outputText value="#{cliente.id}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="nome" />
+					</f:facet>
+					<h:commandLink action="#{clientiController.scheda(cliente.id)}">
+						<h:outputText value="#{cliente.nome}" />
+					</h:commandLink>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="cognome" />
+					</f:facet>
+					<h:outputText value="#{cliente.cognome}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="operazioni" />
+					</f:facet>
+					<h:commandLink action="#{contrattiController.modElement}">
+						<h:graphicImage alt="modifica" title="modifica"
+							library="images/form" name="edit.gif" style="border: none;" />
+					</h:commandLink>
+
+					<h:commandLink action="#{contrattiController.viewElement}">
+						<h:graphicImage alt="vedi" title="vedi" library="images/form"
+							name="view.gif" style="border: none;" />
+					</h:commandLink>
+
+				</p:column>
+			</p:dataTable>
+			<p>
+				<h:commandLink action="#{contrattiController.addElement}"
+					value="aggiungi contratto" />
+			</p>
+		</h:form>
 	</ui:define>
 </ui:composition>

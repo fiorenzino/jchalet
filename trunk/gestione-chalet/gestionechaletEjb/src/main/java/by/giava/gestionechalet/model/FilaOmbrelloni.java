@@ -17,6 +17,7 @@ public class FilaOmbrelloni implements Serializable {
 	private Integer dal;
 	private Integer al;
 	private Configurazione configurazione;
+	private boolean attivo = true;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -59,5 +60,13 @@ public class FilaOmbrelloni implements Serializable {
 
 	public Integer getNumero() {
 		return numero;
+	}
+
+	public boolean isAttivo() {
+		return attivo;
+	}
+
+	public void setAttivo(boolean attivo) {
+		this.attivo = attivo;
 	}
 }
