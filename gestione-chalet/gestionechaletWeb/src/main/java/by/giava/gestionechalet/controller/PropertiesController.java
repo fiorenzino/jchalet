@@ -69,6 +69,8 @@ public class PropertiesController implements Serializable {
 		return items.get(Cliente.class);
 	}
 
+	@Produces
+	@Named
 	public SelectItem[] getNumeroAccessori() {
 		if (numeroAccessori.length == 0) {
 			numeroAccessori = new SelectItem[5];
@@ -82,6 +84,8 @@ public class PropertiesController implements Serializable {
 		return numeroAccessori;
 	}
 
+	@Produces
+	@Named
 	public SelectItem[] getServiziItems() {
 		if (serviziItems.length == 0) {
 			serviziItems = new SelectItem[4];

@@ -7,6 +7,7 @@
 	xmlns:form="http://www.coopservice.it/commons2/form"
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
 	template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">Gestione Cliente</ui:define>
@@ -15,21 +16,109 @@
 		<h:form id="bv">
 			<h2>Gestione Cliente</h2>
 			<div>
-				<h:outputLabel value="nome" />
-				<h:inputText id="nome" value="#{clientiController.element.nome}" />
-				<h:message for="nome" errorClass="invalid" />
-				<br />
+				<h:panelGrid columns="3">
+					<h:outputLabel value="nome" />
+					<h:inputText id="nome" value="#{clientiController.element.nome}" />
+					<h:message for="nome" errorClass="invalid" />
 
-				<h:outputLabel value="cognome" />
-				<h:inputText id="cognome"
-					value="#{clientiController.element.cognome}" />
-				<h:message for="cognome" errorClass="invalid" />
-				<br />
 
+					<h:outputLabel value="cognome" />
+					<h:inputText id="cognome"
+						value="#{clientiController.element.cognome}" />
+					<h:message for="cognome" errorClass="invalid" />
+
+
+					<h:outputLabel value="codicefiscale" />
+					<h:inputText id="codicefiscale"
+						value="#{clientiController.element.codicefiscale}" />
+					<h:message for="codicefiscale" errorClass="invalid" />
+
+
+					<h:outputLabel value="indirizzo" />
+					<h:inputText id="indirizzo"
+						value="#{clientiController.element.indirizzo}" />
+					<h:message for="indirizzo" errorClass="invalid" />
+
+
+					<h:outputLabel value="cityName" />
+					<h:inputText id="cityName"
+						value="#{clientiController.element.cityName}" />
+					<h:message for="cityName" errorClass="invalid" />
+
+
+					<h:outputLabel value="provinciaName" />
+					<h:inputText id="provinciaName"
+						value="#{clientiController.element.provinciaName}" />
+					<h:message for="provinciaName" errorClass="invalid" />
+
+
+					<h:outputLabel value="cap" />
+					<h:inputText id="cap" value="#{clientiController.element.cap}" />
+					<h:message for="cap" errorClass="invalid" />
+
+
+					<h:outputLabel value="nazioneName" />
+					<h:inputText id="nazioneName"
+						value="#{clientiController.element.nazioneName}" />
+					<h:message for="cap" errorClass="invalid" />
+
+
+					<h:outputLabel value="telefono" />
+					<h:inputText id="telefono"
+						value="#{clientiController.element.telefono}" />
+					<h:message for="telefono" errorClass="invalid" />
+
+
+					<h:outputLabel value="cellulare" />
+					<h:inputText id="cellulare"
+						value="#{clientiController.element.cellulare}" />
+					<h:message for="cellulare" errorClass="invalid" />
+
+
+					<h:outputLabel value="email" />
+					<h:inputText id="email" value="#{clientiController.element.email}" />
+					<h:message for="email" errorClass="invalid" />
+
+
+
+
+					<h:outputLabel for="dataNascita" value="dataNascita:" />
+					<p:calendar id="dataNascita"
+						value="#{clientiController.element.dataNascita}" timeZone="it_IT"
+						title="Data dal" pattern="dd/MM/yyyy" locale="it" startWeekday="1"
+						required="true" />
+					<h:message for="dataNascita" errorClass="invalid" />
+
+
+
+					<h:outputLabel value="cityNascitaName" />
+					<h:inputText id="cityNascitaName"
+						value="#{clientiController.element.cityNascitaName}" />
+					<h:message for="cityNascitaName" errorClass="invalid" />
+
+
+					<h:outputLabel value="provinciaNascitaName" />
+					<h:inputText id="provinciaNascitaName"
+						value="#{clientiController.element.provinciaNascitaName}" />
+					<h:message for="provinciaNascitaName" errorClass="invalid" />
+
+
+					<h:outputLabel value="nazioneNascitaName" />
+					<h:inputText id="nazioneNascitaName"
+						value="#{clientiController.element.nazioneNascitaName}" />
+					<h:message for="nazioneNascitaName" errorClass="invalid" />
+
+
+				</h:panelGrid>
 			</div>
 			<p>
-				<h:commandButton id="addCliente"
-					action="#{clientiController.addCliente2}" value="aggiungi cliente" />
+				<h:commandButton id="addCliente" action="#{clientiController.save}"
+					value="aggiungi cliente"
+					rendered="#{empty clientiController.element.id}" />
+
+				<h:commandButton id="modCliente"
+					action="#{clientiController.update}" value="aggiorna cliente"
+					rendered="#{not empty clientiController.element.id}" />
 			</p>
 		</h:form>
 

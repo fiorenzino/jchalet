@@ -29,7 +29,7 @@ public class Servizio implements Serializable {
 	private String tipo;
 	private String numero;
 	private List<Tariffa> tariffe;
-	private boolean attivo;
+	private boolean attivo= true;
 	private Configurazione configurazione;
 
 	@Id

@@ -20,7 +20,6 @@ import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
-
 @Entity
 public class Tariffa implements Serializable {
 
@@ -33,9 +32,10 @@ public class Tariffa implements Serializable {
 	private Date al;
 	private int serviceType;
 	private String serviceName;
+	private boolean attivo= true;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
@@ -118,5 +118,13 @@ public class Tariffa implements Serializable {
 
 	public void setServiceName(String serviceName) {
 		this.serviceName = serviceName;
+	}
+
+	public boolean isAttivo() {
+		return attivo;
+	}
+
+	public void setAttivo(boolean attivo) {
+		this.attivo = attivo;
 	}
 }

@@ -45,21 +45,19 @@ public class Cliente implements Serializable {
 	private String rilasciataDa;
 	private String luogoRilascio;
 	private Date dataRilasco;
-	private boolean attivo;
+	private boolean attivo= true;
 
 	public Cliente() {
 		this.provincia = new Long(5);
 		this.city = new Long(381);
 		this.nazione = new Long(104);
-
 		this.provinciaNascita = new Long(5);
 		this.cityNascita = new Long(381);
 		this.nazioneNascita = new Long(104);
-		this.attivo = true;
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}

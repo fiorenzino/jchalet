@@ -9,45 +9,54 @@
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:p="http://primefaces.prime.com.tr/ui"
 	template="/WEB-INF/layout/t.xhtml">
-
-	<ui:define name="title">Lista Clienti</ui:define>
-
+	<ui:define name="title">Lista Tariffe</ui:define>
 	<ui:define name="content">
-		<h1>Lista Clienti</h1>
-		<h:form id="clienti">
-			<p:dataTable var="cliente" value="#{clientiController.model}"
+		<h1>Lista Tariffe</h1>
+		<h:form id="bv">
+			<p:dataTable var="tariffa" value="#{tariffeController.model}"
 				paginator="true" rows="10" dynamic="true" lazy="true">
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="id" />
-					</f:facet>
-					<h:outputText value="#{cliente.id}" />
-				</p:column>
+
 				<p:column>
 					<f:facet name="header">
 						<h:outputText value="nome" />
 					</f:facet>
-					<h:commandLink action="#{clientiController.scheda(cliente.id)}">
-						<h:outputText value="#{cliente.nome}" />
-					</h:commandLink>
+					<h:outputText value="#{tariffa.nome}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="servizio" />
+					</f:facet>
+					<h:outputText value="#{tariffa.serviceName}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="dal" />
+					</f:facet>
+					<h:outputText value="#{tariffa.dal}">
+						<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
+							locale="it" />
+					</h:outputText>
 				</p:column>
 
 				<p:column>
 					<f:facet name="header">
-						<h:outputText value="cognome" />
+						<h:outputText value="al" />
 					</f:facet>
-					<h:outputText value="#{cliente.cognome}" />
+					<h:outputText value="#{tariffa.al}">
+						<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
+							locale="it" />
+					</h:outputText>
 				</p:column>
 				<p:column>
 					<f:facet name="header">
 						<h:outputText value="operazioni" />
 					</f:facet>
-					<h:commandLink action="#{clientiController.modElement}">
+					<h:commandLink action="#{tariffeController.modElement}">
 						<h:graphicImage alt="modifica" title="modifica"
 							library="images/form" name="edit.gif" style="border: none;" />
 					</h:commandLink>
 
-					<h:commandLink action="#{clientiController.viewElement}">
+					<h:commandLink action="#{tariffeController.viewElement}">
 						<h:graphicImage alt="vedi" title="vedi" library="images/form"
 							name="view.gif" style="border: none;" />
 					</h:commandLink>
@@ -55,9 +64,10 @@
 				</p:column>
 			</p:dataTable>
 			<p>
-				<h:commandLink action="#{clientiController.addElement}"
-					value="aggiungi cliente" />
+				<h:commandLink action="#{tariffeController.step1}"
+					value="aggiungi nuova" />
 			</p>
+
 		</h:form>
 	</ui:define>
 </ui:composition>

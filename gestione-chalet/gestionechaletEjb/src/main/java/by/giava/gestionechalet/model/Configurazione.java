@@ -28,6 +28,7 @@ public class Configurazione implements Serializable {
 
 	private Date dataCreazione;
 	private List<FilaOmbrelloni> fileOmbrelloni;
+	private boolean attivo = true;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -118,5 +119,13 @@ public class Configurazione implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public boolean isAttivo() {
+		return attivo;
+	}
+
+	public void setAttivo(boolean attivo) {
+		this.attivo = attivo;
 	}
 }

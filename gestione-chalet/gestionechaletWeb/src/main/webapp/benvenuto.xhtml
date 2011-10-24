@@ -19,7 +19,7 @@
 
 		<h:form>
 
-			<h:panelGrid columns="4">
+			<h:panelGrid columns="3">
 
 				<rich:panel style="width: 250px; height: 100px;">
 					<f:facet name="header">
@@ -39,12 +39,13 @@
 							<h:commandLink action="#{configurazioneController.step1}"
 								value="gestisci configurazione attuale" />
 							<br />
+							<br />
 							<h:outputLink value="configurazione/disposizione-ombrelloni.jsf">
 								<h:outputText value="disposizione ombrelloni" />
 							</h:outputLink>
 							<br />
 							<h:commandLink action="#{configurazioneController.addNew}"
-								value="crea nuova configurazione" />
+								value="aggiungi nuova" />
 						</h:panelGroup>
 					</h:panelGrid>
 					<br />
@@ -60,9 +61,12 @@
 								style="border: none; width: 48px; height: 48px;" />
 						</h:panelGroup>
 						<h:panelGroup style="vertical-align:middle;">
-							<h:outputLink value="private/amministrazione.jsf">
-								<h:outputText value="Anagrafica" />
+							<h:outputLink value="clienti/lista.jsf">
+								<h:outputText value="lista" />
 							</h:outputLink>
+							<br />
+							<h:commandLink action="#{clientiController.addElement}"
+								value="aggiungi nuovo" />
 						</h:panelGroup>
 					</h:panelGrid>
 					<br />
@@ -74,13 +78,16 @@
 					</f:facet>
 					<h:panelGrid columns="2">
 						<h:panelGroup style="vertical-align:middle;">
-							<h:graphicImage library="images" name="clienti.png"
+							<h:graphicImage library="images" name="contratto.png"
 								style="border: none; width: 48px; height: 48px;" />
 						</h:panelGroup>
 						<h:panelGroup style="vertical-align:middle;">
-							<h:outputLink value="private/amministrazione.jsf">
-								<h:outputText value="Anagrafica" />
+							<h:outputLink value="contratti/lista.jsf">
+								<h:outputText value="lista" />
 							</h:outputLink>
+							<br />
+							<h:commandLink action="#{contrattiController.addElement}"
+								value="aggiungi nuovo" />
 						</h:panelGroup>
 					</h:panelGrid>
 					<br />
@@ -92,13 +99,16 @@
 					</f:facet>
 					<h:panelGrid columns="2">
 						<h:panelGroup style="vertical-align:middle;">
-							<h:graphicImage library="images" name="clienti.png"
+							<h:graphicImage library="images" name="tariffe.png"
 								style="border: none; width: 48px; height: 48px;" />
 						</h:panelGroup>
 						<h:panelGroup style="vertical-align:middle;">
-							<h:outputLink value="private/amministrazione.jsf">
-								<h:outputText value="Anagrafica" />
+							<h:outputLink value="tariffe/lista.jsf">
+								<h:outputText value="lista" />
 							</h:outputLink>
+							<br />
+							<h:commandLink action="#{tariffeController.step1}"
+								value="aggiungi nuova" />
 						</h:panelGroup>
 					</h:panelGrid>
 					<br />
@@ -107,16 +117,24 @@
 
 				<rich:panel style="width: 250px; height: 100px;">
 					<f:facet name="header">
-						<h:outputText value="Spiaggia" />
+						<h:outputText value="Cartellone Spiaggia" />
 					</f:facet>
 					<h:panelGrid columns="2">
 						<h:panelGroup style="vertical-align:middle;">
-							<h:graphicImage library="images" name="clienti.png"
+							<h:graphicImage library="images" name="cerca-spiaggia.png"
 								style="border: none; width: 48px; height: 48px;" />
 						</h:panelGroup>
 						<h:panelGroup style="vertical-align:middle;">
-							<h:outputLink value="private/amministrazione.jsf">
-								<h:outputText value="Anagrafica" />
+							<h:outputLink value="spiaggia/vista-giorno.jsf">
+								<h:outputText value="vista giorno" />
+							</h:outputLink>
+							<br />
+							<h:outputLink value="spiaggia/vista-giorno.jsf">
+								<h:outputText value="vista mese" />
+							</h:outputLink>
+							<br />
+							<h:outputLink value="spiaggia/vista-ombrellone.jsf">
+								<h:outputText value="vista per ombrellone" />
 							</h:outputLink>
 						</h:panelGroup>
 					</h:panelGrid>
@@ -129,23 +147,24 @@
 					</f:facet>
 					<h:panelGrid columns="2">
 						<h:panelGroup style="vertical-align:middle;">
-							<h:graphicImage library="images" name="clienti.png"
+							<h:graphicImage library="images" name="prenotazioni.png"
 								style="border: none; width: 48px; height: 48px;" />
 						</h:panelGroup>
 						<h:panelGroup style="vertical-align:middle;">
-							<h:outputLink value="private/amministrazione.jsf">
-								<h:outputText value="Anagrafica" />
-							</h:outputLink>
+							<h:commandLink
+								action="#{prenotazioniController.creaPrenotazione}"
+								value="cerca liberi e calcola preventivo" />
+
+							<br />
+							<h:commandLink
+								action="#{prenotazioniController.calcolaPreventivo}"
+								value="calcola preventivo senza verificare" />
 						</h:panelGroup>
 					</h:panelGrid>
 					<br />
 				</rich:panel>
 
 			</h:panelGrid>
-
-			<h:commandButton action="#{proveRepository.addOne}"
-				value="Aggiungi prova" rendered="false" />
-
 		</h:form>
 
 	</ui:define>

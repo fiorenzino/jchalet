@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:coop="http://www.coopservice.it/commons2/taglib"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Gestione Prenotazione" />
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="bv">
+			<h2>Gestione Prenotazione</h2>
+			<p:ajaxStatus>
+				<f:facet name="start">
+					<h:graphicImage value="/images/ajaxloading.gif" />
+				</f:facet>
+			</p:ajaxStatus>
+			<p>
+				<h:outputLabel for="dal" value="Dal:" />
+				<p:calendar id="dal" value="#{prenotazioniController.ricerca.dal}"
+					title="Data dal" pattern="dd/MM/yyyy" locale="it" startWeekday="1" />
+			</p>
+
+			<p>
+				<h:outputLabel for="al" value="Al:" />
+				<p:calendar id="al" value="#{prenotazioniController.ricerca.al}"
+					pattern="dd/MM/yyyy" title="Data al" locale="it" startWeekday="1" />
+			</p>
+
+			<p>
+				<h:outputLabel for="fila" value="Fila:" />
+				<h:selectOneMenu id="fila"
+					value="#{prenotazioniController.ricerca.fila}">
+					<f:selectItem itemLabel="Fila" itemValue="" />
+					<f:selectItems value="#{fileItems}" />
+					<p:ajax actionListener="#{cambioFila}" update="ombrelloni"
+						event="change" />
+				</h:selectOneMenu>
+				<br />
+				<h:outputLabel for="ombrelloni" value="Ombrellone:" />
+				<h:selectOneMenu id="ombrelloni"
+					value="#{prenotazioniController.ricerca.numero}">
+					<f:selectItem itemLabel="Ombrellone" itemValue="" />
+					<f:selectItems value="#{ombrelloniItems}" />
+				</h:selectOneMenu>
+			</p>
+
+			<p>
+				<h:outputLabel for="sdraie" value="Nro sdraie:" />
+				<h:selectOneMenu id="sdraie"
+					value="#{prenotazioniController.ricerca.numeroSdraie}">
+					<f:selectItem itemLabel="Sdraie" itemValue="" />
+					<f:selectItems value="#{numeroAccessori}" />
+				</h:selectOneMenu>
+			</p>
+
+			<p>
+				<h:outputLabel for="lettini" value="Nro lettini:" />
+				<h:selectOneMenu id="lettini"
+					value="#{prenotazioniController.ricerca.numeroLettini}">
+					<f:selectItem itemLabel="Lettini" itemValue="" />
+					<f:selectItems value="#{numeroAccessori}" />
+				</h:selectOneMenu>
+			</p>
+
+			<p>
+				<h:outputLabel for="cabine" value="Nro Cabine:" />
+				<h:selectOneMenu id="cabine"
+					value="#{prenotazioniController.ricerca.numeroCabine}">
+					<f:selectItem itemLabel="Cabine" itemValue="" />
+					<f:selectItems value="#{numeroAccessori}" />
+				</h:selectOneMenu>
+			</p>
+
+
+			<p>
+				<h:commandButton id="addCliente"
+					action="#{prenotazioniController.calcolaPrezzo}"
+					value="calcola prezzo" />
+			</p>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

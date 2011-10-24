@@ -6,7 +6,7 @@
 		if (session != null) {
 			session.invalidate();
 		}
-		String redirectURL = "https://cas.coopservice.it/cas/logout";
+		String redirectURL = "/index.jsp";
 		response.sendRedirect(redirectURL);
 
 	} catch (Exception e) {

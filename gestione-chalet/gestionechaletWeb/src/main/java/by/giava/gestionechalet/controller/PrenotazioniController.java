@@ -30,13 +30,12 @@ public class PrenotazioniController extends AbstractController<Prenotazione> {
 	private static final long serialVersionUID = 1L;
 
 	@ListPage
-	public static final String LIST = "/contratti/lista.xhtml";
+	public static final String LIST = "/prenotazioni/lista.xhtml";
 
 	@EditPage
-	public static final String EDIT = "/contratti/gestione.xhtml";
+	public static final String EDIT = "/prenotazioni/gestione.xhtml";
 
-	@ViewPage
-	public static final String VIEW = "/contratto/scheda.xhtml";
+	public static final String CALCOLA = "/prenotazioni/calcola.xhtml";
 
 	@Inject
 	TariffeRepository tariffeRepository;
@@ -53,12 +52,12 @@ public class PrenotazioniController extends AbstractController<Prenotazione> {
 
 	public String calcolaPreventivo() {
 		this.ricerca = new Ricerca();
-		return "/prenotazioni/calcola-preventivo?faces-redirect=true";
+		return CALCOLA + "?faces-redirect=true";
 	}
 
 	public String creaPrenotazione() {
 		this.ricerca = new Ricerca();
-		return "/prenotazioni/gestione-prenotazione1?faces-redirect=true";
+		return EDIT + "?faces-redirect=true";
 	}
 
 	public void calcolaPrezzo() {

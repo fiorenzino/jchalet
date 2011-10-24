@@ -14,6 +14,8 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.component.column.Column;
+
 import by.giava.gestionechalet.model.Configurazione;
 import by.giava.gestionechalet.model.FilaOmbrelloni;
 import by.giava.gestionechalet.model.Tariffa;
@@ -21,12 +23,14 @@ import by.giava.gestionechalet.model.servizi.Cabina;
 import by.giava.gestionechalet.model.servizi.Lettino;
 import by.giava.gestionechalet.model.servizi.Ombrellone;
 import by.giava.gestionechalet.model.servizi.Sdraio;
+import by.giava.gestionechalet.pojo.Riga;
 import by.giava.gestionechalet.repository.CabineRepository;
 import by.giava.gestionechalet.repository.ConfigurazioneRepository;
 import by.giava.gestionechalet.repository.FilaOmbrelloniRepository;
 import by.giava.gestionechalet.repository.LettiniRepository;
 import by.giava.gestionechalet.repository.OmbrelloniRepository;
 import by.giava.gestionechalet.repository.SdraieRepository;
+import by.giava.gestionechalet.repository.util.ConfigurazioneUtils;
 
 @Named
 @SessionScoped
@@ -73,6 +77,10 @@ public class ConfigurazioneController extends
 
 	private List<Ombrellone> ombrelloni;
 
+	private List<Integer> colonne;
+	private List<Riga> righe;
+	private boolean newOrUpdate;
+
 	@Override
 	public Object getId(Configurazione t) {
 		return t.getId();
@@ -81,14 +89,17 @@ public class ConfigurazioneController extends
 	public String step1() {
 		setElement(configurazioneRepository.findLast());
 		if (getElement() == null) {
+			setNewOrUpdate(true);
 			setElement(new Configurazione());
 			getElement().setDataCreazione(new Date());
-		}
+		} else
+			setNewOrUpdate(false);
 
 		return STEP1 + "?faces-redirect=true";
 	}
 
 	public String addNew() {
+		setNewOrUpdate(true);
 		setElement(new Configurazione());
 		getElement().setDataCreazione(new Date());
 		return STEP1 + "?faces-redirect=true";
@@ -115,46 +126,51 @@ public class ConfigurazioneController extends
 
 	public String step3() {
 		// GENERO OMBRELLONI
-		for (FilaOmbrelloni fila : getElement().getFileOmbrelloni()) {
-			filaOmbrelloniRepository.update(fila);
-			logger.info("step3 fila: " + fila.getNumero());
-			for (Integer i = fila.getDal(); i <= fila.getAl(); i++) {
-				Ombrellone ombrellone = new Ombrellone();
-				ombrellone.setFila("" + fila.getNumero());
-				ombrellone.setNumero(i + "");
-				ombrellone.setAttivo(true);
-				ombrellone.setConfigurazione(getElement());
-				ombrelloniRepository.persist(ombrellone);
+		if (newOrUpdate) {
+			for (FilaOmbrelloni fila : getElement().getFileOmbrelloni()) {
+				filaOmbrelloniRepository.update(fila);
+				logger.info("step3 fila: " + fila.getNumero());
+				for (Integer i = fila.getDal(); i <= fila.getAl(); i++) {
+					Ombrellone ombrellone = new Ombrellone();
+					ombrellone.setFila("" + fila.getNumero());
+					ombrellone.setNumero(i + "");
+					ombrellone.setAttivo(true);
+					ombrellone.setConfigurazione(getElement());
+					ombrelloniRepository.persist(ombrellone);
+				}
+				logger.info("step3 fila: " + fila.getNumero() + " FINE");
 			}
-			logger.info("step3 fila: " + fila.getNumero() + " FINE");
-		}
 
-		for (int i = 1; i <= getElement().getNumeroCabine(); i++) {
-			Cabina cabina = new Cabina();
-			cabina.setNumero(i + "");
-			cabina.setAttivo(true);
-			cabina.setConfigurazione(getElement());
-			cabineRepository.persist(cabina);
+			for (int i = 1; i <= getElement().getNumeroCabine(); i++) {
+				Cabina cabina = new Cabina();
+				cabina.setNumero(i + "");
+				cabina.setAttivo(true);
+				cabina.setConfigurazione(getElement());
+				cabineRepository.persist(cabina);
 
-		}
-		for (int i = 1; i <= getElement().getNumeroLettini(); i++) {
-			Lettino lettino = new Lettino();
-			lettino.setAttivo(true);
-			lettino.setNumero(i + "");
-			lettino.setConfigurazione(getElement());
-			lettiniRepository.persist(lettino);
-		}
-		for (int i = 1; i <= getElement().getNumeroSdraio(); i++) {
-			Sdraio sdraio = new Sdraio();
-			sdraio.setAttivo(true);
-			sdraio.setNumero(i + "");
-			sdraio.setConfigurazione(getElement());
-			sdraieRepository.persist(sdraio);
+			}
+			for (int i = 1; i <= getElement().getNumeroLettini(); i++) {
+				Lettino lettino = new Lettino();
+				lettino.setAttivo(true);
+				lettino.setNumero(i + "");
+				lettino.setConfigurazione(getElement());
+				lettiniRepository.persist(lettino);
+			}
+			for (int i = 1; i <= getElement().getNumeroSdraio(); i++) {
+				Sdraio sdraio = new Sdraio();
+				sdraio.setAttivo(true);
+				sdraio.setNumero(i + "");
+				sdraio.setConfigurazione(getElement());
+				sdraieRepository.persist(sdraio);
+			}
 		}
 		Ombrellone ombrellone = new Ombrellone();
 		ombrellone.setConfigurazione(getElement());
 		Search<Ombrellone> ricerca = new Search<Ombrellone>(ombrellone);
 		this.ombrelloni = ombrelloniRepository.getList(ricerca, 0, 0);
+		// this.righe = ConfigurazioneUtils.creaRighe(ombrelloni, getElement());
+		// this.colonne = ConfigurazioneUtils.creaColonne(getElement()
+		// .getNumeroColonne().intValue());
 		return STEP3 + "?faces-redirect=true";
 	}
 
@@ -185,6 +201,22 @@ public class ConfigurazioneController extends
 
 	public void setOmbrelloni(List<Ombrellone> ombrelloni) {
 		this.ombrelloni = ombrelloni;
+	}
+
+	public List<Integer> getColonne() {
+		return colonne;
+	}
+
+	public void setColonne(List<Integer> colonne) {
+		this.colonne = colonne;
+	}
+
+	public boolean isNewOrUpdate() {
+		return newOrUpdate;
+	}
+
+	public void setNewOrUpdate(boolean newOrUpdate) {
+		this.newOrUpdate = newOrUpdate;
 	}
 
 }
