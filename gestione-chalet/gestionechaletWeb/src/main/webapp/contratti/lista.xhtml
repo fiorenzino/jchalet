@@ -16,7 +16,8 @@
 		<h1>Lista Contratti</h1>
 		<h:form id="contratti">
 			<p:dataTable var="contratto" value="#{contrattiController.model}"
-				paginator="true" rows="10" dynamic="true" lazy="true">
+				paginator="true" paginatorPosition="bottom" rows="10" dynamic="true"
+				lazy="true">
 				<p:column>
 					<f:facet name="header">
 						<h:outputText value="id" />

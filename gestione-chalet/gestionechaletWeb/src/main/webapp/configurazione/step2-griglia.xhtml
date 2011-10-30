@@ -10,32 +10,27 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui"
 	template="/WEB-INF/layout/t.xhtml">
 
-	<ui:define name="title">Creazione Configurazione 2</ui:define>
+	<ui:define name="title">Disposizione Ombrelloni</ui:define>
 
 	<ui:define name="content">
+		<h1>disposizione ombrelloni</h1>
 		<h:form id="bv">
-			<p:dataTable var="fila" id="filaTb" rows="0"
-				value="#{configurazioneController.element.fileOmbrelloni}">
+			<p:dataTable var="posto"
+				value="#{configurazioneController.postiList}"
+				columnIndexVar="colIndex">
+				<f:facet name="header">ombrelloni</f:facet>
 				<p:column>
 					<f:facet name="header">
-						<h:outputText value="Numero" />
+						<h:outputText value="ombrellone" />
 					</f:facet>
-					<h:inputText value="#{fila.numero}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="Dal" />
-					</f:facet>
-					<h:inputText value="#{fila.dal}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="Al" />
-					</f:facet>
-					<h:inputText value="#{fila.al}" />
+					num: <h:inputText value="#{posto.numero}" />
+					<br />
+					fila: <h:inputText value="#{posto.fila}" />
+					<br />
+					(rxc<h:outputText value="#{posto.riga} #{posto.colonna}" />)
+					<br />
 				</p:column>
 			</p:dataTable>
-
 			<p>
 				<h:commandButton id="check"
 					action="#{configurazioneController.step3}" value="Vai Alla fase 2" />
@@ -44,6 +39,5 @@
 					style="color: green;" />
 			</p>
 		</h:form>
-
 	</ui:define>
 </ui:composition>

@@ -4,7 +4,6 @@ import it.coopservice.commons2.annotations.EditPage;
 import it.coopservice.commons2.annotations.ListPage;
 import it.coopservice.commons2.annotations.OwnRepository;
 import it.coopservice.commons2.annotations.ViewPage;
-import it.coopservice.commons2.controllers.AbstractController;
 import it.coopservice.commons2.controllers.AbstractLazyController;
 
 import java.util.Date;

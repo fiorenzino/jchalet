@@ -15,7 +15,23 @@
 	<ui:define name="content">
 		<h1>disposizione ombrelloni</h1>
 		<h:form id="bv">
-
+			<p:dataTable var="posto" value="#{configurazioneController.posti}"
+				id="file" columnIndexVar="rowIndex">
+				<f:facet name="header">ombrelloni</f:facet>
+				<p:columns value="#{configurazioneController.colonne}" var="colonna"
+					columnIndexVar="colIndex">
+					<f:facet name="header">
+                    #{colonna}  
+					</f:facet>
+					<div style="text-align:center;"> <h:outputText
+						value="#{posto[colIndex].numero}"
+						rendered="#{not empty posto[colIndex].numero}"
+						style="font-weight: bold; " /> <br />
+					<h:outputText value="( #{posto[colIndex].descrizione} )"
+						rendered="#{not empty posto[colIndex].numero}" />
+					</div>
+				</p:columns>
+			</p:dataTable>
 		</h:form>
 	</ui:define>
 </ui:composition>

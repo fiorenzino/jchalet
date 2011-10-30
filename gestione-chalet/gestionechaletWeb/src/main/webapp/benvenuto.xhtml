@@ -40,9 +40,10 @@
 								value="gestisci configurazione attuale" />
 							<br />
 							<br />
-							<h:outputLink value="configurazione/disposizione-ombrelloni.jsf">
-								<h:outputText value="disposizione ombrelloni" />
-							</h:outputLink>
+							<h:commandLink
+								action="#{configurazioneController.vediConfigurazioneOmbrelloniAttuale}">
+								<h:outputText value="disposizione ombrelloni attuale" />
+							</h:commandLink>
 							<br />
 							<h:commandLink action="#{configurazioneController.addNew}"
 								value="aggiungi nuova" />

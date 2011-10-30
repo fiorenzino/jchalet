@@ -43,7 +43,12 @@
 					value="#{configurazioneController.element.numeroFile}" />
 				<h:message for="numeroFile" errorClass="invalid" />
 			</p>
-
+			<p>
+				<h:outputLabel for="numeroOmbrelloni" value="Numero Ombrelloni:" />
+				<h:inputText id="numeroOmbrelloni"
+					value="#{configurazioneController.element.numeroOmbrelloni}" />
+				<h:message for="numeroOmbrelloni" errorClass="invalid" />
+			</p>
 			<p>
 				<h:outputLabel for="numeroFile" value="Numero Lettini:" />
 				<h:inputText id="numeroLettini"
@@ -63,6 +68,12 @@
 				<h:inputText id="numeroCabine"
 					value="#{configurazioneController.element.numeroCabine}" />
 				<h:message for="numeroCabine" errorClass="invalid" />
+			</p>
+			<p>
+				<h:outputLabel for="numeroSedie" value="Numero sedie regista:" />
+				<h:inputText id="numeroSedie"
+					value="#{configurazioneController.element.numeroSedieRegista}" />
+				<h:message for="numeroSedie" errorClass="invalid" />
 			</p>
 
 			<p>

@@ -48,6 +48,14 @@
 			<h:outputText id="numeroCabine"
 				value="#{configurazioneController.element.numeroCabine}" />
 			<br />
+			<h:outputLabel value="numero sedie regista:" for="numeroSedieRegista" />
+			<h:outputText id="numeroSedieRegista"
+				value="#{configurazioneController.element.numeroSedieRegista}" />
+
+			<br />
+			<h:commandLink value="vedi disposizione ombrelloni"
+				action="#{configurazioneController.vediConfigurazioneOmbrelloni}" />
+			<br />
 			<p:dataTable var="fila" id="filaTb" rows="10"
 				value="#{configurazioneController.element.fileOmbrelloni}">
 				<p:column>
