@@ -1,27 +1,21 @@
 package by.giava.gestionechalet.controller;
 
-import java.util.Date;
-import java.util.List;
-
 import it.coopservice.commons2.annotations.EditPage;
 import it.coopservice.commons2.annotations.ListPage;
 import it.coopservice.commons2.annotations.OwnRepository;
 import it.coopservice.commons2.annotations.ViewPage;
-import it.coopservice.commons2.controllers.AbstractController;
+import it.coopservice.commons2.controllers.AbstractLazyController;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.model.LazyDataModel;
-
-import by.giava.gestionechalet.model.Cliente;
 import by.giava.gestionechalet.model.Contratto;
+import by.giava.gestionechalet.repository.ContrattiRepository;
 
 @Named
 @SessionScoped
-public class ContrattiController extends AbstractController<Contratto> {
+public class ContrattiController extends AbstractLazyController<Contratto> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,8 +29,8 @@ public class ContrattiController extends AbstractController<Contratto> {
 	public static final String VIEW = "/contratto/scheda.xhtml";
 
 	@Inject
-	@OwnRepository(ContrattiController.class)
-	ContrattiController clientiController;
+	@OwnRepository(ContrattiRepository.class)
+	ContrattiRepository contrattiRepository;
 
 	@Override
 	public Object getId(Contratto t) {

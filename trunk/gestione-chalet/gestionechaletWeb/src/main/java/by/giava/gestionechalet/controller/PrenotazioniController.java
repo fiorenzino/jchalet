@@ -1,14 +1,13 @@
 package by.giava.gestionechalet.controller;
 
+import it.coopservice.commons2.annotations.EditPage;
+import it.coopservice.commons2.annotations.ListPage;
+import it.coopservice.commons2.controllers.AbstractLazyController;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import it.coopservice.commons2.annotations.EditPage;
-import it.coopservice.commons2.annotations.ListPage;
-import it.coopservice.commons2.annotations.ViewPage;
-import it.coopservice.commons2.controllers.AbstractController;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -25,7 +24,8 @@ import by.giava.gestionechalet.repository.TariffeRepository;
 
 @Named
 @SessionScoped
-public class PrenotazioniController extends AbstractController<Prenotazione> {
+public class PrenotazioniController extends
+		AbstractLazyController<Prenotazione> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,7 +35,7 @@ public class PrenotazioniController extends AbstractController<Prenotazione> {
 	@EditPage
 	public static final String EDIT = "/prenotazioni/gestione.xhtml";
 
-	public static final String CALCOLA = "/prenotazioni/calcola.xhtml";
+	public static final String CALCOLA = "/prenotazioni/calcola-preventivo.xhtml";
 
 	@Inject
 	TariffeRepository tariffeRepository;

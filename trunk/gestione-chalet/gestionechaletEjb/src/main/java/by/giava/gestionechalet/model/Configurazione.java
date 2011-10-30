@@ -21,10 +21,12 @@ public class Configurazione implements Serializable {
 	private Long numeroColonne;
 	private Long numeroRighe;
 	private Long numeroFile;
+	private Long numeroOmbrelloni;
 
 	private Long numeroSdraio;
 	private Long numeroLettini;
 	private Long numeroCabine;
+	private Long numeroSedieRegista;
 
 	private Date dataCreazione;
 	private List<FilaOmbrelloni> fileOmbrelloni;
@@ -127,5 +129,21 @@ public class Configurazione implements Serializable {
 
 	public void setAttivo(boolean attivo) {
 		this.attivo = attivo;
+	}
+
+	public Long getNumeroOmbrelloni() {
+		return numeroOmbrelloni;
+	}
+
+	public void setNumeroOmbrelloni(Long numeroOmbrelloni) {
+		this.numeroOmbrelloni = numeroOmbrelloni;
+	}
+
+	public Long getNumeroSedieRegista() {
+		return numeroSedieRegista;
+	}
+
+	public void setNumeroSedieRegista(Long numeroSedieRegista) {
+		this.numeroSedieRegista = numeroSedieRegista;
 	}
 }

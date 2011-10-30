@@ -8,11 +8,13 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:coop="http://www.coopservice.it/commons2/taglib"
 	xmlns:perm="http://www.coopservice.it/commons2/permissions"
-	xmlns:form="http://www.coopservice.it/commons2/form"
-	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich">
+	xmlns:form="http://www.coopservice.it/commons2/form">
 
 <f:view contentType="text/html">
+
+	<f:event type="preRenderView"
+		listener="#{permissionController.checkRoles}" />
+
 	<ui:insert name="roles">
 		<f:attribute name="roles" value="ANY" />
 	</ui:insert>
@@ -24,7 +26,6 @@
 		<title>${context} - <ui:insert name="title">{title}</ui:insert>
 		</title>
 		<h:outputStylesheet library="css" name="basic.css" />
-		<h:outputScript library="js" name="bancaditalia.js" />
 
 		<ui:insert name="styles">
 			<style type="text/css">
@@ -33,10 +34,17 @@
 	</h:head>
 
 	<h:body>
+		<p:idleMonitor timeout="120000" onidle="idleDialog.show();"
+			onactive="idleDialog.hide();" />
+
+		<p:dialog header="Cosa Succede?" resizable="false"
+			widgetVar="idleDialog" modal="true" width="400">
+			<h:outputText
+				value="Sei ancora al monitor? Salva per evitare di perdere il tuo lavoro!" />
+		</p:dialog>
 
 		<coop:center>
-			<rich:panel style="width: 95%;"
-				bodyClass="rich-laguna-panel-no-header">
+			<p:panel style="width: 95%;">
 
 				<ui:insert name="menu">
 					<ui:include src="menu.xhtml" />
@@ -44,9 +52,9 @@
 
 				<coop:spacer></coop:spacer>
 
-				<rich:panel style="width: 95%; text-align: left;"
-					bodyClass="rich-laguna-panel-no-header">
-					<coop:breadcrumbs />
+
+				<p:panel style="width: 95%; text-align: left;">
+					<coop:primeBreadcrumbs />
 
 					<div style="float: right;">
 						<ui:insert name="label">
@@ -54,36 +62,40 @@
 					</div>
 
 					<coop:spacer></coop:spacer>
+
+					<p:growl id="messages" showDetail="true" />
+
+
+
+
+					<coop:spacer></coop:spacer>
+
 					<coop:center>
-						<h:panelGroup rendered="false">
-							<rich:messages style="color: red;"></rich:messages>
-						</h:panelGroup>
-						<a4j:outputPanel ajaxRendered="true">
-							<h:panelGroup rendered="true">
-								<p:growl id="messages" showDetail="true" />
-							</h:panelGroup>
-						</a4j:outputPanel>
+						<ui:insert name="content">{content}</ui:insert>
 					</coop:center>
 
-				</rich:panel>
+					<coop:spacer></coop:spacer>
+					<coop:spacer></coop:spacer>
 
+
+				</p:panel>
 				<coop:spacer></coop:spacer>
-
-				<coop:center>
-					<ui:insert name="content">{content}</ui:insert>
-				</coop:center>
-
-				<coop:spacer></coop:spacer>
-				<coop:spacer></coop:spacer>
-
-				<ui:insert name="footer">
-					<ui:include src="footer.xhtml" />
-				</ui:insert>
-			</rich:panel>
-			<coop:spacer />
-
+				<p:panel style="width: 95%;">
+					<ui:insert name="footer">
+						<ui:include src="footer.xhtml" />
+					</ui:insert>
+				</p:panel>
+			</p:panel>
+			<h:panelGroup width="80%"
+				rendered="#{permissionController.development}">
+				<h:form>
+					<h:panelGrid columns="1">
+						<h:commandLink action="#{permissionController.reloadPermissions}"
+							value="ricarica la tabella dei permessi" />
+					</h:panelGrid>
+				</h:form>
+			</h:panelGroup>
 		</coop:center>
-
 	</h:body>
 </f:view>
 </html>

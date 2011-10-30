@@ -4,21 +4,18 @@ import it.coopservice.commons2.annotations.EditPage;
 import it.coopservice.commons2.annotations.ListPage;
 import it.coopservice.commons2.annotations.OwnRepository;
 import it.coopservice.commons2.annotations.ViewPage;
-import it.coopservice.commons2.controllers.AbstractController;
-
-import java.util.Date;
+import it.coopservice.commons2.controllers.AbstractLazyController;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import by.giava.gestionechalet.model.Cliente;
 import by.giava.gestionechalet.model.servizi.Ombrellone;
 import by.giava.gestionechalet.repository.ClientiRepository;
 
 @Named
 @SessionScoped
-public class OmbrelloniController extends AbstractController<Ombrellone> {
+public class OmbrelloniController extends AbstractLazyController<Ombrellone> {
 
 	private static final long serialVersionUID = 1L;
 
