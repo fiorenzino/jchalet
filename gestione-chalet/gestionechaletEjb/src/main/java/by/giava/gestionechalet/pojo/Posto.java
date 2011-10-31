@@ -15,10 +15,11 @@ public class Posto implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Posto(int riga, int colonna, String numero) {
+	public Posto(int riga, int colonna, String numero, String fila) {
 		this.colonna = colonna;
 		this.riga = riga;
 		this.numero = numero;
+		this.fila = fila;
 		this.descrizione = riga + "x" + colonna;
 	}
 

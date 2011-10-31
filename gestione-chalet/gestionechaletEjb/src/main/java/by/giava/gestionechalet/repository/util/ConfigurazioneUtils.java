@@ -18,9 +18,10 @@ public class ConfigurazioneUtils {
 					.intValue()];
 			for (int m = 0; m < configurazione.getNumeroColonne(); m++) {
 				if (matrice[i][m] != null)
-					fila[m] = new Posto(i, m, matrice[i][m].getNumero());
+					fila[m] = new Posto(i, m, matrice[i][m].getNumero(),
+							matrice[i][m].getFila());
 				else
-					fila[m] = new Posto(i, m, "");
+					fila[m] = new Posto(i, m, "", "");
 			}
 			posti.add(fila);
 		}
@@ -35,7 +36,7 @@ public class ConfigurazioneUtils {
 			Posto[] fila = new Posto[configurazione.getNumeroColonne()
 					.intValue()];
 			for (int m = 0; m < configurazione.getNumeroColonne(); m++) {
-				fila[m] = new Posto(i, m, "");
+				fila[m] = new Posto(i, m, "", "");
 			}
 			posti.add(fila);
 		}
@@ -49,7 +50,7 @@ public class ConfigurazioneUtils {
 				* configurazione.getNumeroRighe().intValue();
 		for (int i = 0; i < configurazione.getNumeroRighe(); i++) {
 			for (int m = 0; m < configurazione.getNumeroColonne(); m++) {
-				Posto posto = new Posto(i, m, "");
+				Posto posto = new Posto(i, m, "", "");
 				posti.add(posto);
 			}
 
