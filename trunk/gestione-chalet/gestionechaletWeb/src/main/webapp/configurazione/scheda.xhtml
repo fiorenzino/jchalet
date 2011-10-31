@@ -56,27 +56,6 @@
 			<h:commandLink value="vedi disposizione ombrelloni"
 				action="#{configurazioneController.vediConfigurazioneOmbrelloni}" />
 			<br />
-			<p:dataTable var="fila" id="filaTb" rows="10"
-				value="#{configurazioneController.element.fileOmbrelloni}">
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="Numero" />
-					</f:facet>
-					<h:outputText value="#{fila.numero}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="Dal" />
-					</f:facet>
-					<h:outputText value="#{fila.dal}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="Al" />
-					</f:facet>
-					<h:outputText value="#{fila.al}" />
-				</p:column>
-			</p:dataTable>
 		</h:form>
 
 	</ui:define>
