@@ -8,29 +8,34 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">Disposizione Ombrelloni</ui:define>
 
 	<ui:define name="content">
-		<h1>disposizione ombrelloni</h1>
+		<h2>disposizione ombrelloni:
+			righe: #{configurazioneController.element.numeroRighe} -
+			colonne:#{configurazioneController.element.numeroColonne}</h2>
 		<h:form id="bv">
-			<p:dataTable var="posto"
-				value="#{configurazioneController.postiList}"
-				columnIndexVar="colIndex">
-				<f:facet name="header">ombrelloni</f:facet>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="ombrellone" />
-					</f:facet>
-					num: <h:inputText value="#{posto.numero}" />
-					<br />
-					fila: <h:inputText value="#{posto.fila}" />
-					<br />
-					(rxc<h:outputText value="#{posto.riga} #{posto.colonna}" />)
-					<br />
-				</p:column>
-			</p:dataTable>
+			<h:panelGrid
+				columns="#{configurazioneController.element.numeroColonne}"
+				border="1">
+				<c:forEach items="#{configurazioneController.postiList}" var="posto">
+					<h:panelGroup>
+						<center>
+							<b><h:outputText value="#{posto.riga}x#{posto.colonna}" />
+							</b>
+						</center>
+						num:
+						<h:inputText value="#{posto.numero}" size="3" />
+						<br /> fila:
+						<h:inputText value="#{posto.fila}" size="3" />
+						<br />
+
+					</h:panelGroup>
+				</c:forEach>
+			</h:panelGrid>
 			<p>
 				<h:commandButton id="check"
 					action="#{configurazioneController.step3}" value="Vai Alla fase 2" />

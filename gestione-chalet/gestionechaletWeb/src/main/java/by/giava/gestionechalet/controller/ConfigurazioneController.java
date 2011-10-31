@@ -88,6 +88,7 @@ public class ConfigurazioneController extends
 	private List<String> colonne;
 	private List<Posto[]> posti;
 	List<Posto> postiList;
+	private int numColonne;
 	private boolean newOrUpdate;
 
 	@Override
