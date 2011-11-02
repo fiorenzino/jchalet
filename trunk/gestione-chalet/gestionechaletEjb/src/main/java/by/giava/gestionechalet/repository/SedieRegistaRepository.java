@@ -24,7 +24,8 @@ public class SedieRegistaRepository extends BaseRepository<SediaRegista> {
 	}
 
 	@Override
-	protected Query getRestrictions(Search<SediaRegista> search, boolean justCount) {
+	protected Query getRestrictions(Search<SediaRegista> search,
+			boolean justCount) {
 
 		if (search.getObj() == null) {
 			return super.getRestrictions(search, justCount);
@@ -51,6 +52,18 @@ public class SedieRegistaRepository extends BaseRepository<SediaRegista> {
 			sb.append(separator).append(" ").append(alias).append(".id = :id ");
 			// aggiunta alla mappa
 			params.put("id", search.getObj().getId());
+			// separatore
+			separator = " and ";
+		}
+
+		// configurazione
+		if ((search.getObj().getConfigurazione() != null)
+				&& (search.getObj().getConfigurazione().getId() != null)) {
+			sb.append(separator).append(" ").append(alias)
+					.append(".configurazione.id = :configurazioneId ");
+			// aggiunta alla mappa
+			params.put("configurazioneId", search.getObj().getConfigurazione()
+					.getId());
 			// separatore
 			separator = " and ";
 		}

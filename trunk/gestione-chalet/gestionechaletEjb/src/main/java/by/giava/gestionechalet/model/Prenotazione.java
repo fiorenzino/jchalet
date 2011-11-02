@@ -20,7 +20,18 @@ public class Prenotazione implements Serializable {
 	private Date data;
 	private String singleDayName;
 	private Servizio servizio;
+
 	private boolean attivo = true;
+	private String tipoServizio;
+	private Date dataDal;
+	private Date dataAl;
+	private int numero;
+	private int numeroSdraie;
+	private int numeroLettini;
+	private int numeroCabine;
+	private int numeroOmbrelloni;
+	private int numeroSedie;
+	private int fila;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -75,5 +86,95 @@ public class Prenotazione implements Serializable {
 
 	public void setAttivo(boolean attivo) {
 		this.attivo = attivo;
+	}
+
+	@Transient
+	public String getTipoServizio() {
+		return tipoServizio;
+	}
+
+	public void setTipoServizio(String tipoServizio) {
+		this.tipoServizio = tipoServizio;
+	}
+
+	@Transient
+	public Date getDataDal() {
+		return dataDal;
+	}
+
+	public void setDataDal(Date dataDal) {
+		this.dataDal = dataDal;
+	}
+
+	@Transient
+	public Date getDataAl() {
+		return dataAl;
+	}
+
+	public void setDataAl(Date dataAl) {
+		this.dataAl = dataAl;
+	}
+
+	@Transient
+	public int getNumero() {
+		return numero;
+	}
+
+	public void setNumero(int numero) {
+		this.numero = numero;
+	}
+
+	@Transient
+	public int getNumeroSdraie() {
+		return numeroSdraie;
+	}
+
+	public void setNumeroSdraie(int numeroSdraie) {
+		this.numeroSdraie = numeroSdraie;
+	}
+
+	@Transient
+	public int getNumeroLettini() {
+		return numeroLettini;
+	}
+
+	public void setNumeroLettini(int numeroLettini) {
+		this.numeroLettini = numeroLettini;
+	}
+
+	@Transient
+	public int getNumeroCabine() {
+		return numeroCabine;
+	}
+
+	public void setNumeroCabine(int numeroCabine) {
+		this.numeroCabine = numeroCabine;
+	}
+
+	@Transient
+	public int getNumeroOmbrelloni() {
+		return numeroOmbrelloni;
+	}
+
+	public void setNumeroOmbrelloni(int numeroOmbrelloni) {
+		this.numeroOmbrelloni = numeroOmbrelloni;
+	}
+
+	@Transient
+	public int getNumeroSedie() {
+		return numeroSedie;
+	}
+
+	public void setNumeroSedie(int numeroSedie) {
+		this.numeroSedie = numeroSedie;
+	}
+
+	@Transient
+	public int getFila() {
+		return fila;
+	}
+
+	public void setFila(int fila) {
+		this.fila = fila;
 	}
 }

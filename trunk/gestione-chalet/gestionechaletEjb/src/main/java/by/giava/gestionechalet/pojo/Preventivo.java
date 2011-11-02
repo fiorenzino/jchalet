@@ -6,7 +6,7 @@ import java.util.Date;
 public class Preventivo implements Serializable {
 
 	private String servizio;
-	private Long num;
+	private Long numPezzi;
 	private Long numGiorni;
 	private Date dal;
 	private Date al;
@@ -19,12 +19,12 @@ public class Preventivo implements Serializable {
 	}
 
 	public Preventivo(Date dal, Date al, String servizio, double costo,
-			Long numGiorni, Long num, Long tariffa) {
+			Long numGiorni, Long numPezzi, Long tariffa) {
 		this.dal = dal;
 		this.al = al;
 		this.servizio = servizio;
-		this.total = num * costo;
-		this.num = num;
+		this.total = numPezzi * costo;
+		this.numPezzi = numPezzi;
 		this.numGiorni = numGiorni;
 		this.costo = costo;
 		this.tariffa = tariffa;
@@ -38,12 +38,12 @@ public class Preventivo implements Serializable {
 		this.servizio = servizio;
 	}
 
-	public Long getNum() {
-		return num;
+	public Long getNumPezzi() {
+		return numPezzi;
 	}
 
-	public void setNum(Long num) {
-		this.num = num;
+	public void setNumPezzi(Long numPezzi) {
+		this.numPezzi = numPezzi;
 	}
 
 	public Long getNumGiorni() {

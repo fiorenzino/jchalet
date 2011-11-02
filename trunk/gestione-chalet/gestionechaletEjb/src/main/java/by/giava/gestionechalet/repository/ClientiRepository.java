@@ -19,7 +19,7 @@ public class ClientiRepository extends BaseRepository<Cliente> {
 
 	@Override
 	protected String getDefaultOrderBy() {
-		return "cognome";
+		return "cognome asc";
 	}
 
 	@Override
@@ -50,6 +50,26 @@ public class ClientiRepository extends BaseRepository<Cliente> {
 			sb.append(separator).append(" ").append(alias).append(".id = :id ");
 			// aggiunta alla mappa
 			params.put("id", search.getObj().getId());
+			// separatore
+			separator = " and ";
+		}
+
+		// cognome
+		if (search.getObj().getCognome() != null) {
+			sb.append(separator).append(" ").append(alias)
+					.append(".cognome LIKE :cognome ");
+			// aggiunta alla mappa
+			params.put("cognome", likeParamR(search.getObj().getCognome()));
+			// separatore
+			separator = " and ";
+		}
+
+		// telefono
+		if (search.getObj().getId() != null) {
+			sb.append(separator).append(" ").append(alias)
+					.append(".telefono = :telefono ");
+			// aggiunta alla mappa
+			params.put("telefono", search.getObj().getTelefono());
 			// separatore
 			separator = " and ";
 		}
