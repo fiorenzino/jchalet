@@ -15,9 +15,23 @@
 	<ui:define name="content">
 		<h1>Lista Clienti</h1>
 		<h:form id="clienti">
-			<p:dataTable var="cliente" value="#{clientiController.model}"
-				paginator="true" paginatorPosition="bottom" rows="10" dynamic="true"
-				lazy="true">
+			<p:panel style="width: 95%;">
+				<h:panelGrid columns="4">
+					<h:outputLabel value="cognome:" for="cercaNome" />
+					<p:inputText id="cercaNome"
+						value="#{clientiController.search.obj.cognome}" />
+
+					<p:commandButton actionListener="#{clientiController.reloadAjax}"
+						value="Cerca" ajax="true" immediate="false" update="lista" />
+					<p:commandButton action="#{clientiController.reset}"
+						value="Annulla" ajax="false" immediate="true" />
+				</h:panelGrid>
+			</p:panel>
+			<br />
+			<p:dataTable id="lista" var="cliente"
+				value="#{clientiController.model}" paginator="true"
+				paginatorPosition="bottom" rows="10" dynamic="true" lazy="true"
+				style="width: 95%;">
 				<p:column>
 					<f:facet name="header">
 						<h:outputText value="id" />
@@ -26,18 +40,29 @@
 				</p:column>
 				<p:column>
 					<f:facet name="header">
-						<h:outputText value="nome" />
+						<h:outputText value="cognome nome" />
 					</f:facet>
-					<h:commandLink action="#{clientiController.scheda(cliente.id)}">
-						<h:outputText value="#{cliente.nome}" />
-					</h:commandLink>
+					<h:outputText value="#{cliente.cognome} #{cliente.nome}" />
 				</p:column>
-
 				<p:column>
 					<f:facet name="header">
-						<h:outputText value="cognome" />
+						<h:outputText value="citta'" />
 					</f:facet>
-					<h:outputText value="#{cliente.cognome}" />
+					<h:outputText id="cityName"
+						value="#{cliente.cityName} (#{cliente.provinciaName})" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="telefono" />
+					</f:facet>
+					<h:outputText id="telefono" value="#{cliente.telefono}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="cellulare" />
+					</f:facet>
+
+					<h:outputText id="cellulare" value="#{cliente.cellulare}" />
 				</p:column>
 				<p:column>
 					<f:facet name="header">

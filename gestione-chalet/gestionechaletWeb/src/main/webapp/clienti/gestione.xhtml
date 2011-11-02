@@ -15,8 +15,9 @@
 	<ui:define name="content">
 		<h:form id="bv">
 			<h2>Gestione Cliente</h2>
-			<div>
-				<h:panelGrid columns="3">
+
+			<p:panel style="width: 95%;">
+				<h:panelGrid columns="6">
 					<h:outputLabel value="nome" />
 					<h:inputText id="nome" value="#{clientiController.element.nome}" />
 					<h:message for="nome" errorClass="invalid" />
@@ -28,7 +29,7 @@
 					<h:message for="cognome" errorClass="invalid" />
 
 
-					<h:outputLabel value="codicefiscale" />
+					<h:outputLabel value="codice fiscale" />
 					<h:inputText id="codicefiscale"
 						value="#{clientiController.element.codicefiscale}" />
 					<h:message for="codicefiscale" errorClass="invalid" />
@@ -40,13 +41,13 @@
 					<h:message for="indirizzo" errorClass="invalid" />
 
 
-					<h:outputLabel value="cityName" />
+					<h:outputLabel value="citta'" />
 					<h:inputText id="cityName"
 						value="#{clientiController.element.cityName}" />
 					<h:message for="cityName" errorClass="invalid" />
 
 
-					<h:outputLabel value="provinciaName" />
+					<h:outputLabel value="provincia" />
 					<h:inputText id="provinciaName"
 						value="#{clientiController.element.provinciaName}" />
 					<h:message for="provinciaName" errorClass="invalid" />
@@ -57,7 +58,7 @@
 					<h:message for="cap" errorClass="invalid" />
 
 
-					<h:outputLabel value="nazioneName" />
+					<h:outputLabel value="nazione" />
 					<h:inputText id="nazioneName"
 						value="#{clientiController.element.nazioneName}" />
 					<h:message for="cap" errorClass="invalid" />
@@ -82,44 +83,54 @@
 
 
 
-					<h:outputLabel for="dataNascita" value="dataNascita:" />
+					<h:outputLabel for="dataNascita" value="data nascita:" />
 					<p:calendar id="dataNascita"
 						value="#{clientiController.element.dataNascita}" timeZone="it_IT"
 						title="Data dal" pattern="dd/MM/yyyy" locale="it" startWeekday="1"
-						required="true" />
+						required="true" showOn="button" />
 					<h:message for="dataNascita" errorClass="invalid" />
 
 
 
-					<h:outputLabel value="cityNascitaName" />
+					<h:outputLabel value="citta' nascita" />
 					<h:inputText id="cityNascitaName"
 						value="#{clientiController.element.cityNascitaName}" />
 					<h:message for="cityNascitaName" errorClass="invalid" />
 
 
-					<h:outputLabel value="provinciaNascitaName" />
+					<h:outputLabel value="provincia nascita" />
 					<h:inputText id="provinciaNascitaName"
 						value="#{clientiController.element.provinciaNascitaName}" />
 					<h:message for="provinciaNascitaName" errorClass="invalid" />
 
 
-					<h:outputLabel value="nazioneNascitaName" />
+					<h:outputLabel value="nazione nascita" />
 					<h:inputText id="nazioneNascitaName"
 						value="#{clientiController.element.nazioneNascitaName}" />
 					<h:message for="nazioneNascitaName" errorClass="invalid" />
 
 
 				</h:panelGrid>
-			</div>
-			<p>
-				<h:commandButton id="addCliente" action="#{clientiController.save}"
-					value="aggiungi cliente"
-					rendered="#{empty clientiController.element.id}" />
+			</p:panel>
+			<br />
 
-				<h:commandButton id="modCliente"
-					action="#{clientiController.update}" value="aggiorna cliente"
-					rendered="#{not empty clientiController.element.id}" />
-			</p>
+			<p:panel style="width: 95%;">
+				<h:panelGrid columns="4">
+
+					<p:commandButton action="#{clientiController.save}" value="Salva"
+						ajax="false" immediate="false"
+						rendered="#{empty clientiController.element.id}" />
+
+					<p:commandButton action="#{clientiController.reload}"
+						value="Annulla" ajax="false" immediate="true" />
+
+					<p:commandButton action="#{clientiController.update}"
+						value="Aggiorna" ajax="false" immediate="false"
+						rendered="#{not empty clientiController.element.id}" />
+
+
+				</h:panelGrid>
+			</p:panel>
 		</h:form>
 
 	</ui:define>

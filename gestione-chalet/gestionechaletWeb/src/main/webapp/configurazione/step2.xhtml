@@ -8,42 +8,47 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="/WEB-INF/layout/t.xhtml">
 
-	<ui:define name="title">Creazione Configurazione 2</ui:define>
+	<ui:define name="title">Gestione Configurazione - Disposizione Ombrelloni</ui:define>
 
 	<ui:define name="content">
+		<h2>Creazione Configurazione - Disposizione ombrelloni</h2>
+		<b>righe: #{configurazioneController.element.numeroRighe} -
+			colonne:#{configurazioneController.element.numeroColonne}</b>
 		<h:form id="bv">
-			<p:dataTable var="fila" id="filaTb" rows="0"
-				value="#{configurazioneController.element.fileOmbrelloni}">
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="Numero" />
-					</f:facet>
-					<h:inputText value="#{fila.numero}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="Dal" />
-					</f:facet>
-					<h:inputText value="#{fila.dal}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="Al" />
-					</f:facet>
-					<h:inputText value="#{fila.al}" />
-				</p:column>
-			</p:dataTable>
-
-			<p>
-				<h:commandButton id="check"
-					action="#{configurazioneController.step3}" value="Vai Alla fase 2" />
-				<h:outputText value=" All clear!"
-					rendered="#{facesContext.postback and empty facesContext.messageList}"
-					style="color: green;" />
-			</p>
+			<p:panel style="width: 95%;">
+				<h:panelGrid
+					columns="#{configurazioneController.element.numeroColonne}"
+					border="1">
+					<c:forEach items="#{configurazioneController.postiList}"
+						var="posto">
+						<h:panelGroup>
+							<center>
+								<b><h:outputText value="#{posto.riga}:#{posto.colonna}" />
+								</b>
+							</center>
+						num/fila:
+						<h:inputText value="#{posto.numero}" size="3" />
+							<h:inputText value="#{posto.fila}" size="2" />
+						</h:panelGroup>
+					</c:forEach>
+				</h:panelGrid>
+			</p:panel>
+			<br />
+			<p:panel style="width: 95%;">
+				<h:panelGrid columns="3">
+					<p:commandButton action="/configurazione/step1.xhtml"
+						value="Torna alla Configurazione Generale" ajax="false"
+						immediate="true" />
+					<p:commandButton action="#{configurazioneController.step3}"
+						value="Salva la Disposizione Ombrelloni" ajax="false"
+						immediate="false" />
+					<p:commandButton action="#{configurazioneController.reload}"
+						value="Annulla" ajax="false" immediate="true" />
+				</h:panelGrid>
+			</p:panel>
 		</h:form>
-
 	</ui:define>
 </ui:composition>

@@ -15,56 +15,55 @@
 	<ui:define name="content">
 		<h:form id="bv">
 			<h2>Calcolo Preventivo</h2>
-			<p:ajaxStatus>
-				<f:facet name="start">
-					<h:graphicImage value="/images/ajaxloading.gif" />
-				</f:facet>
-				<f:facet name="complete">
-					<h:outputText value="" />
-				</f:facet>
-			</p:ajaxStatus>
-			<p>
-				<h:outputLabel for="dal" value="Dal:" />
-				<p:calendar id="dal" value="#{prenotazioniController.ricerca.dal}"
-					title="Data dal" pattern="dd/MM/yyyy" locale="it" startWeekday="1" />
-				<h:outputLabel for="al" value="Al:" />
-				<p:calendar id="al" value="#{prenotazioniController.ricerca.al}"
-					pattern="dd/MM/yyyy" title="Data al" locale="it" startWeekday="1" />
-			</p>
 
-			<p>
-				<h:outputLabel for="ombrelloni" value="Nro Ombrelloni:" />
-				<h:selectOneMenu id="ombrelloni"
-					value="#{prenotazioniController.ricerca.numeroOmbrelloni}">
-					<f:selectItems value="#{numeroAccessori}" />
-				</h:selectOneMenu>
-				<h:outputLabel for="sdraie" value="Nro sdraie:" />
-				<h:selectOneMenu id="sdraie"
-					value="#{prenotazioniController.ricerca.numeroSdraie}">
-					<f:selectItems value="#{numeroAccessori}" />
-				</h:selectOneMenu>
-				<h:outputLabel for="lettini" value="Nro lettini:" />
-				<h:selectOneMenu id="lettini"
-					value="#{prenotazioniController.ricerca.numeroLettini}">
-					<f:selectItems value="#{numeroAccessori}" />
-				</h:selectOneMenu>
-				<h:outputLabel for="cabine" value="Nro Cabine:" />
-				<h:selectOneMenu id="cabine"
-					value="#{prenotazioniController.ricerca.numeroCabine}">
-					<f:selectItems value="#{numeroAccessori}" />
-				</h:selectOneMenu>
-			</p>
+			<p:panel style="width: 95%;">
+				<h:panelGrid columns="4">
+					<h:outputLabel for="dal" value="Dal:" />
+					<p:calendar id="dal" value="#{prenotazioniController.ricerca.dal}"
+						title="Data dal" pattern="dd/MM/yyyy" locale="it" startWeekday="1"
+						showOn="button" />
+					<h:outputLabel for="al" value="Al:" />
+					<p:calendar id="al" value="#{prenotazioniController.ricerca.al}"
+						pattern="dd/MM/yyyy" title="Data al" locale="it" startWeekday="1"
+						showOn="button" />
 
+					<h:outputLabel for="ombrelloni" value="Nro Ombrelloni:" />
+					<h:selectOneMenu id="ombrelloni"
+						value="#{prenotazioniController.ricerca.numeroOmbrelloni}">
+						<f:selectItems value="#{numeroAccessori}" />
+					</h:selectOneMenu>
+					<h:outputLabel for="sdraie" value="Nro sdraie:" />
+					<h:selectOneMenu id="sdraie"
+						value="#{prenotazioniController.ricerca.numeroSdraie}">
+						<f:selectItems value="#{numeroAccessori}" />
+					</h:selectOneMenu>
+					<h:outputLabel for="lettini" value="Nro lettini:" />
+					<h:selectOneMenu id="lettini"
+						value="#{prenotazioniController.ricerca.numeroLettini}">
+						<f:selectItems value="#{numeroAccessori}" />
+					</h:selectOneMenu>
+					<h:outputLabel for="cabine" value="Nro Cabine:" />
+					<h:selectOneMenu id="cabine"
+						value="#{prenotazioniController.ricerca.numeroCabine}">
+						<f:selectItems value="#{numeroAccessori}" />
+					</h:selectOneMenu>
+					<h:outputLabel for="sedie" value="Nro Sedie:" />
+					<h:selectOneMenu id="sedie"
+						value="#{prenotazioniController.ricerca.numeroSedie}">
+						<f:selectItems value="#{numeroAccessori}" />
+					</h:selectOneMenu>
+				</h:panelGrid>
+			</p:panel>
+			<br />
 
-			<p>
-				<p:commandButton id="addCliente"
-					action="#{prenotazioniController.calcolaPrezzo}"
+			<p:panel style="width: 95%;">
+				<p:commandButton action="#{prenotazioniController.calcolaPrezzo}"
 					value="calcola prezzo" update="prev" />
-			</p>
-		</h:form>
+			</p:panel>
 
-		<p:panel id="prev" header="Preventivo">
-			<h:form id="bv2">
+			<br />
+			<p:panel id="prev" header="Preventivo">
+
 				<p:dataTable id="preventivi" var="preventivo"
 					value="#{prenotazioniController.preventivi}" paginator="false">
 					<p:column>
@@ -72,7 +71,7 @@
 							<h:outputText value="servizio" />
 						</f:facet>
 						<h:commandLink
-							action="#{tariffeHandler.scheda(preventivo.tariffa)}">
+							action="#{tariffeController.view(preventivo.tariffa)}">
 							<h:outputText value="#{preventivo.servizio}" />
 						</h:commandLink>
 					</p:column>
@@ -80,7 +79,7 @@
 						<f:facet name="header">
 							<h:outputText value="num." />
 						</f:facet>
-						<h:outputText value="#{preventivo.num}" />
+						<h:outputText value="#{preventivo.numPezzi}" />
 					</p:column>
 
 					<p:column>
@@ -95,7 +94,8 @@
 							<h:outputText value="dal" />
 						</f:facet>
 						<h:outputText value="#{preventivo.dal}">
-
+							<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
+								locale="it" />
 						</h:outputText>
 					</p:column>
 					<p:column>
@@ -103,7 +103,8 @@
 							<h:outputText value="al" />
 						</f:facet>
 						<h:outputText value="#{preventivo.al}">
-
+							<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
+								locale="it" />
 						</h:outputText>
 					</p:column>
 					<p:column>
@@ -119,12 +120,12 @@
 						<h:outputText value="euro #{preventivo.total}" />
 					</p:column>
 				</p:dataTable>
-			</h:form>
-			<br />
-			<h:outputText style="color: red; font-weight:bold"
-				value="costo totale: euro #{prenotazioniController.total}" />
 
-		</p:panel>
+				<br />
+				<h:outputText style="color: red; font-weight:bold"
+					value="costo totale: euro #{prenotazioniController.total}" />
 
+			</p:panel>
+		</h:form>
 	</ui:define>
 </ui:composition>

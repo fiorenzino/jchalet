@@ -33,17 +33,15 @@
 						<h:panelGroup style="vertical-align:middle;">
 							<h:commandLink
 								action="#{configurazioneController.caricaConfigurazioneAttuale}">
-								<h:outputText value="configurazione attuale" />
+								<h:outputText value="vedi configurazione attuale" />
 							</h:commandLink>
 							<br />
 							<h:commandLink action="#{configurazioneController.step1}"
 								value="gestisci configurazione attuale" />
 							<br />
-							<br />
-							<h:commandLink
-								action="#{configurazioneController.vediConfigurazioneOmbrelloniAttuale}">
-								<h:outputText value="disposizione ombrelloni attuale" />
-							</h:commandLink>
+							<h:outputLink value="configurazione/lista.jsf">
+								<h:outputText value="lista configurazioni" />
+							</h:outputLink>
 							<br />
 							<h:commandLink action="#{configurazioneController.addNew}"
 								value="aggiungi nuova" />
@@ -160,6 +158,83 @@
 							<h:commandLink
 								action="#{prenotazioniController.calcolaPreventivo}"
 								value="calcola preventivo senza verificare" />
+						</h:panelGroup>
+					</h:panelGrid>
+					<br />
+				</rich:panel>
+				<h:panelGroup>
+					<br />
+					<br />
+				</h:panelGroup>
+				<h:panelGroup>
+					<br />
+					<br />
+				</h:panelGroup>
+				<h:panelGroup>
+					<br />
+					<br />
+				</h:panelGroup>
+				<rich:panel style="width: 250px; height: 100px;">
+					<f:facet name="header">
+						<h:outputText value="Fax" />
+					</f:facet>
+					<h:panelGrid columns="2">
+						<h:panelGroup style="vertical-align:middle;">
+							<h:graphicImage library="images" name="prenotazioni.png"
+								style="border: none; width: 48px; height: 48px;" />
+						</h:panelGroup>
+						<h:panelGroup style="vertical-align:middle;">
+							<h:outputLink value="#">
+								<h:outputText value="lista" />
+							</h:outputLink>
+							<br />
+							<h:outputLink value="#">
+								<h:outputText value="nuovo" />
+							</h:outputLink>
+						</h:panelGroup>
+					</h:panelGrid>
+					<br />
+				</rich:panel>
+
+				<rich:panel style="width: 250px; height: 100px;">
+					<f:facet name="header">
+						<h:outputText value="SMS" />
+					</f:facet>
+					<h:panelGrid columns="2">
+						<h:panelGroup style="vertical-align:middle;">
+							<h:graphicImage library="images" name="prenotazioni.png"
+								style="border: none; width: 48px; height: 48px;" />
+						</h:panelGroup>
+						<h:panelGroup style="vertical-align:middle;">
+							<h:outputLink value="#">
+								<h:outputText value="lista" />
+							</h:outputLink>
+							<br />
+							<h:outputLink value="#">
+								<h:outputText value="nuovo" />
+							</h:outputLink>
+						</h:panelGroup>
+					</h:panelGrid>
+					<br />
+				</rich:panel>
+
+				<rich:panel style="width: 250px; height: 100px;">
+					<f:facet name="header">
+						<h:outputText value="Email" />
+					</f:facet>
+					<h:panelGrid columns="2">
+						<h:panelGroup style="vertical-align:middle;">
+							<h:graphicImage library="images" name="prenotazioni.png"
+								style="border: none; width: 48px; height: 48px;" />
+						</h:panelGroup>
+						<h:panelGroup style="vertical-align:middle;">
+							<h:outputLink value="#">
+								<h:outputText value="lista" />
+							</h:outputLink>
+							<br />
+							<h:outputLink value="#">
+								<h:outputText value="nuovo" />
+							</h:outputLink>
 						</h:panelGroup>
 					</h:panelGrid>
 					<br />

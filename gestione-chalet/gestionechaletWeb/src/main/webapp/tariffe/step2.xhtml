@@ -18,7 +18,7 @@
 					<f:facet name="header">
 						<h:outputText value="giorno" />
 					</f:facet>
-					<h:inputText value="#{costo.giorno}" />
+					<h:outputText value="#{costo.giorno}" />
 				</p:column>
 				<p:column>
 					<f:facet name="header">
@@ -27,14 +27,15 @@
 					<h:inputText value="#{costo.prezzo}" />
 				</p:column>
 			</p:dataTable>
-
-			<p>
-				<h:commandButton id="check" action="#{tariffeController.step3}"
-					value="Vai Alla fase 3" />
-				<h:outputText value=" All clear!"
-					rendered="#{facesContext.postback and empty facesContext.messageList}"
-					style="color: green;" />
-			</p>
+			<br />
+			<p:panel style="width: 95%;">
+				<h:panelGrid columns="2">
+					<p:commandButton id="check" action="#{tariffeController.step3}"
+						value="Vai Alla fase 3" ajax="false" immediate="false" />
+					<p:commandButton action="#{tariffeController.reload}"
+						value="Annulla" ajax="false" immediate="true" />
+				</h:panelGrid>
+			</p:panel>
 		</h:form>
 
 	</ui:define>

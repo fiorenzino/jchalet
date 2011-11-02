@@ -14,87 +14,90 @@
 
 	<ui:define name="content">
 		<h1>Scheda Cliente</h1>
-		<h:panelGrid columns="2">
-			<h:outputLabel value="id:" for="id" />
-			<h:outputText id="id" value="#{clientiController.element.id}" />
+		<p:panel style="width: 95%;">
+			<h:panelGrid columns="4" style="width: 95%;">
+				<h:outputLabel value="id:" for="id" />
+				<h:outputText id="id" value="#{clientiController.element.id}" />
 
-			<h:outputLabel value="nome:" for="nome" />
-			<h:outputText id="nome" value="#{clientiController.element.nome}" />
+				<h:outputLabel value="nome:" for="nome" />
+				<h:outputText id="nome" value="#{clientiController.element.nome}" />
 
-			<h:outputLabel value="cognome:" for="cognome" />
-			<h:outputText id="cognome"
-				value="#{clientiController.element.cognome}" />
+				<h:outputLabel value="cognome:" for="cognome" />
+				<h:outputText id="cognome"
+					value="#{clientiController.element.cognome}" />
 
-			<h:outputLabel value="codicefiscale" />
-			<h:outputText id="codicefiscale"
-				value="#{clientiController.element.codicefiscale}" />
-
-
-			<h:outputLabel value="indirizzo" />
-			<h:outputText id="indirizzo"
-				value="#{clientiController.element.indirizzo}" />
+				<h:outputLabel value="codice fiscale" for="codicefiscale" />
+				<h:outputText id="codicefiscale"
+					value="#{clientiController.element.codicefiscale}" />
 
 
-			<h:outputLabel value="cityName" />
-			<h:outputText id="cityName"
-				value="#{clientiController.element.cityName}" />
+				<h:outputLabel value="indirizzo" for="indirizzo" />
+				<h:outputText id="indirizzo"
+					value="#{clientiController.element.indirizzo}" />
 
 
-
-			<h:outputLabel value="provinciaName" />
-			<h:outputText id="provinciaName"
-				value="#{clientiController.element.provinciaName}" />
+				<h:outputLabel value="citta'" for="cityName" />
+				<h:outputText id="cityName"
+					value="#{clientiController.element.cityName}" />
 
 
 
-			<h:outputLabel value="cap" />
-			<h:outputText id="cap" value="#{clientiController.element.cap}" />
-
-
-			<h:outputLabel value="nazioneName" />
-			<h:outputText id="nazioneName"
-				value="#{clientiController.element.nazioneName}" />
-
-
-			<h:outputLabel value="telefono" />
-			<h:outputText id="telefono"
-				value="#{clientiController.element.telefono}" />
-
-
-			<h:outputLabel value="cellulare" />
-			<h:outputText id="cellulare"
-				value="#{clientiController.element.cellulare}" />
-
-
-			<h:outputLabel value="email" />
-			<h:outputText id="email" value="#{clientiController.element.email}" />
-
-
-			<h:outputLabel for="dataNascita" value="dataNascita:" />
-			<h:outputText id="dataNascita"
-				value="#{clientiController.element.dataNascita}">
-				<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
-					locale="it" />
-			</h:outputText>
+				<h:outputLabel value="provincia" for="provinciaName" />
+				<h:outputText id="provinciaName"
+					value="#{clientiController.element.provinciaName}" />
 
 
 
-			<h:outputLabel value="cityNascitaName" />
-			<h:outputText id="cityNascitaName"
-				value="#{clientiController.element.cityNascitaName}" />
+				<h:outputLabel value="cap" for="cap" />
+				<h:outputText id="cap" value="#{clientiController.element.cap}" />
 
 
-			<h:outputLabel value="provinciaNascitaName" />
-			<h:outputText id="provinciaNascitaName"
-				value="#{clientiController.element.provinciaNascitaName}" />
+				<h:outputLabel value="nazione:" for="nazioneName" />
+				<h:outputText id="nazioneName"
+					value="#{clientiController.element.nazioneName}" />
 
 
-			<h:outputLabel value="nazioneNascitaName" />
-			<h:outputText id="nazioneNascitaName"
-				value="#{clientiController.element.nazioneNascitaName}" />
+				<h:outputLabel value="telefono:" for="telefono" />
+				<h:outputText id="telefono"
+					value="#{clientiController.element.telefono}" />
 
 
-		</h:panelGrid>
+				<h:outputLabel value="cellulare:" for="cellulare" />
+				<h:outputText id="cellulare"
+					value="#{clientiController.element.cellulare}" />
+
+
+				<h:outputLabel value="email:" for="email" />
+				<h:outputText id="email" value="#{clientiController.element.email}" />
+
+
+				<h:outputLabel for="dataNascita" value="data nascita:" />
+				<h:outputText id="dataNascita"
+					value="#{clientiController.element.dataNascita}">
+					<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
+						locale="it" />
+				</h:outputText>
+
+
+
+				<h:outputLabel value="citta' di nascita:" />
+				<h:outputText id="cityNascitaName"
+					value="#{clientiController.element.cityNascitaName}" />
+
+
+				<h:outputLabel value="provincia di nascita:" />
+				<h:outputText id="provinciaNascitaName"
+					value="#{clientiController.element.provinciaNascitaName}" />
+
+
+				<h:outputLabel value="nazione di nascita:" />
+				<h:outputText id="nazioneNascitaName"
+					value="#{clientiController.element.nazioneNascitaName}" />
+
+
+			</h:panelGrid>
+			<h:outputLink target="_blank" value="/stampa-privacy.jsf">stampa la privacy</h:outputLink>
+		</p:panel>
 
 	</ui:define>
 </ui:composition>
