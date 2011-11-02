@@ -54,6 +54,18 @@ public class CabineRepository extends BaseRepository<Cabina> {
 			separator = " and ";
 		}
 
+		// configurazione
+		if ((search.getObj().getConfigurazione() != null)
+				&& (search.getObj().getConfigurazione().getId() != null)) {
+			sb.append(separator).append(" ").append(alias)
+					.append(".configurazione.id = :configurazioneId ");
+			// aggiunta alla mappa
+			params.put("configurazioneId", search.getObj().getConfigurazione()
+					.getId());
+			// separatore
+			separator = " and ";
+		}
+
 		if (!justCount) {
 			sb.append(getOrderBy(alias, search.getOrder()));
 		}

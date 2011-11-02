@@ -2,7 +2,6 @@ package by.giava.gestionechalet.repository;
 
 import it.coopservice.commons2.domain.Search;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,55 +11,22 @@ import javax.ejb.Stateless;
 import javax.persistence.Query;
 
 import by.giava.gestionechalet.model.Configurazione;
+import by.giava.gestionechalet.model.Servizio;
+import by.giava.gestionechalet.model.servizi.Ombrellone;
 
 @Stateless
 @LocalBean
-public class ConfigurazioneRepository extends BaseRepository<Configurazione> {
+public class ServiziRepository extends BaseRepository<Servizio> {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected String getDefaultOrderBy() {
-		return "dataCreazione desc";
-	}
-
-	public boolean disableAllAuthers(Long id) {
-		List<Configurazione> result = new ArrayList<Configurazione>();
-		try {
-			result = em
-					.createQuery(
-							"select t from Configurazione t where t.id != :ID")
-					.setParameter("ID", id).getResultList();
-			for (Configurazione configurazione : result) {
-				configurazione.setAttuale(false);
-				em.merge(configurazione);
-			}
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	public Configurazione findLast() {
-		Configurazione result;
-		try {
-			result = (Configurazione) em
-					.createQuery(
-							"select t from Configurazione t left join fetch t.fileOmbrelloni ti where t.attuale = :ATTUALE")
-					.setParameter("ATTUALE", true).getSingleResult();
-			if (result == null)
-				return null;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		return result;
+		return "numero";
 	}
 
 	@Override
-	protected Query getRestrictions(Search<Configurazione> search,
-			boolean justCount) {
+	protected Query getRestrictions(Search<Servizio> search, boolean justCount) {
 
 		if (search.getObj() == null) {
 			return super.getRestrictions(search, justCount);
@@ -91,6 +57,18 @@ public class ConfigurazioneRepository extends BaseRepository<Configurazione> {
 			separator = " and ";
 		}
 
+		// configurazione
+		if ((search.getObj().getConfigurazione() != null)
+				&& (search.getObj().getConfigurazione().getId() != null)) {
+			sb.append(separator).append(" ").append(alias)
+					.append(".configurazione.id = :configurazioneId ");
+			// aggiunta alla mappa
+			params.put("configurazioneId", search.getObj().getConfigurazione()
+					.getId());
+			// separatore
+			separator = " and ";
+		}
+
 		if (!justCount) {
 			sb.append(getOrderBy(alias, search.getOrder()));
 		}
@@ -103,4 +81,22 @@ public class ConfigurazioneRepository extends BaseRepository<Configurazione> {
 		return q;
 	}
 
+	public void eliminaTuttiServiziPerConfigurazione(
+			Configurazione configurazione) {
+		try {
+			Servizio servizio = new Servizio();
+			servizio.setConfigurazione(configurazione);
+			Search<Servizio> ricerca = new Search<Servizio>(servizio);
+			List<Servizio> servizi = getList(ricerca, 0, 0);
+			for (Servizio servizio2 : servizi) {
+				logger.info("elimino servizio " + servizio2.getTipo()
+						+ " - id: " + servizio2.getId());
+				delete(servizio2.getId());
+
+			}
+		} catch (Exception e) {
+			logger.info(e.getMessage());
+		}
+
+	}
 }

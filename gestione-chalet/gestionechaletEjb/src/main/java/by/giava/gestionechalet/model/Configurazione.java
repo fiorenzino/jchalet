@@ -32,6 +32,8 @@ public class Configurazione implements Serializable {
 	private List<FilaOmbrelloni> fileOmbrelloni;
 	private boolean attivo = true;
 
+	private boolean attuale;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
@@ -63,7 +65,7 @@ public class Configurazione implements Serializable {
 	public List<FilaOmbrelloni> getFileOmbrelloni() {
 		if (fileOmbrelloni == null)
 			this.fileOmbrelloni = new ArrayList<FilaOmbrelloni>();
-		System.out.println("num file: " + this.fileOmbrelloni.size());
+		// System.out.println("num file: " + this.fileOmbrelloni.size());
 		return fileOmbrelloni;
 	}
 
@@ -145,5 +147,13 @@ public class Configurazione implements Serializable {
 
 	public void setNumeroSedieRegista(Long numeroSedieRegista) {
 		this.numeroSedieRegista = numeroSedieRegista;
+	}
+
+	public boolean isAttuale() {
+		return attuale;
+	}
+
+	public void setAttuale(boolean attuale) {
+		this.attuale = attuale;
 	}
 }

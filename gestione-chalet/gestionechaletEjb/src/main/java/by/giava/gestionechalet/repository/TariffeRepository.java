@@ -22,6 +22,7 @@ import by.giava.gestionechalet.model.servizi.Cabina;
 import by.giava.gestionechalet.model.servizi.Lettino;
 import by.giava.gestionechalet.model.servizi.Ombrellone;
 import by.giava.gestionechalet.model.servizi.Sdraio;
+import by.giava.gestionechalet.model.servizi.SediaRegista;
 import by.giava.gestionechalet.pojo.Preventivo;
 import by.giava.gestionechalet.repository.util.Tariffeutils;
 
@@ -30,6 +31,9 @@ import by.giava.gestionechalet.repository.util.Tariffeutils;
 public class TariffeRepository extends BaseRepository<Tariffa> {
 
 	private static final long serialVersionUID = 1L;
+
+	@Inject
+	ConfigurazioneRepository configurazioneRepository;
 
 	@Inject
 	OmbrelloniRepository ombrelloniRepository;
@@ -43,6 +47,9 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 	@Inject
 	CabineRepository cabineRepository;
 
+	@Inject
+	SedieRegistaRepository sedieRegistaRepository;
+
 	@Override
 	protected String getDefaultOrderBy() {
 		return "nome";
@@ -52,24 +59,51 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 	public List<Preventivo> getTariffeInPeriod(Date start, Date stop,
 			Map<String, Long> servizi) {
 		List<Preventivo> result = new ArrayList<Preventivo>();
+		StringBuffer serviziS = new StringBuffer("");
+		for (String name : servizi.keySet()) {
+			serviziS.append(",'").append(name).append("'");
+		}
 		try {
 			List<Tariffa> resultP = (List<Tariffa>) em
 					.createQuery(
-							"select t from Tariffa t where (t.dal <= :START OR  t.al >= :STOP) order by t.nome")
+							"select distinct(t) from Tariffa t left join fetch t.costi ti where (t.dal <= :START OR  t.al >= :STOP) AND t.serviceName in ("
+									+ serviziS.toString().substring(1)
+									+ ")order by t.nome")
 					.setParameter("START", start).setParameter("STOP", stop)
 					.getResultList();
 			for (Tariffa tariffa : resultP) {
-				if (servizi.containsKey(tariffa.getServiceName())) {
-					Preventivo pre = Tariffeutils.getPrenotazione(tariffa,
-							start, stop, servizi.get(tariffa.getServiceName()));
-					result.add(pre);
-				}
+				// if (servizi.containsKey(tariffa.getServiceName())) {
+				Preventivo pre = Tariffeutils.getPrenotazione(tariffa, start,
+						stop, servizi.get(tariffa.getServiceName()));
+				result.add(pre);
+				// }
 
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@Override
+	public boolean update(Tariffa tariffa) {
+		try {
+
+			List<Costo> costi = tariffa.getCostiValues();
+			for (Costo costo : costi) {
+				if (costo.getId() == null) {
+					costo.setTariffa(tariffa);
+					em.persist(costo);
+				} else {
+					em.merge(costo);
+				}
+			}
+			em.merge(tariffa);
+			return true;
+		} catch (Exception e) {
+			logger.info(e.getMessage());
+		}
+		return false;
 	}
 
 	@Override
@@ -83,10 +117,20 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 				em.persist(costo);
 				tariffa.addCosto(costo.getGiorno(), costo);
 			}
+			// qui va presa la configurazione corrispondente
+			Configurazione configurazione = configurazioneRepository.findLast();
+
 			switch (tariffa.getServiceType()) {
 			case 1:
 				// 1, "ombrellone");
-				List<Ombrellone> ombrelloni = ombrelloniRepository.getAllList();
+				// List<Ombrellone> ombrelloni =
+				// ombrelloniRepository.getAllList();
+				Ombrellone ombrelloneSearch = new Ombrellone();
+				ombrelloneSearch.setConfigurazione(configurazione);
+				Search<Ombrellone> ricercaOmbr = new Search<Ombrellone>(
+						ombrelloneSearch);
+				List<Ombrellone> ombrelloni = ombrelloniRepository.getList(
+						ricercaOmbr, 0, 0);
 				logger.info("num omb: " + ombrelloni.size());
 				tariffa.setServiceName("OMB");
 				for (Ombrellone ombrellone : ombrelloni) {
@@ -97,7 +141,11 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 			case 2:
 				// 2, "sdraio");
 				tariffa.setServiceName("SDR");
-				List<Sdraio> sdraie = sdraieRepository.getAllList();
+				Sdraio sdraioSearch = new Sdraio();
+				sdraioSearch.setConfigurazione(configurazione);
+				Search<Sdraio> ricercaSdr = new Search<Sdraio>(sdraioSearch);
+				List<Sdraio> sdraie = sdraieRepository
+						.getList(ricercaSdr, 0, 0);
 				for (Sdraio sdraio : sdraie) {
 					sdraio.addTariffa(tariffa);
 					sdraieRepository.update(sdraio);
@@ -106,7 +154,11 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 			case 3:
 				// 3, "lettino");
 				tariffa.setServiceName("LET");
-				List<Lettino> lettini = lettiniRepository.getAllList();
+				Lettino lettinoSearch = new Lettino();
+				lettinoSearch.setConfigurazione(configurazione);
+				Search<Lettino> ricercaLett = new Search<Lettino>(lettinoSearch);
+				List<Lettino> lettini = lettiniRepository.getList(ricercaLett,
+						0, 0);
 				for (Lettino lettino : lettini) {
 					lettino.addTariffa(tariffa);
 					lettiniRepository.update(lettino);
@@ -115,10 +167,28 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 			case 4:
 				// 4, "cabina");
 				tariffa.setServiceName("CAB");
-				List<Cabina> cabine = cabineRepository.getAllList();
+				Cabina cabinaSearch = new Cabina();
+				cabinaSearch.setConfigurazione(configurazione);
+				Search<Cabina> ricercaCab = new Search<Cabina>(cabinaSearch);
+				List<Cabina> cabine = cabineRepository
+						.getList(ricercaCab, 0, 0);
 				for (Cabina cabina : cabine) {
 					cabina.addTariffa(tariffa);
 					cabineRepository.update(cabina);
+				}
+				break;
+			case 5:
+				// 5, "sedia");
+				tariffa.setServiceName("SED");
+				SediaRegista sediaSearch = new SediaRegista();
+				sediaSearch.setConfigurazione(configurazione);
+				Search<SediaRegista> ricercaSed = new Search<SediaRegista>(
+						sediaSearch);
+				List<SediaRegista> sedie = sedieRegistaRepository.getList(
+						ricercaSed, 0, 0);
+				for (SediaRegista sedia : sedie) {
+					sedia.addTariffa(tariffa);
+					sedieRegistaRepository.update(sedia);
 				}
 				break;
 
@@ -130,7 +200,6 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 			e.printStackTrace();
 		}
 		return tariffa;
-
 	}
 
 	@Override
@@ -161,6 +230,18 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 			sb.append(separator).append(" ").append(alias).append(".id = :id ");
 			// aggiunta alla mappa
 			params.put("id", search.getObj().getId());
+			// separatore
+			separator = " and ";
+		}
+
+		// serviceType
+		if (search.getObj().getServiceName() != null
+				&& !search.getObj().getServiceName().isEmpty()
+				&& !search.getObj().getServiceName().equals("TUTTI")) {
+			sb.append(separator).append(" ").append(alias)
+					.append(".serviceName = :serviceName ");
+			// aggiunta alla mappa
+			params.put("serviceName", search.getObj().getServiceName());
 			// separatore
 			separator = " and ";
 		}

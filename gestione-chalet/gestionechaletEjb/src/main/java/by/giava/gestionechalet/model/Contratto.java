@@ -42,6 +42,8 @@ public class Contratto implements Serializable {
 	}
 
 	public Cliente getCliente() {
+		if (cliente == null)
+			this.cliente = new Cliente();
 		return cliente;
 	}
 

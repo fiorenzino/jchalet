@@ -45,7 +45,7 @@ public class Cliente implements Serializable {
 	private String rilasciataDa;
 	private String luogoRilascio;
 	private Date dataRilasco;
-	private boolean attivo= true;
+	private boolean attivo = true;
 
 	public Cliente() {
 		this.provincia = new Long(5);
@@ -196,7 +196,6 @@ public class Cliente implements Serializable {
 		this.cityName = cityName;
 	}
 
-	@Transient
 	public String getProvinciaName() {
 		return provinciaName;
 	}
@@ -205,7 +204,6 @@ public class Cliente implements Serializable {
 		this.provinciaName = provinciaName;
 	}
 
-	@Transient
 	public String getNazioneName() {
 		return nazioneName;
 	}
@@ -230,7 +228,6 @@ public class Cliente implements Serializable {
 		this.cityNascitaName = cityNascitaName;
 	}
 
-	@Transient
 	public String getProvinciaNascitaName() {
 		return provinciaNascitaName;
 	}
@@ -239,7 +236,6 @@ public class Cliente implements Serializable {
 		this.provinciaNascitaName = provinciaNascitaName;
 	}
 
-	@Transient
 	public String getNazioneNascitaName() {
 		return nazioneNascitaName;
 	}

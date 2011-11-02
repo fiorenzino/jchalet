@@ -7,14 +7,19 @@ public class Ricerca implements Serializable {
 
 	private Long idClasse;
 	private String nome;
-	private Integer numero;
-	private Integer numeroSdraie;
-	private Integer numeroLettini;
-	private Integer numeroCabine;
-	private Integer numeroOmbrelloni;
-	private Integer fila;
+	private int numero;
+	private int numeroSdraie;
+	private int numeroLettini;
+	private int numeroCabine;
+	private int numeroOmbrelloni;
+	private int numeroSedie;
+	private int fila;
 	private Date dal;
 	private Date al;
+
+	public Ricerca() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public Long getIdClasse() {
 		return idClasse;
@@ -32,19 +37,19 @@ public class Ricerca implements Serializable {
 		this.nome = nome;
 	}
 
-	public Integer getNumero() {
+	public int getNumero() {
 		return numero;
 	}
 
-	public void setNumero(Integer numero) {
+	public void setNumero(int numero) {
 		this.numero = numero;
 	}
 
-	public Integer getFila() {
+	public int getFila() {
 		return fila;
 	}
 
-	public void setFila(Integer fila) {
+	public void setFila(int fila) {
 		this.fila = fila;
 	}
 
@@ -64,36 +69,44 @@ public class Ricerca implements Serializable {
 		this.al = al;
 	}
 
-	public Integer getNumeroSdraie() {
+	public int getNumeroSdraie() {
 		return numeroSdraie;
 	}
 
-	public void setNumeroSdraie(Integer numeroSdraie) {
+	public void setNumeroSdraie(int numeroSdraie) {
 		this.numeroSdraie = numeroSdraie;
 	}
 
-	public Integer getNumeroLettini() {
+	public int getNumeroLettini() {
 		return numeroLettini;
 	}
 
-	public void setNumeroLettini(Integer numeroLettini) {
+	public void setNumeroLettini(int numeroLettini) {
 		this.numeroLettini = numeroLettini;
 	}
 
-	public Integer getNumeroCabine() {
+	public int getNumeroCabine() {
 		return numeroCabine;
 	}
 
-	public void setNumeroCabine(Integer numeroCabine) {
+	public void setNumeroCabine(int numeroCabine) {
 		this.numeroCabine = numeroCabine;
 	}
 
-	public Integer getNumeroOmbrelloni() {
+	public int getNumeroOmbrelloni() {
 		return numeroOmbrelloni;
 	}
 
-	public void setNumeroOmbrelloni(Integer numeroOmbrelloni) {
+	public void setNumeroOmbrelloni(int numeroOmbrelloni) {
 		this.numeroOmbrelloni = numeroOmbrelloni;
+	}
+
+	public int getNumeroSedie() {
+		return numeroSedie;
+	}
+
+	public void setNumeroSedie(int numeroSedie) {
+		this.numeroSedie = numeroSedie;
 	}
 
 }

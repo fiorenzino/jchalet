@@ -28,7 +28,7 @@ public class Tariffeutils {
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public static Preventivo getPrenotazione(Tariffa tariffa, Date dal,
-			Date al, Long num) {
+			Date al, Long numPezzi) {
 		Preventivo preventivo = null;
 		Date start = dal;
 		Date stop = al;
@@ -37,14 +37,14 @@ public class Tariffeutils {
 			start = tariffa.getDal();
 		if (tariffa.getAl().compareTo(al) < 0)
 			stop = tariffa.getAl();
-		Long gg = TimeUtil.getDiffDays(start, stop);
-		Costo costo = tariffa.getCosti().get(num);
+		Long numGiorni = TimeUtil.getDiffDays(start, stop);
+		Costo costo = tariffa.getCosti().get(numGiorni);
 		if (costo != null)
 			preventivo = new Preventivo(start, stop, tariffa.getServiceName(),
-					costo.getPrezzo(), gg, num, tariffa.getId());
+					costo.getPrezzo(), numGiorni, numPezzi, tariffa.getId());
 		else
 			preventivo = new Preventivo(start, stop, tariffa.getServiceName(),
-					0, gg, num, tariffa.getId());
+					0, numGiorni, numPezzi, tariffa.getId());
 		return preventivo;
 	}
 }

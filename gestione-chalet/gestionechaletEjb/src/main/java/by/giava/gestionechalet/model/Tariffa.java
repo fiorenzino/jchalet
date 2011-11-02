@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
 @Entity
@@ -32,7 +33,7 @@ public class Tariffa implements Serializable {
 	private Date al;
 	private int serviceType;
 	private String serviceName;
-	private boolean attivo= true;
+	private boolean attivo = true;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -54,6 +55,7 @@ public class Tariffa implements Serializable {
 
 	@OneToMany(mappedBy = "tariffa")
 	@MapKey(name = "giorno")
+	@OrderBy("giorno")
 	public Map<Long, Costo> getCosti() {
 		if (this.costi == null)
 			this.costi = new LinkedHashMap<Long, Costo>();
@@ -62,9 +64,8 @@ public class Tariffa implements Serializable {
 
 	@Transient
 	public List<Costo> getCostiValues() {
-		if (this.costi != null)
-			costiValues = new LinkedList<Costo>();
-		costiValues.addAll(costi.values());
+		costiValues = new LinkedList<Costo>();
+		costiValues.addAll(getCosti().values());
 		return costiValues;
 	}
 
@@ -74,6 +75,10 @@ public class Tariffa implements Serializable {
 
 	public void addCosto(Long nome, Costo costo) {
 		getCosti().put(nome, costo);
+	}
+
+	public boolean containsCosto(Long nome) {
+		return getCosti().containsKey(nome);
 	}
 
 	@ManyToMany(mappedBy = "tariffe")

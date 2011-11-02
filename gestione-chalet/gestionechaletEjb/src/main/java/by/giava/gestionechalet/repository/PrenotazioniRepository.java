@@ -2,64 +2,29 @@ package by.giava.gestionechalet.repository;
 
 import it.coopservice.commons2.domain.Search;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 
-import by.giava.gestionechalet.model.Configurazione;
+import by.giava.gestionechalet.model.Cliente;
+import by.giava.gestionechalet.model.Prenotazione;
 
 @Stateless
 @LocalBean
-public class ConfigurazioneRepository extends BaseRepository<Configurazione> {
+public class PrenotazioniRepository extends BaseRepository<Prenotazione> {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected String getDefaultOrderBy() {
-		return "dataCreazione desc";
-	}
-
-	public boolean disableAllAuthers(Long id) {
-		List<Configurazione> result = new ArrayList<Configurazione>();
-		try {
-			result = em
-					.createQuery(
-							"select t from Configurazione t where t.id != :ID")
-					.setParameter("ID", id).getResultList();
-			for (Configurazione configurazione : result) {
-				configurazione.setAttuale(false);
-				em.merge(configurazione);
-			}
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	public Configurazione findLast() {
-		Configurazione result;
-		try {
-			result = (Configurazione) em
-					.createQuery(
-							"select t from Configurazione t left join fetch t.fileOmbrelloni ti where t.attuale = :ATTUALE")
-					.setParameter("ATTUALE", true).getSingleResult();
-			if (result == null)
-				return null;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		return result;
+		return "data asc";
 	}
 
 	@Override
-	protected Query getRestrictions(Search<Configurazione> search,
+	protected Query getRestrictions(Search<Prenotazione> search,
 			boolean justCount) {
 
 		if (search.getObj() == null) {
@@ -87,6 +52,28 @@ public class ConfigurazioneRepository extends BaseRepository<Configurazione> {
 			sb.append(separator).append(" ").append(alias).append(".id = :id ");
 			// aggiunta alla mappa
 			params.put("id", search.getObj().getId());
+			// separatore
+			separator = " and ";
+		}
+
+		// tipoServizio
+		if (search.getObj().getTipoServizio() != null
+				&& !search.getObj().getTipoServizio().isEmpty()) {
+			sb.append(separator).append(" ").append(alias)
+					.append(".servizio.tipo = :tipoServizio ");
+			// aggiunta alla mappa
+			params.put("tipoServizio", search.getObj().getTipoServizio());
+			// separatore
+			separator = " and ";
+		}
+
+		// id servizio
+		if (search.getObj().getServizio() != null
+				&& search.getObj().getServizio().getId() != null) {
+			sb.append(separator).append(" ").append(alias)
+					.append(".servizio.id = :idServizio ");
+			// aggiunta alla mappa
+			params.put("idServizio", search.getObj().getServizio().getId());
 			// separatore
 			separator = " and ";
 		}
