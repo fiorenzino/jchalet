@@ -3,6 +3,7 @@ package by.giava.gestionechalet.controller;
 import it.coopservice.commons2.annotations.EditPage;
 import it.coopservice.commons2.annotations.ListPage;
 import it.coopservice.commons2.controllers.AbstractLazyController;
+import it.coopservice.commons2.utils.JSFUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import by.giava.gestionechalet.model.servizi.Cabina;
 import by.giava.gestionechalet.model.servizi.Lettino;
 import by.giava.gestionechalet.model.servizi.Ombrellone;
 import by.giava.gestionechalet.model.servizi.Sdraio;
+import by.giava.gestionechalet.model.servizi.SediaRegista;
 import by.giava.gestionechalet.pojo.Preventivo;
 import by.giava.gestionechalet.pojo.Ricerca;
 import by.giava.gestionechalet.repository.TariffeRepository;
@@ -52,11 +54,13 @@ public class PrenotazioniController extends
 
 	public String calcolaPreventivo() {
 		this.ricerca = new Ricerca();
+		this.preventivi = null;
 		return CALCOLA + "?faces-redirect=true";
 	}
 
 	public String creaPrenotazione() {
 		this.ricerca = new Ricerca();
+		this.preventivi = null;
 		return EDIT + "?faces-redirect=true";
 	}
 
@@ -64,18 +68,43 @@ public class PrenotazioniController extends
 		this.total = 0;
 		Map<String, Long> servizi = new HashMap<String, Long>();
 		// numeroSdraie;
-		if (ricerca.getNumeroSdraie() > 0)
+		int num = 0;
+		if (ricerca.getNumeroSdraie() > 0) {
 			servizi.put(Sdraio.TIPO, new Long(ricerca.getNumeroSdraie()));
+			num++;
+		}
 		// numeroLettini;
-		if (ricerca.getNumeroLettini() > 0)
+		if (ricerca.getNumeroLettini() > 0) {
 			servizi.put(Lettino.TIPO, new Long(ricerca.getNumeroLettini()));
+			num++;
+		}
 		// numeroCabine;
-		if (ricerca.getNumeroCabine() > 0)
+		if (ricerca.getNumeroCabine() > 0) {
 			servizi.put(Cabina.TIPO, new Long(ricerca.getNumeroCabine()));
-		// numeroOmbrelloni
-		if (ricerca.getNumeroOmbrelloni() > 0)
+			num++;
+		}
+		// numero Ombrellone
+		if (ricerca.getNumero() > 0) {
 			servizi.put(Ombrellone.TIPO,
 					new Long(ricerca.getNumeroOmbrelloni()));
+			num++;
+		}
+		// numeroOmbrelloni
+		if (ricerca.getNumeroOmbrelloni() > 0) {
+			servizi.put(Ombrellone.TIPO,
+					new Long(ricerca.getNumeroOmbrelloni()));
+			num++;
+		}
+		// numero sedie
+		if (ricerca.getNumeroSedie() > 0) {
+			servizi.put(SediaRegista.TIPO, new Long(ricerca.getNumeroSedie()));
+			num++;
+		}
+		if (num == 0) {
+			// aggiungi errore
+			return;
+
+		}
 		// CERCO LE TARIFFE PER PERIODO
 		List<Preventivo> lista = tariffeRepository.getTariffeInPeriod(
 				ricerca.getDal(), ricerca.getAl(), servizi);
@@ -87,7 +116,14 @@ public class PrenotazioniController extends
 		}
 	}
 
+	public void cercaOmbrelloni() {
+		// cerca ombrelloni dal/al
+		// cerca tra le prenotazioni
+	}
+
 	public Ricerca getRicerca() {
+		if (ricerca == null)
+			this.ricerca = new Ricerca();
 		return ricerca;
 	}
 

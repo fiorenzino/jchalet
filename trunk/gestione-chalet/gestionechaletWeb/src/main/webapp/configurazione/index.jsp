@@ -1,4 +1,4 @@
 
 <%
-	response.sendRedirect("scheda.jsf");
+	response.sendRedirect("lista.jsf");
 %>

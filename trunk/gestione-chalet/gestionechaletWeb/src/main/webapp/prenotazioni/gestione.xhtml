@@ -15,74 +15,68 @@
 	<ui:define name="content">
 		<h:form id="bv">
 			<h2>Gestione Prenotazione</h2>
-			<p:ajaxStatus>
-				<f:facet name="start">
-					<h:graphicImage value="/images/ajaxloading.gif" />
-				</f:facet>
-			</p:ajaxStatus>
-			<p>
-				<h:outputLabel for="dal" value="Dal:" />
-				<p:calendar id="dal" value="#{prenotazioniController.ricerca.dal}"
-					title="Data dal" pattern="dd/MM/yyyy" locale="it" startWeekday="1" />
-			</p>
+			<p:panel style="width: 95%;">
+				<h:panelGrid columns="4">
+					<h:outputLabel for="dal" value="Dal:" />
+					<p:calendar id="dal" value="#{prenotazioniController.ricerca.dal}"
+						title="Data dal" pattern="dd/MM/yyyy" locale="it" startWeekday="1"
+						showOn="button" />
 
-			<p>
-				<h:outputLabel for="al" value="Al:" />
-				<p:calendar id="al" value="#{prenotazioniController.ricerca.al}"
-					pattern="dd/MM/yyyy" title="Data al" locale="it" startWeekday="1" />
-			</p>
+					<h:outputLabel for="al" value="Al:" />
+					<p:calendar id="al" value="#{prenotazioniController.ricerca.al}"
+						pattern="dd/MM/yyyy" title="Data al" locale="it" startWeekday="1"
+						showOn="button" />
 
-			<p>
-				<h:outputLabel for="fila" value="Fila:" />
-				<h:selectOneMenu id="fila"
-					value="#{prenotazioniController.ricerca.fila}">
-					<f:selectItem itemLabel="Fila" itemValue="" />
-					<f:selectItems value="#{fileItems}" />
-					<p:ajax actionListener="#{cambioFila}" update="ombrelloni"
-						event="change" />
-				</h:selectOneMenu>
-				<br />
-				<h:outputLabel for="ombrelloni" value="Ombrellone:" />
-				<h:selectOneMenu id="ombrelloni"
-					value="#{prenotazioniController.ricerca.numero}">
-					<f:selectItem itemLabel="Ombrellone" itemValue="" />
-					<f:selectItems value="#{ombrelloniItems}" />
-				</h:selectOneMenu>
-			</p>
+					<h:outputLabel for="fila" value="Fila:" />
+					<p:selectOneMenu id="fila"
+						value="#{prenotazioniController.ricerca.fila}">
+						<f:selectItem itemLabel="Fila" itemValue="" />
+						<f:selectItems value="#{fileItems}" />
+						<p:ajax listener="#{propertiesController.cambioFila}"
+							update="ombrelloni" />
+					</p:selectOneMenu>
 
-			<p>
-				<h:outputLabel for="sdraie" value="Nro sdraie:" />
-				<h:selectOneMenu id="sdraie"
-					value="#{prenotazioniController.ricerca.numeroSdraie}">
-					<f:selectItem itemLabel="Sdraie" itemValue="" />
-					<f:selectItems value="#{numeroAccessori}" />
-				</h:selectOneMenu>
-			</p>
-
-			<p>
-				<h:outputLabel for="lettini" value="Nro lettini:" />
-				<h:selectOneMenu id="lettini"
-					value="#{prenotazioniController.ricerca.numeroLettini}">
-					<f:selectItem itemLabel="Lettini" itemValue="" />
-					<f:selectItems value="#{numeroAccessori}" />
-				</h:selectOneMenu>
-			</p>
-
-			<p>
-				<h:outputLabel for="cabine" value="Nro Cabine:" />
-				<h:selectOneMenu id="cabine"
-					value="#{prenotazioniController.ricerca.numeroCabine}">
-					<f:selectItem itemLabel="Cabine" itemValue="" />
-					<f:selectItems value="#{numeroAccessori}" />
-				</h:selectOneMenu>
-			</p>
+					<h:outputLabel for="ombrelloni" value="Ombrellone:" />
+					<p:selectOneMenu id="ombrelloni"
+						value="#{prenotazioniController.ricerca.numero}">
+						<f:selectItems value="#{ombrelloniItems}" />
+					</p:selectOneMenu>
 
 
-			<p>
-				<h:commandButton id="addCliente"
-					action="#{prenotazioniController.calcolaPrezzo}"
+					<h:outputLabel for="sdraie" value="Nro sdraie:" />
+					<p:selectOneMenu id="sdraie"
+						value="#{prenotazioniController.ricerca.numeroSdraie}">
+						<f:selectItems value="#{numeroAccessori}" />
+					</p:selectOneMenu>
+
+					<h:outputLabel for="lettini" value="Nro lettini:" />
+					<p:selectOneMenu id="lettini"
+						value="#{prenotazioniController.ricerca.numeroLettini}">
+						<f:selectItems value="#{numeroAccessori}" />
+					</p:selectOneMenu>
+
+					<h:outputLabel for="cabine" value="Nro Cabine:" />
+					<p:selectOneMenu id="cabine"
+						value="#{prenotazioniController.ricerca.numeroCabine}">
+						<f:selectItems value="#{numeroAccessori}" />
+					</p:selectOneMenu>
+					<h:outputLabel for="sedie" value="Nro Sedie:" />
+					<p:selectOneMenu id="sedie"
+						value="#{prenotazioniController.ricerca.numeroSedie}">
+						<f:selectItems value="#{numeroAccessori}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+			</p:panel>
+
+			<br />
+
+			<p:panel style="width: 95%;">
+				<p:commandButton action="#{prenotazioniController.calcolaPrezzo}"
 					value="calcola prezzo" />
-			</p>
+			</p:panel>
+
+			<b>qui dovrebbero comparire gli ombrelloni nel periodo
+				selezionato</b>
 		</h:form>
 
 	</ui:define>

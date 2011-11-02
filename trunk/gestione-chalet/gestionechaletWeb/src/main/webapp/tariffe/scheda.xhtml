@@ -13,33 +13,31 @@
 	<ui:define name="content">
 		<h1>Scheda Tariffa</h1>
 		<h:form id="bv">
-			<p>
-				<h:outputLabel for="nome" value="Nome Tariffa:" />
-				<h:outputText id="nome" value="#{tariffeController.element.nome}" />
-			</p>
-			<p>
-				<h:outputLabel for="serviceName" value="Servizio:" />
-				<h:outputText id="serviceName"
-					value="#{tariffeController.element.serviceName}" />
-			</p>
+			<p:panel style="width: 95%;">
+				<h:panelGrid columns="4" style="width: 95%;">
+					<h:outputLabel for="nome" value="Nome Tariffa:" />
+					<h:outputText id="nome" value="#{tariffeController.element.nome}" />
 
-			<p>
-				<h:outputLabel for="dataDal" value="Dal:" />
-				<h:outputText id="dataDal" value="#{tariffeController.element.dal}">
-					<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
-						locale="it" />
-				</h:outputText>
-			</p>
+					<h:outputLabel for="serviceName" value="Servizio:" />
+					<h:outputText id="serviceName"
+						value="#{tariffeController.element.serviceName}" />
 
-			<p>
-				<h:outputLabel for="dataAl" value="Al:" />
-				<h:outputText id="dataAl" value="#{tariffeController.element.al}">
-					<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
-						locale="it" />
-				</h:outputText>
-			</p>
-			<p>
-				<p:dataTable var="costo" id="filaTb" rows="10"
+					<h:outputLabel for="dataDal" value="Dal:" />
+					<h:outputText id="dataDal" value="#{tariffeController.element.dal}">
+						<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
+							locale="it" />
+					</h:outputText>
+
+					<h:outputLabel for="dataAl" value="Al:" />
+					<h:outputText id="dataAl" value="#{tariffeController.element.al}">
+						<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
+							locale="it" />
+					</h:outputText>
+				</h:panelGrid>
+			</p:panel>
+			<br />
+			<p:panel style="width: 95%;">
+				<p:dataTable var="costo" id="filaTb"
 					value="#{tariffeController.element.costiValues}">
 					<p:column>
 						<f:facet name="header">
@@ -54,7 +52,7 @@
 						<h:outputText value="#{costo.prezzo}" />
 					</p:column>
 				</p:dataTable>
-			</p>
+			</p:panel>
 
 		</h:form>
 

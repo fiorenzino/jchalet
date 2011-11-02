@@ -15,43 +15,48 @@
 	<ui:define name="content">
 		<h1>Scheda Configurazione</h1>
 		<h:form id="bv">
-			<h:outputLabel value="id:" for="id" />
-			<h:outputText id="id" value="#{configurazioneController.element.id}" />
-			<br />
-			<h:outputLabel value="data creazione:" for="dataCreazione" />
-			<h:outputText id="dataCreazione"
-				value="#{configurazioneController.element.dataCreazione}">
-				<f:convertDateTime timeZone="Europe/Rome" pattern="dd/MM/yyyy" />
-			</h:outputText>
-			<br />
-			<h:outputLabel value="numero Colonne:" for="numeroColonne" />
-			<h:outputText id="numeroColonne"
-				value="#{configurazioneController.element.numeroColonne}" />
-			<br />
-			<h:outputLabel value="numero Righe:" for="numeroRighe" />
-			<h:outputText id="numeroRighe"
-				value="#{configurazioneController.element.numeroRighe}" />
-			<br />
-			<h:outputLabel value="numero File:" for="numeroFile" />
-			<h:outputText id="numeroFile"
-				value="#{configurazioneController.element.numeroFile}" />
-			<br />
-			<h:outputLabel value="numero Sdraio:" for="numeroSdraio" />
-			<h:outputText id="numeroSdraio"
-				value="#{configurazioneController.element.numeroSdraio}" />
-			<br />
-			<h:outputLabel value="numero Lettini:" for="numeroLettini" />
-			<h:outputText id="numeroLettini"
-				value="#{configurazioneController.element.numeroLettini}" />
-			<br />
-			<h:outputLabel value="numero Cabine:" for="numeroCabine" />
-			<h:outputText id="numeroCabine"
-				value="#{configurazioneController.element.numeroCabine}" />
-			<br />
-			<h:outputLabel value="numero sedie regista:" for="numeroSedieRegista" />
-			<h:outputText id="numeroSedieRegista"
-				value="#{configurazioneController.element.numeroSedieRegista}" />
+			<p:panel style="width: 95%;">
+				<h:panelGrid columns="4" style="width: 95%;">
+					<h:outputLabel value="id:" for="id" />
+					<h:outputText id="id"
+						value="#{configurazioneController.element.id}" />
 
+					<h:outputLabel value="data creazione:" for="dataCreazione" />
+					<h:outputText id="dataCreazione"
+						value="#{configurazioneController.element.dataCreazione}">
+						<f:convertDateTime timeZone="Europe/Rome" pattern="dd/MM/yyyy" />
+					</h:outputText>
+
+					<h:outputLabel value="numero Colonne:" for="numeroColonne" />
+					<h:outputText id="numeroColonne"
+						value="#{configurazioneController.element.numeroColonne}" />
+
+					<h:outputLabel value="numero Righe:" for="numeroRighe" />
+					<h:outputText id="numeroRighe"
+						value="#{configurazioneController.element.numeroRighe}" />
+
+					<h:outputLabel value="numero File:" for="numeroFile" />
+					<h:outputText id="numeroFile"
+						value="#{configurazioneController.element.numeroFile}" />
+
+					<h:outputLabel value="numero Sdraio:" for="numeroSdraio" />
+					<h:outputText id="numeroSdraio"
+						value="#{configurazioneController.element.numeroSdraio}" />
+
+					<h:outputLabel value="numero Lettini:" for="numeroLettini" />
+					<h:outputText id="numeroLettini"
+						value="#{configurazioneController.element.numeroLettini}" />
+
+					<h:outputLabel value="numero Cabine:" for="numeroCabine" />
+					<h:outputText id="numeroCabine"
+						value="#{configurazioneController.element.numeroCabine}" />
+
+					<h:outputLabel value="numero sedie regista:"
+						for="numeroSedieRegista" />
+					<h:outputText id="numeroSedieRegista"
+						value="#{configurazioneController.element.numeroSedieRegista}" />
+				</h:panelGrid>
+			</p:panel>
 			<br />
 			<h:commandLink value="vedi disposizione ombrelloni"
 				action="#{configurazioneController.vediConfigurazioneOmbrelloni}" />

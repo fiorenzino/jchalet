@@ -13,8 +13,24 @@
 	<ui:define name="content">
 		<h1>Lista Tariffe</h1>
 		<h:form id="bv">
-			<p:dataTable var="tariffa" value="#{tariffeController.model}"
-				paginator="true" rows="10" dynamic="true" lazy="true">
+			<p:panel style="width: 95%;">
+				<h:panelGrid columns="6">
+					<h:outputLabel for="nome" value="Tipo Servizio:" />
+					<h:selectOneMenu id="nome"
+						value="#{tariffeController.search.obj.serviceName}"
+						required="true">
+						<f:selectItems value="#{serviziNames}" />
+					</h:selectOneMenu>
+					<p:commandButton actionListener="#{tariffeController.reloadAjax}"
+						value="Cerca" ajax="true" immediate="false" update="lista" />
+					<p:commandButton action="#{tariffeController.reset}"
+						value="Annulla" ajax="false" immediate="true" />
+				</h:panelGrid>
+			</p:panel>
+			<br />
+			<p:dataTable id="lista" var="tariffa"
+				value="#{tariffeController.model}" paginator="true" rows="10"
+				dynamic="true" lazy="true" style="width: 95%;">
 
 				<p:column>
 					<f:facet name="header">

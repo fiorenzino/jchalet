@@ -1,0 +1,97 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:coop="http://www.coopservice.it/commons2/taglib"
+	xmlns:perm="http://www.coopservice.it/commons2/permissions"
+	xmlns:form="http://www.coopservice.it/commons2/form"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">Lista Configurazioni</ui:define>
+
+	<ui:define name="content">
+		<h1>Lista Configurazioni</h1>
+		<h:form>
+			<p:dataTable var="configurazione"
+				value="#{configurazioneController.model}" paginator="true"
+				paginatorPosition="bottom" rows="10" dynamic="true" lazy="true"
+				style="width: 95%;">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="id" />
+					</f:facet>
+					<h:outputText value="#{configurazione.id}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="nome" />
+					</f:facet>
+					<h:outputText value="#{configurazione.nome}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="attuale" />
+					</f:facet>
+					<h:outputText value="SI" rendered="#{configurazione.attuale}" />
+					<h:outputText value="NO" rendered="#{not configurazione.attuale}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="dataCreazione" />
+					</f:facet>
+					<h:outputText value="#{configurazione.dataCreazione}">
+						<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
+							locale="it" />
+					</h:outputText>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="numeroSdraio" />
+					</f:facet>
+					<h:outputText value="#{configurazione.numeroSdraio}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="numeroLettini" />
+					</f:facet>
+					<h:outputText value="#{configurazione.numeroLettini}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="numeroCabine" />
+					</f:facet>
+					<h:outputText value="#{configurazione.numeroCabine}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="numeroSedieRegista" />
+					</f:facet>
+					<h:outputText value="#{configurazione.numeroSedieRegista}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="operazioni" />
+					</f:facet>
+					<h:commandLink action="#{configurazioneController.modElement}">
+						<h:graphicImage alt="modifica" title="modifica"
+							library="images/form" name="edit.gif" style="border: none;" />
+					</h:commandLink>
+
+					<h:commandLink action="#{configurazioneController.viewElement}">
+						<h:graphicImage alt="vedi" title="vedi" library="images/form"
+							name="view.gif" style="border: none;" />
+					</h:commandLink>
+
+				</p:column>
+			</p:dataTable>
+			<p>
+				<h:commandLink action="#{configurazioneController.addNew}"
+					value="aggiungi nuova" />
+			</p>
+		</h:form>
+	</ui:define>
+</ui:composition>

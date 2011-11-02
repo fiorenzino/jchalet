@@ -41,5 +41,13 @@
 
 			<p:menuitem value="Esci" url="/logout.jsp" style="float:right;" />
 		</p:menubar>
+		<p:ajaxStatus>
+			<f:facet name="start">
+				<h:graphicImage library="images" name="ajaxloading.gif" />
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
 	</h:form>
 </ui:composition>

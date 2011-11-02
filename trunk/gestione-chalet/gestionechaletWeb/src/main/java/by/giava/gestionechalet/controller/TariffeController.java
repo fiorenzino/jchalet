@@ -51,38 +51,58 @@ public class TariffeController extends AbstractLazyController<Tariffa> {
 		setElement(new Tariffa());
 		getElement().setDal(new Date());
 		getElement().setAl(new Date());
-		return STEP1 + "?faces-redirect=true";
+		return STEP1 + REDIRECT_PARAM;
 	}
 
 	public String step2() {
-		if (getElement().getId() != null) {
-			getElement().setCosti(null);
+		if (getElement().getId() == null) {
+			// getElement().setCosti(null);
+			// provo ad aggiungere quello che non c'è
+			CalendarUtils cal = new CalendarUtils(getElement().getDal()
+					.getTime());
+			Calendar calen = Calendar.getInstance();
+			calen.setTime(getElement().getAl());
+			Long num = cal.diffDay(calen);
+			for (int i = 1; i <= num; i++) {
+				Costo costo = new Costo();
+				costo.setGiorno(new Long(i));
+				getElement().addCosto(new Long(i), costo);
+			}
+		} else {
+			logger.info("dal: " + getElement().getDal() + " - "
+					+ getElement().getAl());
+			logger.info("DIFF OLD: "
+					+ TimeUtil.getDiffDays(getElement().getDal(), getElement()
+							.getAl()));
+			CalendarUtils cal = new CalendarUtils(getElement().getDal()
+					.getTime());
+			Calendar calen = Calendar.getInstance();
+			calen.setTime(getElement().getAl());
+			Long num = cal.diffDay(calen);
+			logger.info("DIFF NEW: " + num);
+			for (int i = 1; i <= num; i++) {
+				if (getElement().containsCosto(new Long(i))) {
+					logger.info("esiste gia la tariffa");
+				} else {
+					Costo costo = new Costo();
+					costo.setGiorno(new Long(i));
+					getElement().addCosto(new Long(i), costo);
+				}
+			}
 		}
-		logger.info("dal: " + getElement().getDal() + " - "
-				+ getElement().getAl());
-		logger.info("DIFF OLD: "
-				+ TimeUtil.getDiffDays(getElement().getDal(), getElement()
-						.getAl()));
-		CalendarUtils cal = new CalendarUtils(getElement().getDal().getTime());
-		Calendar calen = Calendar.getInstance();
-		calen.setTime(getElement().getAl());
-		Long num = cal.diffDay(calen);
-		logger.info("DIFF NEW: " + num);
-		for (int i = 1; i <= num; i++) {
-			Costo costo = new Costo();
-			costo.setGiorno(new Long(i));
-			getElement().addCosto(new Long(i), costo);
-		}
-		return STEP2 + "?faces-redirect=true";
+
+		return STEP2 + REDIRECT_PARAM;
 	}
 
 	public String step3() {
 		// peristo la tariffa coi costi
-		if (getElement().getId() != null)
+		if (getElement().getId() == null) {
 			save();
-		else
+			logger.info("tariffa creata!");
+		} else {
 			update();
-		logger.info("tariffa creata!");
+			logger.info("tariffa aggiornata!");
+		}
 		return viewPage();
 	}
 
@@ -96,7 +116,12 @@ public class TariffeController extends AbstractLazyController<Tariffa> {
 	public String modElement() {
 		// TODO Auto-generated method stub
 		super.modElement();
-		return STEP1 + "?faces-redirect=true";
+		return STEP1 + REDIRECT_PARAM;
+	}
+
+	public String view(Long id) {
+		setElement(tariffeRepository.fetch(id));
+		return VIEW + REDIRECT_PARAM;
 	}
 
 }
