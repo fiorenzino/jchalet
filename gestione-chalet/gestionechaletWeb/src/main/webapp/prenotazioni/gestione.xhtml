@@ -91,14 +91,10 @@
 								rendered="#{false and not empty prenotazione[colIndex].numero and (colIndex != 0)}"
 								style="font-weight: bold; " />
 
-							<p:commandButton id="ind"
-								value="#{prenotazioniController.righe[rowIndex]}"
-								rendered="#{colIndex == 0}" update=":bv:servx" ajax="false"
-								immediate="false">
-								<f:setPropertyActionListener
-									value="#{prenotazioniController.righe[rowIndex]}"
-									target="#{prenotazioniController.prop}" />
-							</p:commandButton>
+							<p:commandButton
+								action="#{prenotazioniController.aggiungiServizio(prenotazione[colIndex].numero, 'SDR')}"
+								value="aggiungi sdraio" ajax="true" immediate="false"
+								update="servx" rendered="#{colIndex != 0}" />
 						</div>
 					</p:columns>
 				</p:dataTable>
