@@ -21,20 +21,39 @@ public class OmbrelloniRepository extends BaseRepository<Ombrellone> {
 
 	@Override
 	protected String getDefaultOrderBy() {
-		return "numero";
+		return "numero asc";
 	}
 
 	public List<Ombrellone> getOmbrelloni(String fila) {
 		List<Ombrellone> result = new ArrayList<Ombrellone>();
+		String query = "select t from Ombrellone t where t.fila = :FILA order by t.numero asc";
+		if (fila == null || fila.isEmpty()) {
+			query = "select t from Ombrellone t order by t.numero asc";
+		}
 		try {
-			result = em
-					.createQuery(
-							"select t from Ombrellone t where t.fila = :FILA order by t.numero")
-					.setParameter("FILA", fila).getResultList();
+			Query queryR = em.createQuery(query);
+			if (fila != null && !fila.isEmpty()) {
+				queryR.setParameter("FILA", fila);
+			}
+			result = queryR.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	public Ombrellone findByFilaNumero(String fila, String numero) {
+		Ombrellone ombrellone = null;
+		try {
+			ombrellone = (Ombrellone) em
+					.createQuery(
+							"select t from Ombrellone t where t.fila = :FILA and t.numero= :NUMERO")
+					.setParameter("FILA", fila).setParameter("NUMERO", numero)
+					.getSingleResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ombrellone;
 	}
 
 	@Override
@@ -82,11 +101,23 @@ public class OmbrelloniRepository extends BaseRepository<Ombrellone> {
 		}
 
 		// fila
-		if (search.getObj().getFila() != null) {
+		if (search.getObj().getFila() != null
+				&& !search.getObj().getFila().isEmpty()) {
 			sb.append(separator).append(" ").append(alias)
 					.append(".fila = :fila ");
 			// aggiunta alla mappa
 			params.put("fila", search.getObj().getFila());
+			// separatore
+			separator = " and ";
+		}
+
+		// numero
+		if (search.getObj().getNumero() != null
+				&& !search.getObj().getNumero().isEmpty()) {
+			sb.append(separator).append(" ").append(alias)
+					.append(".numero = :numero ");
+			// aggiunta alla mappa
+			params.put("numero", search.getObj().getFila());
 			// separatore
 			separator = " and ";
 		}

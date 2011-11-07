@@ -42,7 +42,7 @@ public class ConfigurazioneRepository extends BaseRepository<Configurazione> {
 		}
 	}
 
-	public Configurazione findLast() {
+	public Configurazione findAttuale() {
 		Configurazione result;
 		try {
 			result = (Configurazione) em

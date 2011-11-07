@@ -1,4 +1,4 @@
-package by.giava.gestionechalet.repository.util;
+package by.giava.gestionechalet.controller.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +8,8 @@ import by.giava.gestionechalet.model.Configurazione;
 import by.giava.gestionechalet.model.servizi.Ombrellone;
 import by.giava.gestionechalet.pojo.Posto;
 
-public class ConfigurazioneUtils {
-	static final Logger logger = Logger.getLogger(ConfigurazioneUtils.class
+public class ConfigurazioniUtils {
+	static final Logger logger = Logger.getLogger(ConfigurazioniUtils.class
 			.getName());
 
 	public static List<Posto[]> creaRighe(List<Ombrellone> ombrelloni,

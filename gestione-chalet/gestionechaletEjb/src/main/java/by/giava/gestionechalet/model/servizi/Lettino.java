@@ -6,6 +6,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import by.giava.gestionechalet.enums.ServiceEnum;
 import by.giava.gestionechalet.model.Servizio;
 
 @Entity
@@ -13,10 +14,10 @@ import by.giava.gestionechalet.model.Servizio;
 @DiscriminatorValue(value = "LET")
 public class Lettino extends Servizio implements Serializable {
 
-	public static final String TIPO = "LET";
+	// public static final String TIPO = "LET";
 	private static final long serialVersionUID = 1L;
 
 	public Lettino() {
-		super.setTipo(TIPO);
+		super.setTipo(ServiceEnum.LET);
 	}
 }

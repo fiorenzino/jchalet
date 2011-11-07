@@ -6,6 +6,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import by.giava.gestionechalet.enums.ServiceEnum;
 import by.giava.gestionechalet.model.Servizio;
 
 @Entity
@@ -17,6 +18,6 @@ public class Sdraio extends Servizio implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public Sdraio() {
-		super.setTipo(TIPO);
+		super.setTipo(ServiceEnum.SDR);
 	}
 }

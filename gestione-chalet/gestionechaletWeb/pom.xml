@@ -52,27 +52,12 @@
 			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<!-- Richfaces 4 -->
-		<dependency>
-			<groupId>org.richfaces.core</groupId>
-			<artifactId>richfaces-core-api</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.richfaces.ui</groupId>
-			<artifactId>richfaces-components-api</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.richfaces.ui</groupId>
-			<artifactId>richfaces-components-ui</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.richfaces.core</groupId>
-			<artifactId>richfaces-core-impl</artifactId>
-			<scope>compile</scope>
-		</dependency>
+		<!-- Richfaces 4 <dependency> <groupId>org.richfaces.core</groupId> <artifactId>richfaces-core-api</artifactId> 
+			<scope>compile</scope> </dependency> <dependency> <groupId>org.richfaces.ui</groupId> 
+			<artifactId>richfaces-components-api</artifactId> <scope>compile</scope> 
+			</dependency> <dependency> <groupId>org.richfaces.ui</groupId> <artifactId>richfaces-components-ui</artifactId> 
+			<scope>compile</scope> </dependency> <dependency> <groupId>org.richfaces.core</groupId> 
+			<artifactId>richfaces-core-impl</artifactId> <scope>compile</scope> </dependency> -->
 		<!-- Prime faces 2 -->
 		<dependency>
 			<groupId>org.primefaces</groupId>
@@ -80,18 +65,10 @@
 			<version>${primefaces.version}</version>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.primefaces.themes</groupId>
-			<artifactId>aristo</artifactId>
-			<version>1.0.1</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.primefaces.themes</groupId>
-			<artifactId>bluesky</artifactId>
-			<version>1.0.1</version>
-			<scope>compile</scope>
-		</dependency>
+		<!-- <dependency> <groupId>org.primefaces.themes</groupId> <artifactId>aristo</artifactId> 
+			<version>1.0.2</version> <scope>compile</scope> </dependency> <dependency> 
+			<groupId>org.primefaces.themes</groupId> <artifactId>bluesky</artifactId> 
+			<version>1.0.2</version> <scope>compile</scope> </dependency> -->
 		<!-- Current project stuff -->
 		<dependency>
 			<groupId>by.giava.chalet</groupId>
