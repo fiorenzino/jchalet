@@ -8,6 +8,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +21,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.ManyToAny;
 
+import by.giava.gestionechalet.enums.ServiceEnum;
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(columnDefinition = "tipo", name = "TIPO", discriminatorType = DiscriminatorType.STRING, length = 3)
@@ -26,10 +30,10 @@ import org.hibernate.annotations.ManyToAny;
 public class Servizio implements Serializable {
 
 	private Long id;
-	private String tipo;
+	private ServiceEnum tipo;
 	private String numero;
 	private List<Tariffa> tariffe;
-	private boolean attivo= true;
+	private boolean attivo = true;
 	private Configurazione configurazione;
 
 	@Id
@@ -42,11 +46,12 @@ public class Servizio implements Serializable {
 		this.id = id;
 	}
 
-	public String getTipo() {
+	@Enumerated(EnumType.STRING)
+	public ServiceEnum getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(String tipo) {
+	public void setTipo(ServiceEnum tipo) {
 		this.tipo = tipo;
 	}
 
@@ -88,6 +93,43 @@ public class Servizio implements Serializable {
 
 	public void setConfigurazione(Configurazione configurazione) {
 		this.configurazione = configurazione;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((numero == null) ? 0 : numero.hashCode());
+		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Servizio other = (Servizio) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (numero == null) {
+			if (other.numero != null)
+				return false;
+		} else if (!numero.equals(other.numero))
+			return false;
+		if (tipo == null) {
+			if (other.tipo != null)
+				return false;
+		} else if (!tipo.equals(other.tipo))
+			return false;
+		return true;
 	}
 
 }

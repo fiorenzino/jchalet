@@ -10,6 +10,7 @@ public class Posto implements Serializable {
 	private String numero;
 	private String fila;
 	private String descrizione;
+	private boolean occupato;
 
 	public Posto() {
 		// TODO Auto-generated constructor stub
@@ -61,5 +62,13 @@ public class Posto implements Serializable {
 
 	public void setFila(String fila) {
 		this.fila = fila;
+	}
+
+	public boolean isOccupato() {
+		return occupato;
+	}
+
+	public void setOccupato(boolean occupato) {
+		this.occupato = occupato;
 	}
 }

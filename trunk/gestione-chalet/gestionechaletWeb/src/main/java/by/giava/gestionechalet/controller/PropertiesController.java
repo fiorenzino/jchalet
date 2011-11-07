@@ -1,10 +1,12 @@
 package by.giava.gestionechalet.controller;
 
 import it.coopservice.commons2.domain.Search;
-import it.coopservice.commons2.repository.AbstractRepository;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +15,6 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
-import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,7 +24,9 @@ import by.giava.gestionechalet.model.Cliente;
 import by.giava.gestionechalet.model.Configurazione;
 import by.giava.gestionechalet.model.servizi.Ombrellone;
 import by.giava.gestionechalet.repository.ClientiRepository;
+import by.giava.gestionechalet.repository.ConfigurazioneRepository;
 import by.giava.gestionechalet.repository.OmbrelloniRepository;
+import by.giava.gestionechalet.repository.util.AlphanumComparator;
 
 @Named
 @SessionScoped
@@ -48,10 +51,24 @@ public class PropertiesController implements Serializable {
 	ConfigurazioneController configurazioneController;
 
 	@Inject
+	ConfigurazioneRepository configurazioneRepository;
+
+	@Inject
 	PrenotazioniController prenotazioniController;
 
 	@Inject
 	OmbrelloniRepository ombrelloniRepository;
+
+	private final Comparator<SelectItem> SELECT_ITEMS = new Comparator<SelectItem>() {
+		public int compare(SelectItem o1, SelectItem o2) {
+			Comparator<Object> comparator = new AlphanumComparator();
+			if (o1 == null || o1.getValue() == null)
+				return Integer.MIN_VALUE;
+			else
+				return comparator.compare(o1.getLabel().toUpperCase(), o2
+						.getLabel().toUpperCase());
+		}
+	};
 
 	@PostConstruct
 	public void reset() {
@@ -72,6 +89,7 @@ public class PropertiesController implements Serializable {
 			for (Cliente c : clienteRepository.getAllList()) {
 				si.add(new SelectItem(c.getId(), c.getCognome()));
 			}
+			Collections.sort(si, SELECT_ITEMS);
 			items.put(Cliente.class, si.toArray(new SelectItem[] {}));
 		}
 		return items.get(Cliente.class);
@@ -118,7 +136,9 @@ public class PropertiesController implements Serializable {
 						.toUpperCase(), service.name());
 				i++;
 			}
+			Arrays.sort(serviziNames, SELECT_ITEMS);
 		}
+
 		return serviziNames;
 	}
 
@@ -133,6 +153,7 @@ public class PropertiesController implements Serializable {
 				int num = i + 1;
 				fileItems[i] = new SelectItem(num, num + "");
 			}
+			Arrays.sort(fileItems, SELECT_ITEMS);
 		}
 		return fileItems;
 	}
@@ -146,21 +167,28 @@ public class PropertiesController implements Serializable {
 
 	public void cambioFila() {
 		logger.info("cambio fila");
-		Integer fila = prenotazioniController.getRicerca().getFila();
-		Configurazione config = configurazioneController.getElement();
-		Ombrellone ombrelloneS = new Ombrellone();
-		ombrelloneS.setFila("" + fila);
-		ombrelloneS.setConfigurazione(config);
-		Search<Ombrellone> search = new Search<Ombrellone>(ombrelloneS);
+		caricaOmbrelloni("" + prenotazioniController.getRicerca().getFila());
+	}
+
+	private void caricaOmbrelloni(String fila) {
+		Search<Ombrellone> search = new Search<Ombrellone>(new Ombrellone(fila,
+				configurazioneController.getActual()));
 		List<Ombrellone> ombrelloni = ombrelloniRepository
 				.getList(search, 0, 0);
-		ombrelloniItems = new SelectItem[ombrelloni.size()];
-		int i = 0;
+		ombrelloniItems = new SelectItem[ombrelloni.size() + 1];
+		int i = 1;
 		System.out.println("ombrelloni: " + ombrelloni.size());
 		for (Ombrellone ombrellone : ombrelloni) {
 			ombrelloniItems[i] = new SelectItem(ombrellone.getNumero(),
 					ombrellone.getNumero());
 			i++;
 		}
+		Arrays.sort(ombrelloniItems, SELECT_ITEMS);
+		ombrelloniItems[0] = new SelectItem("", "tutti");
+	}
+
+	public void cambioFilaPrenotazione() {
+		logger.info("cambio fila per prenotazioni");
+		caricaOmbrelloni(prenotazioniController.getSearch().getObj().getFila());
 	}
 }

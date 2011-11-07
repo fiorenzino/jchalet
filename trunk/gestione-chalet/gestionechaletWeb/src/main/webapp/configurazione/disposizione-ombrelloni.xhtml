@@ -5,10 +5,7 @@
 	xmlns:coop="http://www.coopservice.it/commons2/taglib"
 	xmlns:perm="http://www.coopservice.it/commons2/permissions"
 	xmlns:form="http://www.coopservice.it/commons2/form"
-	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich"
-	xmlns:p="http://primefaces.prime.com.tr/ui"
-	template="/WEB-INF/layout/t.xhtml">
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">Disposizione Ombrelloni</ui:define>
 
@@ -25,7 +22,14 @@
 					<div style="text-align: center;">
 						<h:outputText value="#{posto[colIndex].descrizione}"
 							rendered="false" />
-						<h:outputText value="#{posto[colIndex].numero} #{posto[colIndex].fila}"
+						<h:graphicImage library="images" name="red.png"
+							style="border: none; width: 10px; height: 10px;"
+							rendered="#{not empty posto[colIndex].numero}" />
+						<h:graphicImage library="images" name="green.png"
+							style="border: none; width: 10px; height: 10px;"
+							rendered="#{empty posto[colIndex].numero}" />
+						<h:outputText
+							value="#{posto[colIndex].numero} #{posto[colIndex].fila}"
 							rendered="#{not empty posto[colIndex].numero}"
 							style="font-weight: bold; " />
 					</div>

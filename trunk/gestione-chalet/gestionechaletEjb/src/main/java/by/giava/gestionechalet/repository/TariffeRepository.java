@@ -15,6 +15,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.persistence.Query;
 
+import by.giava.gestionechalet.enums.ServiceEnum;
 import by.giava.gestionechalet.model.Configurazione;
 import by.giava.gestionechalet.model.Costo;
 import by.giava.gestionechalet.model.Tariffa;
@@ -57,11 +58,11 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public List<Preventivo> getTariffeInPeriod(Date start, Date stop,
-			Map<String, Long> servizi) {
+			Map<ServiceEnum, Long> servizi) {
 		List<Preventivo> result = new ArrayList<Preventivo>();
 		StringBuffer serviziS = new StringBuffer("");
-		for (String name : servizi.keySet()) {
-			serviziS.append(",'").append(name).append("'");
+		for (ServiceEnum service : servizi.keySet()) {
+			serviziS.append(",'").append(service.name()).append("'");
 		}
 		try {
 			List<Tariffa> resultP = (List<Tariffa>) em
@@ -74,7 +75,8 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 			for (Tariffa tariffa : resultP) {
 				// if (servizi.containsKey(tariffa.getServiceName())) {
 				Preventivo pre = Tariffeutils.getPrenotazione(tariffa, start,
-						stop, servizi.get(tariffa.getServiceName()));
+						stop, servizi.get(ServiceEnum.valueOf(tariffa
+								.getServiceName())));
 				result.add(pre);
 				// }
 
@@ -118,7 +120,8 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 				tariffa.addCosto(costo.getGiorno(), costo);
 			}
 			// qui va presa la configurazione corrispondente
-			Configurazione configurazione = configurazioneRepository.findLast();
+			Configurazione configurazione = configurazioneRepository
+					.findAttuale();
 
 			switch (tariffa.getServiceType()) {
 			case 1:

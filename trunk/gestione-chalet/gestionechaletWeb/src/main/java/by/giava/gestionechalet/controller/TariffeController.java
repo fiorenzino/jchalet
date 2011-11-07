@@ -6,7 +6,6 @@ import it.coopservice.commons2.annotations.OwnRepository;
 import it.coopservice.commons2.annotations.ViewPage;
 import it.coopservice.commons2.controllers.AbstractLazyController;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.enterprise.context.SessionScoped;
@@ -16,7 +15,6 @@ import javax.inject.Named;
 import by.giava.gestionechalet.model.Costo;
 import by.giava.gestionechalet.model.Tariffa;
 import by.giava.gestionechalet.repository.TariffeRepository;
-import by.giava.gestionechalet.repository.util.CalendarUtils;
 import by.giava.gestionechalet.repository.util.TimeUtil;
 
 @Named
@@ -58,11 +56,8 @@ public class TariffeController extends AbstractLazyController<Tariffa> {
 		if (getElement().getId() == null) {
 			// getElement().setCosti(null);
 			// provo ad aggiungere quello che non c'è
-			CalendarUtils cal = new CalendarUtils(getElement().getDal()
-					.getTime());
-			Calendar calen = Calendar.getInstance();
-			calen.setTime(getElement().getAl());
-			Long num = cal.diffDay(calen);
+			Long num = TimeUtil.getDiffDays(getElement().getAl(), getElement()
+					.getDal());
 			for (int i = 1; i <= num; i++) {
 				Costo costo = new Costo();
 				costo.setGiorno(new Long(i));
@@ -74,11 +69,8 @@ public class TariffeController extends AbstractLazyController<Tariffa> {
 			logger.info("DIFF OLD: "
 					+ TimeUtil.getDiffDays(getElement().getDal(), getElement()
 							.getAl()));
-			CalendarUtils cal = new CalendarUtils(getElement().getDal()
-					.getTime());
-			Calendar calen = Calendar.getInstance();
-			calen.setTime(getElement().getAl());
-			Long num = cal.diffDay(calen);
+			Long num = TimeUtil.getDiffDays(getElement().getAl(), getElement()
+					.getDal());
 			logger.info("DIFF NEW: " + num);
 			for (int i = 1; i <= num; i++) {
 				if (getElement().containsCosto(new Long(i))) {

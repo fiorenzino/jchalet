@@ -7,7 +7,6 @@ import it.coopservice.commons2.annotations.ViewPage;
 import it.coopservice.commons2.controllers.AbstractLazyController;
 import it.coopservice.commons2.domain.Search;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,8 +14,8 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import by.giava.gestionechalet.controller.util.ConfigurazioniUtils;
 import by.giava.gestionechalet.model.Configurazione;
-import by.giava.gestionechalet.model.FilaOmbrelloni;
 import by.giava.gestionechalet.model.Tariffa;
 import by.giava.gestionechalet.model.servizi.Cabina;
 import by.giava.gestionechalet.model.servizi.Lettino;
@@ -32,7 +31,6 @@ import by.giava.gestionechalet.repository.OmbrelloniRepository;
 import by.giava.gestionechalet.repository.SdraieRepository;
 import by.giava.gestionechalet.repository.SedieRegistaRepository;
 import by.giava.gestionechalet.repository.ServiziRepository;
-import by.giava.gestionechalet.repository.util.ConfigurazioneUtils;
 
 @Named
 @SessionScoped
@@ -81,6 +79,8 @@ public class ConfigurazioneController extends
 	@Inject
 	ServiziRepository serviziRepository;
 
+	private Configurazione actual;
+
 	private Tariffa tariffa;
 
 	private List<Ombrellone> ombrelloni;
@@ -111,15 +111,15 @@ public class ConfigurazioneController extends
 		// this.colonne = ConfigurazioneUtils.creaColonne(getElement());
 		// this.ombrelloni = new ArrayList<Ombrellone>();
 		if (newOrUpdate) {
-			this.postiList = ConfigurazioneUtils
+			this.postiList = ConfigurazioniUtils
 					.creaPostiSenzaNumero(getElement());
 		} else {
-			this.colonne = ConfigurazioneUtils.creaColonne(getElement());
+			this.colonne = ConfigurazioniUtils.creaColonne(getElement());
 			Ombrellone ombrellone = new Ombrellone();
 			ombrellone.setConfigurazione(getElement());
 			Search<Ombrellone> ricerca = new Search<Ombrellone>(ombrellone);
 			this.ombrelloni = ombrelloniRepository.getList(ricerca, 0, 0);
-			this.postiList = ConfigurazioneUtils.creaPostiConNumero(ombrelloni,
+			this.postiList = ConfigurazioniUtils.creaPostiConNumero(ombrelloni,
 					getElement());
 		}
 
@@ -197,7 +197,7 @@ public class ConfigurazioneController extends
 	}
 
 	public String caricaConfigurazioneAttuale() {
-		setElement(configurazioneRepository.findLast());
+		setElement(configurazioneRepository.findAttuale());
 		return viewPage();
 	}
 
@@ -250,17 +250,17 @@ public class ConfigurazioneController extends
 	}
 
 	public String vediConfigurazioneOmbrelloniAttuale() {
-		caricaConfigurazioneAttuale();
+		// caricaConfigurazioneAttuale();
 		return vediConfigurazioneOmbrelloni();
 	}
 
 	public String vediConfigurazioneOmbrelloni() {
-		this.colonne = ConfigurazioneUtils.creaColonne(getElement());
+		this.colonne = ConfigurazioniUtils.creaColonne(getActual());
 		Ombrellone ombrellone = new Ombrellone();
 		ombrellone.setConfigurazione(getElement());
 		Search<Ombrellone> ricerca = new Search<Ombrellone>(ombrellone);
 		this.ombrelloni = ombrelloniRepository.getList(ricerca, 0, 0);
-		this.posti = ConfigurazioneUtils.creaRighe(ombrelloni, getElement());
+		this.posti = ConfigurazioniUtils.creaRighe(ombrelloni, getActual());
 		return DIPOSIZIONE + REDIRECT_PARAM;
 	}
 
@@ -270,5 +270,15 @@ public class ConfigurazioneController extends
 
 	public void setPostiList(List<Posto> postiList) {
 		this.postiList = postiList;
+	}
+
+	public Configurazione getActual() {
+		if (actual == null)
+			actual = configurazioneRepository.findAttuale();
+		return actual;
+	}
+
+	public void setActual(Configurazione actual) {
+		this.actual = actual;
 	}
 }

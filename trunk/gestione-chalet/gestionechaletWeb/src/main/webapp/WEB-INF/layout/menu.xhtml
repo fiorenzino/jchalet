@@ -3,9 +3,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:perm="http://www.coopservice.it/permissions"
-	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich"
-	xmlns:p="http://primefaces.prime.com.tr/ui">
+	xmlns:p="http://primefaces.org/ui">
 	<h:form id="menu">
 		<p:menubar id="menuBar" style="width: 95%;">
 			<p:menuitem value="Home" url="/" />
@@ -22,9 +20,10 @@
 					action="#{clientiController.addElement}" ajax="false" />
 			</p:submenu>
 			<p:submenu label="Prenotazioni" icon="ui-icon ui-icon-pencil">
-				<p:menuitem value="lista" url="/prenotazioni/" />
-				<p:menuitem value="aggiungi"
-					action="#{prenotazioniController.addElement}" ajax="false" />
+				<p:menuitem value="con ricerca"
+					action="#{prenotazioniController.creaPrenotazione}" ajax="false" />
+				<p:menuitem value="solo preventivo"
+					action="#{prenotazioniController.calcolaPreventivo}" ajax="false" />
 			</p:submenu>
 			<p:submenu label="Contratti" icon="ui-icon ui-icon-pencil">
 				<p:menuitem value="lista" url="/contratti/" />

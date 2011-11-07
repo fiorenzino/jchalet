@@ -2,9 +2,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich"
-	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:coop="http://www.coopservice.it/commons2/taglib"
 	template="/WEB-INF/layout/t.xhtml">
 
@@ -13,70 +11,143 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<h:form id="bv">
+		<p:log />
+		<h:form id="bv" prependId="false">
 			<h2>Gestione Prenotazione</h2>
 			<p:panel style="width: 95%;">
 				<h:panelGrid columns="4">
 					<h:outputLabel for="dal" value="Dal:" />
-					<p:calendar id="dal" value="#{prenotazioniController.ricerca.dal}"
+					<p:calendar id="dal"
+						value="#{prenotazioniController.search.obj.dataDal}"
 						title="Data dal" pattern="dd/MM/yyyy" locale="it" startWeekday="1"
 						showOn="button" />
 
 					<h:outputLabel for="al" value="Al:" />
-					<p:calendar id="al" value="#{prenotazioniController.ricerca.al}"
+					<p:calendar id="al"
+						value="#{prenotazioniController.search.obj.dataAl}"
 						pattern="dd/MM/yyyy" title="Data al" locale="it" startWeekday="1"
 						showOn="button" />
 
 					<h:outputLabel for="fila" value="Fila:" />
 					<p:selectOneMenu id="fila"
-						value="#{prenotazioniController.ricerca.fila}">
+						value="#{prenotazioniController.search.obj.fila}">
 						<f:selectItem itemLabel="Fila" itemValue="" />
 						<f:selectItems value="#{fileItems}" />
-						<p:ajax listener="#{propertiesController.cambioFila}"
+						<p:ajax listener="#{propertiesController.cambioFilaPrenotazione}"
 							update="ombrelloni" />
 					</p:selectOneMenu>
 
 					<h:outputLabel for="ombrelloni" value="Ombrellone:" />
 					<p:selectOneMenu id="ombrelloni"
-						value="#{prenotazioniController.ricerca.numero}">
+						value="#{prenotazioniController.search.obj.numero}">
 						<f:selectItems value="#{ombrelloniItems}" />
 					</p:selectOneMenu>
 
-
-					<h:outputLabel for="sdraie" value="Nro sdraie:" />
-					<p:selectOneMenu id="sdraie"
-						value="#{prenotazioniController.ricerca.numeroSdraie}">
-						<f:selectItems value="#{numeroAccessori}" />
-					</p:selectOneMenu>
-
-					<h:outputLabel for="lettini" value="Nro lettini:" />
-					<p:selectOneMenu id="lettini"
-						value="#{prenotazioniController.ricerca.numeroLettini}">
-						<f:selectItems value="#{numeroAccessori}" />
-					</p:selectOneMenu>
-
-					<h:outputLabel for="cabine" value="Nro Cabine:" />
-					<p:selectOneMenu id="cabine"
-						value="#{prenotazioniController.ricerca.numeroCabine}">
-						<f:selectItems value="#{numeroAccessori}" />
-					</p:selectOneMenu>
-					<h:outputLabel for="sedie" value="Nro Sedie:" />
-					<p:selectOneMenu id="sedie"
-						value="#{prenotazioniController.ricerca.numeroSedie}">
-						<f:selectItems value="#{numeroAccessori}" />
-					</p:selectOneMenu>
 				</h:panelGrid>
 			</p:panel>
 
 			<br />
 
 			<p:panel style="width: 95%;">
-				<p:commandButton action="#{prenotazioniController.calcolaPrezzo}"
-					value="calcola prezzo" />
+				<h:panelGrid columns="2">
+					<p:commandButton
+						action="#{prenotazioniController.ricercaOmbrelloni}"
+						value="cerca ombrelloni" ajax="true" immediate="false"
+						update="prenotazioni" />
+
+					<p:commandButton
+						action="#{prenotazioniController.resetRicercaOmbrelloni}"
+						value="reset" ajax="true" immediate="true" update="prenotazioni" />
+				</h:panelGrid>
+			</p:panel>
+			<br />
+			<p:panel style="width: 95%;" id="prenotazioni"
+				header="risultati della ricerca">
+
+				<p:dataTable var="prenotazione"
+					value="#{prenotazioniController.prenotazioni}"
+					rowIndexVar="rowIndex"
+					emptyMessage="non ci sono ombrelloni liberi.">
+					<p:columns value="#{prenotazioniController.colonne}" var="colonna"
+						columnIndexVar="colIndex">
+						<f:facet name="header">
+                    #{colonna}  
+					</f:facet>
+						<div style="text-align: center;">
+
+							<h:graphicImage library="images" name="red.png"
+								style="border: none; width: 10px; height: 10px;"
+								alt="#{prenotazione[colIndex].numero}"
+								title="#{prenotazione[colIndex].numero}"
+								rendered="#{prenotazione[colIndex].occupato and (colIndex != 0)}" />
+
+							<h:graphicImage library="images" name="green.png"
+								style="border: none; width: 10px; height: 10px;"
+								alt="#{prenotazione[colIndex].numero}"
+								title="#{prenotazione[colIndex].numero}"
+								rendered="#{not prenotazione[colIndex].occupato and (colIndex != 0)}" />
+
+							<h:outputText value="#{prenotazione[colIndex].occupato}"
+								rendered="#{false and not empty prenotazione[colIndex].numero and (colIndex != 0)}"
+								style="font-weight: bold; " />
+
+							<p:commandButton id="ind"
+								value="#{prenotazioniController.righe[rowIndex]}"
+								rendered="#{colIndex == 0}" update=":bv:servx" ajax="false"
+								immediate="false">
+								<f:setPropertyActionListener
+									value="#{prenotazioniController.righe[rowIndex]}"
+									target="#{prenotazioniController.prop}" />
+							</p:commandButton>
+						</div>
+					</p:columns>
+				</p:dataTable>
+				<p:spacer width="100%" height="10px"></p:spacer>
+				<h:panelGrid columns="3">
+					<p:commandButton
+						action="#{prenotazioniController.aggiungiServizio('', 'SDR')}"
+						value="aggiungi sdraio" ajax="true" immediate="false"
+						update="servx" />
+
+					<p:commandButton
+						action="#{prenotazioniController.aggiungiServizio('', 'LET')}"
+						value="aggiungi lettino" ajax="true" immediate="false"
+						update="servx" />
+
+					<p:commandButton
+						action="#{prenotazioniController.aggiungiServizio('', 'SED')}"
+						value="aggiungi sedia" ajax="true" immediate="false"
+						update="servx" />
+
+
+				</h:panelGrid>
 			</p:panel>
 
-			<b>qui dovrebbero comparire gli ombrelloni nel periodo
-				selezionato</b>
+			<br />
+			<p:panel style="width: 95%;" id="servx" header="Servizi selezionati">
+				<p:dataTable var="servizio"
+					value="#{prenotazioniController.servizi}"
+					rowIndexVar="rowIndexServ"
+					emptyMessage="non ci sono servizi selezionati.">
+					<p:column>
+						<f:facet name="header">servizio</f:facet>
+						#{servizio.tipo}
+					</p:column>
+					<p:column>
+						<f:facet name="header">numero</f:facet>
+						#{servizio.numero}
+					</p:column>
+					<p:column>
+						<f:facet name="header">elimina</f:facet>
+						#{rowIndexServ}
+						<p:commandButton process="@this" ajax="true" update=":bv:servx"
+							action="#{prenotazioniController.eliminaServizio(rowIndexServ)}">
+							<h:graphicImage alt="elimina" title="elimina"
+								library="images/form" name="delete.gif" style="border: none;" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
 		</h:form>
 
 	</ui:define>

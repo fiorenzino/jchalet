@@ -17,9 +17,7 @@ public class TimeUtil {
 			cal2.set(Calendar.HOUR_OF_DAY, 23);
 			cal1.set(Calendar.MINUTE, 60);
 			Long numDay = (new Long(cal2.getTimeInMillis()
-					- cal1.getTimeInMillis()) / (new Long(24 * 60 * 60 * 1000))
-
-			);
+					- cal1.getTimeInMillis()) / (new Long(24 * 60 * 60 * 1000)));
 			return numDay;
 		} else {
 			return new Long(0);

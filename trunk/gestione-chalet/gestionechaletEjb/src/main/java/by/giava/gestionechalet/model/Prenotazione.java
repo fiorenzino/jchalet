@@ -25,13 +25,14 @@ public class Prenotazione implements Serializable {
 	private String tipoServizio;
 	private Date dataDal;
 	private Date dataAl;
-	private int numero;
+	private String numero;
 	private int numeroSdraie;
 	private int numeroLettini;
 	private int numeroCabine;
 	private int numeroOmbrelloni;
 	private int numeroSedie;
-	private int fila;
+	private String fila;
+	private boolean occupato;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -115,12 +116,11 @@ public class Prenotazione implements Serializable {
 		this.dataAl = dataAl;
 	}
 
-	@Transient
-	public int getNumero() {
+	public String getNumero() {
 		return numero;
 	}
 
-	public void setNumero(int numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 
@@ -169,12 +169,21 @@ public class Prenotazione implements Serializable {
 		this.numeroSedie = numeroSedie;
 	}
 
-	@Transient
-	public int getFila() {
+	public String getFila() {
 		return fila;
 	}
 
-	public void setFila(int fila) {
+	public void setFila(String fila) {
 		this.fila = fila;
 	}
+
+	@Transient
+	public boolean isOccupato() {
+		return occupato;
+	}
+
+	public void setOccupato(boolean occupato) {
+		this.occupato = occupato;
+	}
+
 }

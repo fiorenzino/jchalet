@@ -2,7 +2,6 @@ package by.giava.gestionechalet.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -10,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,6 +29,7 @@ public class Tariffa implements Serializable {
 	private Date dal;
 	private Date al;
 	private int serviceType;
+	// deve diventare ServiceEnum
 	private String serviceName;
 	private boolean attivo = true;
 
