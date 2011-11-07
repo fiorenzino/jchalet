@@ -94,7 +94,7 @@
 							<p:commandButton
 								action="#{prenotazioniController.aggiungiServizio(prenotazione[colIndex].numero, 'OMB')}"
 								value="aggiungi sdraio" ajax="true" immediate="false"
-								update="servx" rendered="#{colIndex != 0}" />
+								update="servx" rendered="#{colIndex == 0}" />
 						</div>
 					</p:columns>
 				</p:dataTable>
