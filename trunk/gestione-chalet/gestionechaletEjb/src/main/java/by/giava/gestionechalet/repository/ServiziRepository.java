@@ -10,9 +10,9 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 
+import by.giava.gestionechalet.enums.ServiceEnum;
 import by.giava.gestionechalet.model.Configurazione;
 import by.giava.gestionechalet.model.Servizio;
-import by.giava.gestionechalet.model.servizi.Ombrellone;
 
 @Stateless
 @LocalBean
@@ -57,6 +57,16 @@ public class ServiziRepository extends BaseRepository<Servizio> {
 			separator = " and ";
 		}
 
+		// tipoServizio
+		if (search.getObj().getTipo() != null) {
+			sb.append(separator).append(" ").append(alias)
+					.append(".tipo = :tipoServizio ");
+			// aggiunta alla mappa
+			params.put("tipoServizio", search.getObj().getTipo());
+			// separatore
+			separator = " and ";
+		}
+
 		// configurazione
 		if ((search.getObj().getConfigurazione() != null)
 				&& (search.getObj().getConfigurazione().getId() != null)) {
@@ -66,6 +76,24 @@ public class ServiziRepository extends BaseRepository<Servizio> {
 			params.put("configurazioneId", search.getObj().getConfigurazione()
 					.getId());
 			// separatore
+			separator = " and ";
+		}
+
+		// NOT IN IDS
+		if (search.getObj().getNotIn() != null
+				&& search.getObj().getNotIn().size() > 0) {
+			// estrazioen dei campi con cui fare match
+			StringBuffer inValues = new StringBuffer();
+			for (Long notInOne : search.getObj().getNotIn()) {
+				inValues.append(", '" + notInOne + "'");
+			}
+			sb.append(separator)
+					.append(alias)
+					.append(".id NOT IN  (" + inValues.toString().substring(1)
+							+ ")");
+			// aggiunta alla mappa
+			// params.put("idCliente", search.getObj().getIdCliente());
+			// aggiorno separatore
 			separator = " and ";
 		}
 
@@ -98,5 +126,22 @@ public class ServiziRepository extends BaseRepository<Servizio> {
 			logger.info(e.getMessage());
 		}
 
+	}
+
+	public List<Servizio> findOneNotIn(List<Long> notIn,
+			ServiceEnum serviceEnum, Long idConf, int num) {
+		Servizio servizio = new Servizio();
+		servizio.setConfigurazione(new Configurazione());
+		servizio.getConfigurazione().setId(idConf);
+		if (notIn != null && notIn.size() > 0) {
+			servizio.setNotIn(notIn);
+		} else {
+			servizio.setTipo(serviceEnum);
+
+		}
+		List<Servizio> servizi = getList(new Search<Servizio>(servizio), 0, num);
+		if (servizi != null && servizi.size() > 0)
+			return servizi;
+		return null;
 	}
 }

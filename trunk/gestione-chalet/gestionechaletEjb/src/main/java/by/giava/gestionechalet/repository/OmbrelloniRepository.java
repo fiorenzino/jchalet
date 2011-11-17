@@ -42,14 +42,14 @@ public class OmbrelloniRepository extends BaseRepository<Ombrellone> {
 		return result;
 	}
 
-	public Ombrellone findByFilaNumero(String fila, String numero) {
+	public Ombrellone findByFilaNumero(String fila, String numero, Long idConf) {
 		Ombrellone ombrellone = null;
 		try {
 			ombrellone = (Ombrellone) em
 					.createQuery(
-							"select t from Ombrellone t where t.fila = :FILA and t.numero= :NUMERO")
+							"select t from Ombrellone t where t.fila = :FILA and t.numero= :NUMERO and t.configurazione.id = :IDCONF")
 					.setParameter("FILA", fila).setParameter("NUMERO", numero)
-					.getSingleResult();
+					.setParameter("IDCONF", idConf).getSingleResult();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

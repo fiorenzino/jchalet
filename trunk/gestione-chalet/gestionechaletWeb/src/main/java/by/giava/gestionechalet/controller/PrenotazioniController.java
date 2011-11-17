@@ -31,6 +31,7 @@ import by.giava.gestionechalet.repository.OmbrelloniRepository;
 import by.giava.gestionechalet.repository.PrenotazioniRepository;
 import by.giava.gestionechalet.repository.ServiziRepository;
 import by.giava.gestionechalet.repository.TariffeRepository;
+import by.giava.gestionechalet.servizi.SearchForFreeService;
 
 @Named
 @SessionScoped
@@ -66,12 +67,15 @@ public class PrenotazioniController extends
 	@Inject
 	ServiziRepository serviziRepository;
 
-	List<Preventivo> preventivi;
+	@Inject
+	SearchForFreeService searchForFreeService;
 
-	List<Prenotazione[]> prenotazioni;
-	List<String> colonne;
-	List<String> righe;
-	List<Servizio> servizi;
+	private List<Preventivo> preventivi;
+	private List<Prenotazione[]> prenotazioni;
+	private List<String> colonne;
+	private List<String> righe;
+	private List<Servizio> servizi;
+	private int numAccessori;
 
 	private Ricerca ricerca;
 	private double total;
@@ -177,45 +181,98 @@ public class PrenotazioniController extends
 	}
 
 	public void aggiungOmbrellone() {
-		aggiungiServizio("1:1", "OMB");
+		aggiungiServizio("1", "1", "OMB");
 	}
 
-	public void aggiungiServizio(String filaNumero, String tipo) {
-		logger.info("aggiungiServizio: " + filaNumero + " " + tipo);
+	public void aggiungiServizio(String fila, String numero, String tipo) {
+		logger.info("aggiungiServizio: " + fila + ":" + numero + " " + tipo);
+		List<Servizio> serv = null;
 		switch (ServiceEnum.valueOf(tipo)) {
 		case CAB:
-			Cabina cabina = new Cabina();
-			getServizi().add(cabina);
+			serv = searchForFreeService.findLibero(getSearch().getObj()
+					.getDataDal(), getSearch().getObj().getDataAl(),
+					ServiceEnum.CAB, configurazioneController.getActual()
+							.getId(), getNumAccessori());
+			if (serv != null) {
+				for (Servizio servizio : serv) {
+					Cabina cabina = new Cabina();
+					cabina.setNumero(servizio.getNumero());
+					cabina.setConfigurazione(configurazioneController
+							.getActual());
+					getServizi().add(cabina);
+				}
+			}
 			break;
 		case LET:
-			Lettino lettino = new Lettino();
-			getServizi().add(lettino);
+			serv = searchForFreeService.findLibero(getSearch().getObj()
+					.getDataDal(), getSearch().getObj().getDataAl(),
+					ServiceEnum.LET, configurazioneController.getActual()
+							.getId(), getNumAccessori());
+
+			if (serv != null) {
+				for (Servizio servizio : serv) {
+					Lettino lettino = new Lettino();
+					lettino.setNumero(servizio.getNumero());
+					lettino.setConfigurazione(configurazioneController
+							.getActual());
+					getServizi().add(lettino);
+				}
+			}
 			break;
 		case OMB:
-			if (filaNumero != null && filaNumero.contains(":")) {
-				String fila = filaNumero.substring(0, filaNumero.indexOf(":"));
-				String numero = filaNumero
-						.substring(filaNumero.indexOf(":") + 1);
+			if (fila != null && !fila.isEmpty() && numero != null
+					&& !numero.isEmpty()) {
 				Ombrellone ombrellone = ombrelloniRepository.findByFilaNumero(
-						fila, numero);
+						fila, numero, configurazioneController.getActual()
+								.getId());
 				getServizi().add(ombrellone);
 			}
 			break;
 		case SDR:
-			Sdraio sdraio = new Sdraio();
-			getServizi().add(sdraio);
+			serv = searchForFreeService.findLibero(getSearch().getObj()
+					.getDataDal(), getSearch().getObj().getDataAl(),
+					ServiceEnum.SDR, configurazioneController.getActual()
+							.getId(), getNumAccessori());
+			if (serv != null) {
+				for (Servizio servizio : serv) {
+					Sdraio sdraio = new Sdraio();
+					sdraio.setNumero(servizio.getNumero());
+					sdraio.setConfigurazione(configurazioneController
+							.getActual());
+					getServizi().add(sdraio);
+				}
+			}
 			break;
 		case SED:
-			SediaRegista sediaRegista = new SediaRegista();
-			getServizi().add(sediaRegista);
+			serv = searchForFreeService.findLibero(getSearch().getObj()
+					.getDataDal(), getSearch().getObj().getDataAl(),
+					ServiceEnum.SDR, configurazioneController.getActual()
+							.getId(), getNumAccessori());
+
+			if (serv != null) {
+				for (Servizio servizio : serv) {
+					SediaRegista sediaRegista = new SediaRegista();
+					sediaRegista.setNumero(servizio.getNumero());
+					sediaRegista.setConfigurazione(configurazioneController
+							.getActual());
+					getServizi().add(sediaRegista);
+				}
+			}
 			break;
 		}
 
 	}
 
-	public void eliminaServizio(int id) {
-		logger.info("elimino: " + id);
-		getServizi().remove(id);
+	public void eliminaServizio(String numero, String tipo) {
+		logger.info("elimino: " + numero);
+		for (Servizio servizio : getServizi()) {
+			if (servizio.getNumero().equals(numero)
+					&& servizio.getTipo().equals(ServiceEnum.valueOf(tipo))) {
+				getServizi().remove(servizio);
+				break;
+			}
+		}
+
 	}
 
 	public Ricerca getRicerca() {
@@ -291,6 +348,14 @@ public class PrenotazioniController extends
 	public void setProp(String prop) {
 		System.out.println("prop: " + prop);
 		this.prop = prop;
+	}
+
+	public int getNumAccessori() {
+		return numAccessori;
+	}
+
+	public void setNumAccessori(int numAccessori) {
+		this.numAccessori = numAccessori;
 	}
 
 }

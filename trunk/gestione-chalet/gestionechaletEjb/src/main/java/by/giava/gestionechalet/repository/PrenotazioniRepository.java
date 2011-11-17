@@ -10,7 +10,9 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 
+import by.giava.gestionechalet.enums.ServiceEnum;
 import by.giava.gestionechalet.model.Prenotazione;
+import by.giava.gestionechalet.model.Servizio;
 
 @Stateless
 @LocalBean
@@ -62,7 +64,8 @@ public class PrenotazioniRepository extends BaseRepository<Prenotazione> {
 			sb.append(separator).append(" ").append(alias)
 					.append(".servizio.tipo = :tipoServizio ");
 			// aggiunta alla mappa
-			params.put("tipoServizio", search.getObj().getTipoServizio());
+			params.put("tipoServizio",
+					ServiceEnum.valueOf(search.getObj().getTipoServizio()));
 			// separatore
 			separator = " and ";
 		}
@@ -147,4 +150,5 @@ public class PrenotazioniRepository extends BaseRepository<Prenotazione> {
 		}
 		return mappa;
 	}
+
 }
