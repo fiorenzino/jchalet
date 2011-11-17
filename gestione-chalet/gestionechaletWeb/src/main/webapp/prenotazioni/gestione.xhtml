@@ -11,7 +11,6 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<p:log />
 		<h:form id="bv" prependId="false">
 			<h2>Gestione Prenotazione</h2>
 			<p:panel style="width: 95%;">
@@ -63,55 +62,74 @@
 			<br />
 			<p:panel style="width: 95%;" id="prenotazioni"
 				header="risultati della ricerca">
+				<table border="1">
+					<tr>
+						<ui:repeat varStatus="col"
+							value="#{prenotazioniController.colonne}" var="colonna">
+							<h:outputText value="&lt;td &gt;" escape="false" />
+							<h:outputText value="seleziona" escape="false"
+								rendered="#{col.first}" />
+							<h:outputText value="#{colonna}" escape="false"
+								rendered="#{not col.first}" />
+							<h:outputText value="&lt;/td &gt;" escape="false" />
+						</ui:repeat>
+					</tr>
 
-				<p:dataTable var="prenotazione"
-					value="#{prenotazioniController.prenotazioni}"
-					rowIndexVar="rowIndex"
-					emptyMessage="non ci sono ombrelloni liberi.">
-					<p:columns value="#{prenotazioniController.colonne}" var="colonna"
-						columnIndexVar="colIndex">
-						<f:facet name="header">
-                    #{colonna}  
-					</f:facet>
-						<div style="text-align: center;">
+					<ui:repeat varStatus="row"
+						value="#{prenotazioniController.prenotazioni}">
+						<tr>
+							<ui:repeat varStatus="col"
+								value="#{prenotazioniController.colonne}" var="colonna">
 
-							<h:graphicImage library="images" name="red.png"
-								style="border: none; width: 10px; height: 10px;"
-								alt="#{prenotazione[colIndex].numero}"
-								title="#{prenotazione[colIndex].numero}"
-								rendered="#{prenotazione[colIndex].occupato and (colIndex != 0)}" />
 
-							<h:graphicImage library="images" name="green.png"
-								style="border: none; width: 10px; height: 10px;"
-								alt="#{prenotazione[colIndex].numero}"
-								title="#{prenotazione[colIndex].numero}"
-								rendered="#{not prenotazione[colIndex].occupato and (colIndex != 0)}" />
 
-							<h:outputText value="#{prenotazione[colIndex].occupato}"
-								rendered="#{false and not empty prenotazione[colIndex].numero and (colIndex != 0)}"
-								style="font-weight: bold; " />
+								<h:outputText value="&lt;td &gt;" escape="false" />
+								<div style="text-align: center;">
+									<h:graphicImage library="images" name="red.png"
+										style="border: none; width: 10px; height: 10px;"
+										alt="#{prenotazioniController.prenotazioni[row.index][col.index].numero}"
+										title="#{prenotazioniController.prenotazioni[row.index][col.index].numero}"
+										rendered="#{prenotazioniController.prenotazioni[row.index][col.index].occupato and (col.index != 0)}" />
 
-							<p:commandButton
-								action="#{prenotazioniController.aggiungiServizio(prenotazione[colIndex].numero, 'OMB')}"
-								value="aggiungi sdraio" ajax="true" immediate="false"
-								update="servx" rendered="#{colIndex == 0}" />
-						</div>
-					</p:columns>
-				</p:dataTable>
+									<h:graphicImage library="images" name="green.png"
+										style="border: none; width: 10px; height: 10px;"
+										alt="#{prenotazioniController.prenotazioni[row.index][col.index].numero}"
+										title="#{prenotazioniController.prenotazioni[row.index][col.index].numero}"
+										rendered="#{not prenotazioniController.prenotazioni[row.index][col.index].occupato and (col.index != 0)}" />
+
+									<h:outputText
+										value="#{prenotazioniController.prenotazioni[row.index][col.index].occupato}"
+										rendered="#{false and not empty prenotazione[col.index].numero and (col.index != 0)}"
+										style="font-weight: bold; " />
+
+									<p:commandButton
+										action="#{prenotazioniController.aggiungiServizio(prenotazioniController.prenotazioni[row.index][col.index].fila,prenotazioniController.prenotazioni[row.index][col.index].numero, 'OMB')}"
+										value="#{prenotazioniController.prenotazioni[row.index][col.index].fila}:#{prenotazioniController.prenotazioni[row.index][col.index].numero}"
+										ajax="true" immediate="false" update="servx"
+										rendered="#{(col.index == 0) }" />
+
+								</div>
+								<h:outputText value="&lt;/td &gt;" escape="false" />
+							</ui:repeat>
+						</tr>
+					</ui:repeat>
+				</table>
 				<p:spacer width="100%" height="10px"></p:spacer>
+				<h:inputText value="#{prenotazioniController.numAccessori}" />
 				<h:panelGrid columns="3">
+
 					<p:commandButton
-						action="#{prenotazioniController.aggiungiServizio('', 'SDR')}"
+						action="#{prenotazioniController.aggiungiServizio('','', 'SDR')}"
 						value="aggiungi sdraio" ajax="true" immediate="false"
 						update="servx" />
 
 					<p:commandButton
-						action="#{prenotazioniController.aggiungiServizio('', 'LET')}"
+						action="#{prenotazioniController.aggiungiServizio('','', 'LET')}"
 						value="aggiungi lettino" ajax="true" immediate="false"
 						update="servx" />
 
 					<p:commandButton
-						action="#{prenotazioniController.aggiungiServizio('', 'SED')}"
+						action="#{prenotazioniController.aggiungiServizio('','', 'SED')}"
 						value="aggiungi sedia" ajax="true" immediate="false"
 						update="servx" />
 
@@ -136,8 +154,8 @@
 					<p:column>
 						<f:facet name="header">elimina</f:facet>
 						#{rowIndexServ}
-						<p:commandButton process="@this" ajax="true" update=":bv:servx"
-							action="#{prenotazioniController.eliminaServizio(rowIndexServ)}">
+						<p:commandButton process="@this" ajax="true" update="servx"
+							action="#{prenotazioniController.eliminaServizio(servizio.numero, servizio.tipo)}">
 							<h:graphicImage alt="elimina" title="elimina"
 								library="images/form" name="delete.gif" style="border: none;" />
 						</p:commandButton>

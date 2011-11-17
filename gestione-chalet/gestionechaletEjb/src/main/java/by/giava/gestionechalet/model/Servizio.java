@@ -18,6 +18,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.ManyToAny;
 
@@ -35,6 +36,7 @@ public class Servizio implements Serializable {
 	private List<Tariffa> tariffe;
 	private boolean attivo = true;
 	private Configurazione configurazione;
+	private List<Long> notIn;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -130,6 +132,21 @@ public class Servizio implements Serializable {
 		} else if (!tipo.equals(other.tipo))
 			return false;
 		return true;
+	}
+
+	@Transient
+	public List<Long> getNotIn() {
+		if (notIn == null)
+			this.notIn = new ArrayList<Long>();
+		return notIn;
+	}
+
+	public void setNotIn(List<Long> notIn) {
+		this.notIn = notIn;
+	}
+
+	public void addNotIn(Long notInOne) {
+		getNotIn().add(notInOne);
 	}
 
 }
