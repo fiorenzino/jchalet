@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 
-
 @Entity
 public class ServizioPrenotato {
 
@@ -21,7 +20,17 @@ public class ServizioPrenotato {
 	private Date al;
 	private List<Prenotazione> prenotazioni;
 	private Contratto contratto;
-	private boolean attivo= true;
+	private boolean attivo = true;
+
+	public ServizioPrenotato() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public ServizioPrenotato(Date dal, Date al, Servizio servizio) {
+		this.dal = dal;
+		this.al = al;
+		this.servizio = servizio;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

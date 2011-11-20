@@ -17,38 +17,40 @@
 			<p:panel style="width: 95%;">
 				<h:panelGrid columns="4">
 					<h:outputLabel for="dal" value="Dal:" />
-					<p:calendar id="dal" value="#{prenotazioniController.ricerca.dal}"
+					<p:calendar id="dal"
+						value="#{prenotazioniController.search.obj.dataDal}"
 						title="Data dal" pattern="dd/MM/yyyy" locale="it" startWeekday="1"
 						showOn="button" />
 					<h:outputLabel for="al" value="Al:" />
-					<p:calendar id="al" value="#{prenotazioniController.ricerca.al}"
+					<p:calendar id="al"
+						value="#{prenotazioniController.search.obj.dataAl}"
 						pattern="dd/MM/yyyy" title="Data al" locale="it" startWeekday="1"
 						showOn="button" />
 				</h:panelGrid>
 				<h:panelGrid columns="10">
 					<h:outputLabel for="ombrelloni" value="Nro Ombrelloni:" />
 					<h:selectOneMenu id="ombrelloni"
-						value="#{prenotazioniController.ricerca.numeroOmbrelloni}">
+						value="#{prenotazioniController.search.obj.numeroOmbrelloni}">
 						<f:selectItems value="#{numeroAccessori}" />
 					</h:selectOneMenu>
 					<h:outputLabel for="sdraie" value="Nro sdraie:" />
 					<h:selectOneMenu id="sdraie"
-						value="#{prenotazioniController.ricerca.numeroSdraie}">
+						value="#{prenotazioniController.search.obj.numeroSdraie}">
 						<f:selectItems value="#{numeroAccessori}" />
 					</h:selectOneMenu>
 					<h:outputLabel for="lettini" value="Nro lettini:" />
 					<h:selectOneMenu id="lettini"
-						value="#{prenotazioniController.ricerca.numeroLettini}">
+						value="#{prenotazioniController.search.obj.numeroLettini}">
 						<f:selectItems value="#{numeroAccessori}" />
 					</h:selectOneMenu>
 					<h:outputLabel for="cabine" value="Nro Cabine:" />
 					<h:selectOneMenu id="cabine"
-						value="#{prenotazioniController.ricerca.numeroCabine}">
+						value="#{prenotazioniController.search.obj.numeroCabine}">
 						<f:selectItems value="#{numeroAccessori}" />
 					</h:selectOneMenu>
 					<h:outputLabel for="sedie" value="Nro Sedie:" />
 					<h:selectOneMenu id="sedie"
-						value="#{prenotazioniController.ricerca.numeroSedie}">
+						value="#{prenotazioniController.search.obj.numeroSedie}">
 						<f:selectItems value="#{numeroAccessori}" />
 					</h:selectOneMenu>
 				</h:panelGrid>

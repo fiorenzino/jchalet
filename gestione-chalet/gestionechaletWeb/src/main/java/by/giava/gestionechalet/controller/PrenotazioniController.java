@@ -19,13 +19,13 @@ import by.giava.gestionechalet.controller.util.PrenotazioniUtils;
 import by.giava.gestionechalet.enums.ServiceEnum;
 import by.giava.gestionechalet.model.Prenotazione;
 import by.giava.gestionechalet.model.Servizio;
+import by.giava.gestionechalet.model.ServizioPrenotato;
 import by.giava.gestionechalet.model.servizi.Cabina;
 import by.giava.gestionechalet.model.servizi.Lettino;
 import by.giava.gestionechalet.model.servizi.Ombrellone;
 import by.giava.gestionechalet.model.servizi.Sdraio;
 import by.giava.gestionechalet.model.servizi.SediaRegista;
 import by.giava.gestionechalet.pojo.Preventivo;
-import by.giava.gestionechalet.pojo.Ricerca;
 import by.giava.gestionechalet.repository.ConfigurazioneRepository;
 import by.giava.gestionechalet.repository.OmbrelloniRepository;
 import by.giava.gestionechalet.repository.PrenotazioniRepository;
@@ -74,10 +74,11 @@ public class PrenotazioniController extends
 	private List<Prenotazione[]> prenotazioni;
 	private List<String> colonne;
 	private List<String> righe;
-	private List<Servizio> servizi;
-	private int numAccessori;
+	private List<ServizioPrenotato> servizi;
+	private int numAccessori = 1;
+	private Map<ServiceEnum, Long> serviziMap;
 
-	private Ricerca ricerca;
+	// private Ricerca ricerca;
 	private double total;
 	private String prop;
 
@@ -87,51 +88,71 @@ public class PrenotazioniController extends
 	}
 
 	public String calcolaPreventivo() {
-		this.ricerca = new Ricerca();
+		// this.ricerca = new Ricerca();
 		this.preventivi = null;
 		return CALCOLA + "?faces-redirect=true";
 	}
 
 	public String creaPrenotazione() {
-		this.ricerca = new Ricerca();
+		reset();
 		this.preventivi = null;
 		return EDIT + "?faces-redirect=true";
 	}
 
+	public void calcolaPrezzoByServices() {
+		this.serviziMap = null;
+		for (ServizioPrenotato servizioPrenotato : getServizi()) {
+			if (getServiziMap().containsKey(
+					servizioPrenotato.getServizio().getTipo())) {
+				Long res = getServiziMap().get(
+						servizioPrenotato.getServizio().getTipo());
+				getServiziMap().put(servizioPrenotato.getServizio().getTipo(),
+						res + 1);
+			} else {
+				getServiziMap().put(servizioPrenotato.getServizio().getTipo(),
+						new Long(1));
+			}
+
+		}
+		cercaTariffePerPeriodo();
+	}
+
 	public void calcolaPrezzo() {
-		this.total = 0;
-		Map<ServiceEnum, Long> servizi = new HashMap<ServiceEnum, Long>();
 		// numeroSdraie;
 		int num = 0;
-		if (ricerca.getNumeroSdraie() > 0) {
-			servizi.put(ServiceEnum.SDR, new Long(ricerca.getNumeroSdraie()));
+		if (getSearch().getObj().getNumeroSdraie() > 0) {
+			getServiziMap().put(ServiceEnum.SDR,
+					new Long(getSearch().getObj().getNumeroSdraie()));
 			num++;
 		}
 		// numeroLettini;
-		if (ricerca.getNumeroLettini() > 0) {
-			servizi.put(ServiceEnum.LET, new Long(ricerca.getNumeroLettini()));
+		if (getSearch().getObj().getNumeroLettini() > 0) {
+			getServiziMap().put(ServiceEnum.LET,
+					new Long(getSearch().getObj().getNumeroLettini()));
 			num++;
 		}
 		// numeroCabine;
-		if (ricerca.getNumeroCabine() > 0) {
-			servizi.put(ServiceEnum.CAB, new Long(ricerca.getNumeroCabine()));
+		if (getSearch().getObj().getNumeroCabine() > 0) {
+			getServiziMap().put(ServiceEnum.CAB,
+					new Long(getSearch().getObj().getNumeroCabine()));
 			num++;
 		}
-		// numero Ombrellone
-		if (ricerca.getNumero() > 0) {
-			servizi.put(ServiceEnum.OMB,
-					new Long(ricerca.getNumeroOmbrelloni()));
-			num++;
-		}
+		// // numero Ombrellone
+		// if (getSearch().getObj().getNumero() > 0) {
+		// getServiziMap().put(ServiceEnum.OMB,
+		// new Long(ricerca.getNumeroOmbrelloni()));
+		// num++;
+		// }
 		// numeroOmbrelloni
-		if (ricerca.getNumeroOmbrelloni() > 0) {
-			servizi.put(ServiceEnum.OMB,
-					new Long(ricerca.getNumeroOmbrelloni()));
+		if (getSearch().getObj().getNumeroOmbrelloni() > 0) {
+			getServiziMap().put(ServiceEnum.OMB,
+					new Long(getSearch().getObj().getNumeroOmbrelloni()));
 			num++;
 		}
 		// numero sedie
-		if (ricerca.getNumeroSedie() > 0) {
-			servizi.put(ServiceEnum.SED, new Long(ricerca.getNumeroSedie()));
+		if (Integer.valueOf(getSearch().getObj().getNumeroSedie()) > 0) {
+			getServiziMap().put(ServiceEnum.SED,
+					new Long(getSearch().getObj().getNumeroSedie()));
 			num++;
 		}
 		if (num == 0) {
@@ -139,9 +160,15 @@ public class PrenotazioniController extends
 			return;
 
 		}
+		cercaTariffePerPeriodo();
+	}
+
+	private void cercaTariffePerPeriodo() {
+		this.total = 0;
 		// CERCO LE TARIFFE PER PERIODO
 		List<Preventivo> lista = tariffeRepository.getTariffeInPeriod(
-				ricerca.getDal(), ricerca.getAl(), servizi);
+				getSearch().getObj().getDataDal(), getSearch().getObj()
+						.getDataAl(), getServiziMap());
 		// CALCOLO PER OGNI TARIFFA
 		this.preventivi = new ArrayList<Preventivo>();
 		for (Preventivo pre : lista) {
@@ -155,6 +182,8 @@ public class PrenotazioniController extends
 		this.prenotazioni = null;
 		this.righe = null;
 		this.servizi = null;
+		this.serviziMap = null;
+		this.total = 0;
 	}
 
 	public void ricercaOmbrelloni() {
@@ -199,7 +228,12 @@ public class PrenotazioniController extends
 					cabina.setNumero(servizio.getNumero());
 					cabina.setConfigurazione(configurazioneController
 							.getActual());
-					getServizi().add(cabina);
+					ServizioPrenotato servizioPrenotato = new ServizioPrenotato(
+							getSearch().getObj().getDataDal(), getSearch()
+									.getObj().getDataAl(), cabina);
+					if (!cercaServizio(cabina.getNumero(), cabina.getTipo()
+							.name(), false))
+						getServizi().add(servizioPrenotato);
 				}
 			}
 			break;
@@ -215,7 +249,12 @@ public class PrenotazioniController extends
 					lettino.setNumero(servizio.getNumero());
 					lettino.setConfigurazione(configurazioneController
 							.getActual());
-					getServizi().add(lettino);
+					ServizioPrenotato servizioPrenotato = new ServizioPrenotato(
+							getSearch().getObj().getDataDal(), getSearch()
+									.getObj().getDataAl(), lettino);
+					if (!cercaServizio(lettino.getNumero(), lettino.getTipo()
+							.name(), false))
+						getServizi().add(servizioPrenotato);
 				}
 			}
 			break;
@@ -225,7 +264,12 @@ public class PrenotazioniController extends
 				Ombrellone ombrellone = ombrelloniRepository.findByFilaNumero(
 						fila, numero, configurazioneController.getActual()
 								.getId());
-				getServizi().add(ombrellone);
+				ServizioPrenotato servizioPrenotato = new ServizioPrenotato(
+						getSearch().getObj().getDataDal(), getSearch().getObj()
+								.getDataAl(), ombrellone);
+				if (!cercaServizio(ombrellone.getNumero(), ombrellone.getTipo()
+						.name(), false))
+					getServizi().add(servizioPrenotato);
 			}
 			break;
 		case SDR:
@@ -239,7 +283,12 @@ public class PrenotazioniController extends
 					sdraio.setNumero(servizio.getNumero());
 					sdraio.setConfigurazione(configurazioneController
 							.getActual());
-					getServizi().add(sdraio);
+					ServizioPrenotato servizioPrenotato = new ServizioPrenotato(
+							getSearch().getObj().getDataDal(), getSearch()
+									.getObj().getDataAl(), sdraio);
+					if (!cercaServizio(sdraio.getNumero(), sdraio.getTipo()
+							.name(), false))
+						getServizi().add(servizioPrenotato);
 				}
 			}
 			break;
@@ -255,7 +304,12 @@ public class PrenotazioniController extends
 					sediaRegista.setNumero(servizio.getNumero());
 					sediaRegista.setConfigurazione(configurazioneController
 							.getActual());
-					getServizi().add(sediaRegista);
+					ServizioPrenotato servizioPrenotato = new ServizioPrenotato(
+							getSearch().getObj().getDataDal(), getSearch()
+									.getObj().getDataAl(), sediaRegista);
+					if (!cercaServizio(sediaRegista.getNumero(), sediaRegista
+							.getTipo().name(), false))
+						getServizi().add(servizioPrenotato);
 				}
 			}
 			break;
@@ -265,24 +319,20 @@ public class PrenotazioniController extends
 
 	public void eliminaServizio(String numero, String tipo) {
 		logger.info("elimino: " + numero);
-		for (Servizio servizio : getServizi()) {
-			if (servizio.getNumero().equals(numero)
-					&& servizio.getTipo().equals(ServiceEnum.valueOf(tipo))) {
-				getServizi().remove(servizio);
-				break;
+		cercaServizio(numero, tipo, true);
+	}
+
+	public boolean cercaServizio(String numero, String tipo, boolean elimina) {
+		for (ServizioPrenotato servizioPrenotato : getServizi()) {
+			if (servizioPrenotato.getServizio().getNumero().equals(numero)
+					&& servizioPrenotato.getServizio().getTipo()
+							.equals(ServiceEnum.valueOf(tipo))) {
+				if (elimina)
+					getServizi().remove(servizioPrenotato);
+				return true;
 			}
 		}
-
-	}
-
-	public Ricerca getRicerca() {
-		if (ricerca == null)
-			this.ricerca = new Ricerca();
-		return ricerca;
-	}
-
-	public void setRicerca(Ricerca ricerca) {
-		this.ricerca = ricerca;
+		return false;
 	}
 
 	public List<Preventivo> getPreventivi() {
@@ -331,13 +381,13 @@ public class PrenotazioniController extends
 		this.righe = righe;
 	}
 
-	public List<Servizio> getServizi() {
+	public List<ServizioPrenotato> getServizi() {
 		if (servizi == null)
-			this.servizi = new ArrayList<Servizio>();
+			this.servizi = new ArrayList<ServizioPrenotato>();
 		return servizi;
 	}
 
-	public void setServizi(List<Servizio> servizi) {
+	public void setServizi(List<ServizioPrenotato> servizi) {
 		this.servizi = servizi;
 	}
 
@@ -356,6 +406,16 @@ public class PrenotazioniController extends
 
 	public void setNumAccessori(int numAccessori) {
 		this.numAccessori = numAccessori;
+	}
+
+	public Map<ServiceEnum, Long> getServiziMap() {
+		if (serviziMap == null)
+			this.serviziMap = new HashMap<ServiceEnum, Long>();
+		return serviziMap;
+	}
+
+	public void setServiziMap(Map<ServiceEnum, Long> serviziMap) {
+		this.serviziMap = serviziMap;
 	}
 
 }
