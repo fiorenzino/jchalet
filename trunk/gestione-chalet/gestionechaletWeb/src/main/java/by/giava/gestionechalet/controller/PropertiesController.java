@@ -167,7 +167,8 @@ public class PropertiesController implements Serializable {
 
 	public void cambioFila() {
 		logger.info("cambio fila");
-		caricaOmbrelloni("" + prenotazioniController.getRicerca().getFila());
+		caricaOmbrelloni(""
+				+ prenotazioniController.getSearch().getObj().getFila());
 	}
 
 	private void caricaOmbrelloni(String fila) {

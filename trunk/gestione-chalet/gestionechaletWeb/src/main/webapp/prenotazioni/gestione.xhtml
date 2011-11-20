@@ -43,11 +43,7 @@
 					</p:selectOneMenu>
 
 				</h:panelGrid>
-			</p:panel>
-
-			<br />
-
-			<p:panel style="width: 95%;">
+				<br />
 				<h:panelGrid columns="2">
 					<p:commandButton
 						action="#{prenotazioniController.ricercaOmbrelloni}"
@@ -115,7 +111,8 @@
 					</ui:repeat>
 				</table>
 				<p:spacer width="100%" height="10px"></p:spacer>
-				<h:inputText value="#{prenotazioniController.numAccessori}" />
+				<h:inputText value="#{prenotazioniController.numAccessori}" size="2"
+					maxlength="2" />
 				<h:panelGrid columns="3">
 
 					<p:commandButton
@@ -144,24 +141,107 @@
 					rowIndexVar="rowIndexServ"
 					emptyMessage="non ci sono servizi selezionati.">
 					<p:column>
+						<f:facet name="header">num</f:facet>
+						#{rowIndexServ+1}
+					</p:column>
+					<p:column>
 						<f:facet name="header">servizio</f:facet>
-						#{servizio.tipo}
+						#{servizio.servizio.tipo}
 					</p:column>
 					<p:column>
 						<f:facet name="header">numero</f:facet>
-						#{servizio.numero}
+						#{servizio.servizio.numero}
+					</p:column>
+					<p:column>
+						<f:facet name="header">dal</f:facet>
+						<p:calendar value="#{servizio.dal}" pattern="dd/MM/yyyy"
+							title="Data al" locale="it" startWeekday="1" showOn="button" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">al</f:facet>
+						<p:calendar value="#{servizio.al}" pattern="dd/MM/yyyy"
+							title="Data al" locale="it" startWeekday="1" showOn="button" />
 					</p:column>
 					<p:column>
 						<f:facet name="header">elimina</f:facet>
-						#{rowIndexServ}
 						<p:commandButton process="@this" ajax="true" update="servx"
-							action="#{prenotazioniController.eliminaServizio(servizio.numero, servizio.tipo)}">
-							<h:graphicImage alt="elimina" title="elimina"
-								library="images/form" name="delete.gif" style="border: none;" />
+							image="delete"
+							action="#{prenotazioniController.eliminaServizio(servizio.servizio.numero, servizio.servizio.tipo)}">
 						</p:commandButton>
 					</p:column>
 				</p:dataTable>
+				<br />
+				<p:commandButton
+					action="#{prenotazioniController.calcolaPrezzoByServices}"
+					value="calcola prezzo" update="prev" />
 			</p:panel>
+			<br />
+			<p:panel id="prev" header="Preventivo">
+
+				<p:dataTable id="preventivi" var="preventivo"
+					value="#{prenotazioniController.preventivi}" paginator="false">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="servizio" />
+						</f:facet>
+						<h:commandLink
+							action="#{tariffeController.view(preventivo.tariffa)}">
+							<h:outputText value="#{preventivo.servizio}" />
+						</h:commandLink>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="num." />
+						</f:facet>
+						<h:outputText value="#{preventivo.numPezzi}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="costo servizio" />
+						</f:facet>
+						<h:outputText value="euro #{preventivo.costo}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="dal" />
+						</f:facet>
+						<h:outputText value="#{preventivo.dal}">
+							<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
+								locale="it" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="al" />
+						</f:facet>
+						<h:outputText value="#{preventivo.al}">
+							<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
+								locale="it" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="giorni" />
+						</f:facet>
+						<h:outputText value="#{preventivo.numGiorni}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="totale" />
+						</f:facet>
+						<h:outputText value="euro #{preventivo.total}" />
+					</p:column>
+				</p:dataTable>
+
+				<br />
+				<h:outputText style="color: red; font-weight:bold"
+					value="costo totale: euro #{prenotazioniController.total}" />
+
+			</p:panel>
+
+
 		</h:form>
 
 	</ui:define>
