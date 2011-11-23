@@ -10,7 +10,7 @@ import by.giava.gestionechalet.enums.ServiceEnum;
 import by.giava.gestionechalet.model.Servizio;
 
 @Entity
-@Table(name = "sedieRegista")
+@Table(name = "SedieRegista")
 @DiscriminatorValue(value = "SED")
 public class SediaRegista extends Servizio implements Serializable {
 

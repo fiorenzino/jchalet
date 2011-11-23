@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 
@@ -42,6 +43,7 @@ public class ServizioPrenotato {
 		this.id = id;
 	}
 
+	@ManyToOne(fetch = FetchType.EAGER)
 	public Servizio getServizio() {
 		return servizio;
 	}
@@ -76,6 +78,7 @@ public class ServizioPrenotato {
 		this.prenotazioni = prenotazioni;
 	}
 
+	@ManyToOne
 	public Contratto getContratto() {
 		return contratto;
 	}

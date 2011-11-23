@@ -18,6 +18,7 @@ import javax.persistence.Query;
 import by.giava.gestionechalet.enums.ServiceEnum;
 import by.giava.gestionechalet.model.Configurazione;
 import by.giava.gestionechalet.model.Costo;
+import by.giava.gestionechalet.model.ServizioPrenotato;
 import by.giava.gestionechalet.model.Tariffa;
 import by.giava.gestionechalet.model.servizi.Cabina;
 import by.giava.gestionechalet.model.servizi.Lettino;
@@ -83,6 +84,39 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public List<Preventivo> getTariffeInPeriodForServiziPrenotati(
+			List<ServizioPrenotato> servizi) {
+		List<Preventivo> result = new ArrayList<Preventivo>();
+		for (ServizioPrenotato servizioPrenotato : servizi) {
+			try {
+				List<Tariffa> resultP = (List<Tariffa>) em
+						.createQuery(
+								"select distinct(t) from Tariffa t left join fetch t.costi ti where (t.dal <= :START OR  t.al >= :STOP) AND t.serviceName = :SERVICENAME order by t.nome")
+						.setParameter("START", servizioPrenotato.getDal())
+						.setParameter("STOP", servizioPrenotato.getAl())
+						.setParameter(
+								"SERVICENAME",
+								servizioPrenotato.getServizio().getTipo()
+										.name()).getResultList();
+				if (resultP != null) {
+					for (Tariffa tariffa : resultP) {
+						// if (servizi.containsKey(tariffa.getServiceName())) {
+						Preventivo pre = Tariffeutils.getPrenotazione(tariffa,
+								servizioPrenotato.getDal(),
+								servizioPrenotato.getAl(), 1L);
+						result.add(pre);
+						// }
+
+					}
+				}
+			} catch (Exception e) {
+				logger.info("errore: " + e.getMessage());
+			}
 		}
 		return result;
 	}
