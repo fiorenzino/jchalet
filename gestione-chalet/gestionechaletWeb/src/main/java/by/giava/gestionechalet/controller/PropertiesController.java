@@ -87,7 +87,8 @@ public class PropertiesController implements Serializable {
 		if (items.get(Cliente.class) == null) {
 			List<SelectItem> si = new ArrayList<SelectItem>();
 			for (Cliente c : clienteRepository.getAllList()) {
-				si.add(new SelectItem(c.getId(), c.getCognome()));
+				si.add(new SelectItem(c.getId(), c.getCognome() + " "
+						+ c.getNome()));
 			}
 			Collections.sort(si, SELECT_ITEMS);
 			items.put(Cliente.class, si.toArray(new SelectItem[] {}));
@@ -192,4 +193,6 @@ public class PropertiesController implements Serializable {
 		logger.info("cambio fila per prenotazioni");
 		caricaOmbrelloni(prenotazioniController.getSearch().getObj().getFila());
 	}
+	
+	
 }

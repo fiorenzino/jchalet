@@ -14,7 +14,7 @@
 		<h:form id="bv" prependId="false">
 			<h2>Gestione Prenotazione</h2>
 			<p:panel style="width: 95%;">
-				<h:panelGrid columns="4">
+				<h:panelGrid columns="6" id="cerca">
 					<h:outputLabel for="dal" value="Dal:" />
 					<p:calendar id="dal"
 						value="#{prenotazioniController.search.obj.dataDal}"
@@ -26,6 +26,14 @@
 						value="#{prenotazioniController.search.obj.dataAl}"
 						pattern="dd/MM/yyyy" title="Data al" locale="it" startWeekday="1"
 						showOn="button" />
+
+					<h:outputLabel for="stagionali" value="Solo stagionali" />
+					<p:selectBooleanCheckbox id="stagionali"
+						value="#{prenotazioniController.search.obj.soloStagionali}">
+						<p:ajax
+							listener="#{prenotazioniController.impostaRicercaStagionali}"
+							update="cerca" />
+					</p:selectBooleanCheckbox>
 
 					<h:outputLabel for="fila" value="Fila:" />
 					<p:selectOneMenu id="fila"
@@ -41,6 +49,10 @@
 						value="#{prenotazioniController.search.obj.numero}">
 						<f:selectItems value="#{ombrelloniItems}" />
 					</p:selectOneMenu>
+
+					<h:outputLabel for="liberi" value="Solo liberi:" />
+					<p:selectBooleanCheckbox id="liberi"
+						value="#{prenotazioniController.search.obj.soloLiberi}" />
 
 				</h:panelGrid>
 				<br />
@@ -63,8 +75,8 @@
 						<ui:repeat varStatus="col"
 							value="#{prenotazioniController.colonne}" var="colonna">
 							<h:outputText value="&lt;td &gt;" escape="false" />
-							<h:outputText value="seleziona" escape="false"
-								rendered="#{col.first}" />
+							<h:outputText value="seleziona &lt;br /&gt; fila/num"
+								escape="false" rendered="#{col.first}" />
 							<h:outputText value="#{colonna}" escape="false"
 								rendered="#{not col.first}" />
 							<h:outputText value="&lt;/td &gt;" escape="false" />
@@ -208,8 +220,8 @@
 							<h:outputText value="dal" />
 						</f:facet>
 						<h:outputText value="#{preventivo.dal}">
-							<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
-								locale="it" />
+							<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+								timeZone="Europe/Rome" locale="it" />
 						</h:outputText>
 					</p:column>
 					<p:column>
@@ -217,8 +229,8 @@
 							<h:outputText value="al" />
 						</f:facet>
 						<h:outputText value="#{preventivo.al}">
-							<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
-								locale="it" />
+							<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+								timeZone="Europe/Rome" locale="it" />
 						</h:outputText>
 					</p:column>
 					<p:column>
@@ -238,7 +250,17 @@
 				<br />
 				<h:outputText style="color: red; font-weight:bold"
 					value="costo totale: euro #{prenotazioniController.total}" />
+				<h:panelGrid columns="3">
 
+					<p:commandButton action="#{contrattiController.creaContratto}"
+						value="crea contratto" />
+
+					<p:commandButton
+						action="#{prenotazioniController.resetRicercaOmbrelloni}"
+						value="reset" ajax="true" immediate="true" update="prenotazioni" />
+
+
+				</h:panelGrid>
 			</p:panel>
 
 

@@ -23,8 +23,7 @@
 	</ui:insert>
 
 	<h:head>
-		<title>${context} - <ui:insert name="title">{title}</ui:insert>
-		</title>
+		<title><ui:insert name="title">{title}</ui:insert> - ${context}</title>
 		<h:outputStylesheet library="css" name="basic.css" />
 
 		<ui:insert name="styles">

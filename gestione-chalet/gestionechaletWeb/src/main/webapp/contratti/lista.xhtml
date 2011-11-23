@@ -66,10 +66,11 @@
 
 				</p:column>
 			</p:dataTable>
-			<p>
-				<h:commandLink action="#{contrattiController.addElement}"
-					value="aggiungi contratto" />
-			</p>
+			<p:panel style="width: 95%;">
+				<p:commandButton action="#{prenotazioniController.creaPrenotazione}"
+					value="aggiungi nuovo" ajax="false" immediate="true" />
+			</p:panel>
+
 		</h:form>
 	</ui:define>
 </ui:composition>

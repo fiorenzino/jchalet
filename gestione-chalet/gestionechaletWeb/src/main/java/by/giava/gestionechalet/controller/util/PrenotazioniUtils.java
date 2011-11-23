@@ -44,6 +44,30 @@ public class PrenotazioniUtils {
 		return listaCompleta;
 	}
 
+	public static List<Prenotazione[]> getPrenotazioniSoloLiberi(Date dal,
+			Date al, List<Ombrellone> ombrelloni,
+			Map<String, Map<String, Prenotazione>> mappaPrenotazioni) {
+		List<Prenotazione[]> listaCompletaSoloLiberi = new ArrayList<Prenotazione[]>();
+		Calendar calendar = Calendar.getInstance();
+		Long num = TimeUtil.getDiffDays(dal, al);
+		for (Ombrellone ombrellone : ombrelloni) {
+			String key = ombrellone.getFila() + "-" + ombrellone.getNumero();
+			if (mappaPrenotazioni.containsKey(key))
+				continue;
+			Prenotazione[] prenotaz = new Prenotazione[num.intValue()];
+			calendar.setTime(dal);
+			for (int i = 0; i < num; i++) {
+				prenotaz[i] = new Prenotazione();
+				calendar.add(Calendar.DAY_OF_YEAR, 1);
+				prenotaz[i].setNumero(ombrellone.getNumero());
+				prenotaz[i].setFila(ombrellone.getFila());
+				prenotaz[i].setData(calendar.getTime());
+			}
+			listaCompletaSoloLiberi.add(prenotaz);
+		}
+		return listaCompletaSoloLiberi;
+	}
+
 	public static List<String> creaColonne(Date dal, Date al) {
 		List<String> colonne = new ArrayList<String>();
 		Calendar calendar = Calendar.getInstance();

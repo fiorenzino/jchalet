@@ -5,8 +5,7 @@
 	xmlns:coop="http://www.coopservice.it/commons2/taglib"
 	xmlns:perm="http://www.coopservice.it/commons2/permissions"
 	xmlns:form="http://www.coopservice.it/commons2/form"
-	xmlns:p="http://primefaces.org/ui"
-	template="/WEB-INF/layout/t.xhtml">
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/layout/t.xhtml">
 	<ui:define name="title">Lista Tariffe</ui:define>
 	<ui:define name="content">
 		<h1>Lista Tariffe</h1>
@@ -47,8 +46,8 @@
 						<h:outputText value="dal" />
 					</f:facet>
 					<h:outputText value="#{tariffa.dal}">
-						<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
-							locale="it" />
+						<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+								timeZone="Europe/Rome" locale="it" />
 					</h:outputText>
 				</p:column>
 
@@ -57,8 +56,8 @@
 						<h:outputText value="al" />
 					</f:facet>
 					<h:outputText value="#{tariffa.al}">
-						<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
-							locale="it" />
+						<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+								timeZone="Europe/Rome" locale="it" />
 					</h:outputText>
 				</p:column>
 				<p:column>
@@ -77,10 +76,10 @@
 
 				</p:column>
 			</p:dataTable>
-			<p>
-				<h:commandLink action="#{tariffeController.step1}"
-					value="aggiungi nuova" />
-			</p>
+			<p:panel style="width: 95%;">
+				<p:commandButton action="#{tariffeController.step1}"
+					value="aggiungi nuova" ajax="false" immediate="true" />
+			</p:panel>
 
 		</h:form>
 	</ui:define>

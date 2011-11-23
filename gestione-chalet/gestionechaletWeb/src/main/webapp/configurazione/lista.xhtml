@@ -5,8 +5,7 @@
 	xmlns:coop="http://www.coopservice.it/commons2/taglib"
 	xmlns:perm="http://www.coopservice.it/commons2/permissions"
 	xmlns:form="http://www.coopservice.it/commons2/form"
-	xmlns:p="http://primefaces.org/ui"
-	template="/WEB-INF/layout/t.xhtml">
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">Lista Configurazioni</ui:define>
 
@@ -86,10 +85,10 @@
 
 				</p:column>
 			</p:dataTable>
-			<p>
-				<h:commandLink action="#{configurazioneController.addNew}"
-					value="aggiungi nuova" />
-			</p>
+			<p:panel style="width: 95%;">
+				<p:commandButton action="#{configurazioneController.addNew}"
+					value="aggiungi nuova" ajax="false" immediate="true" />
+			</p:panel>
 		</h:form>
 	</ui:define>
 </ui:composition>
