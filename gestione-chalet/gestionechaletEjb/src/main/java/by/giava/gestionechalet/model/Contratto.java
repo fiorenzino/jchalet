@@ -7,10 +7,14 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import by.giava.gestionechalet.pojo.Preventivo;
 
 @Entity
 public class Contratto implements Serializable {
@@ -20,14 +24,14 @@ public class Contratto implements Serializable {
 	private Cliente cliente;
 	private boolean aperto;
 	private List<ServizioPrenotato> serviziPrenotati;
+	private List<Preventivo> preventivi;
 	private Date dataStipula;
-	private Date dataInit;
-	private Date dataEnd;
+	private Date dataChiusura;
 	private String note;
 	private Float importoIniziale;
 	private Float importoFinale;
-	private Float acconto;
-	private Float sconto;
+	private Float importoAcconto;
+	private Float importoSconto;
 
 	private boolean attivo = true;
 
@@ -41,6 +45,7 @@ public class Contratto implements Serializable {
 		this.id = id;
 	}
 
+	@ManyToOne(fetch = FetchType.LAZY)
 	public Cliente getCliente() {
 		if (cliente == null)
 			this.cliente = new Cliente();
@@ -67,20 +72,12 @@ public class Contratto implements Serializable {
 		this.dataStipula = dataStipula;
 	}
 
-	public Date getDataInit() {
-		return dataInit;
+	public Date getDataChiusura() {
+		return dataChiusura;
 	}
 
-	public void setDataInit(Date dataInit) {
-		this.dataInit = dataInit;
-	}
-
-	public Date getDataEnd() {
-		return dataEnd;
-	}
-
-	public void setDataEnd(Date dataEnd) {
-		this.dataEnd = dataEnd;
+	public void setDataChiusura(Date dataChiusura) {
+		this.dataChiusura = dataChiusura;
 	}
 
 	public String getNote() {
@@ -99,7 +96,7 @@ public class Contratto implements Serializable {
 		this.importoIniziale = importoIniziale;
 	}
 
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, targetEntity = Servizio.class)
+	@OneToMany(cascade = { CascadeType.ALL }, targetEntity = ServizioPrenotato.class, fetch = FetchType.EAGER)
 	public List<ServizioPrenotato> getServiziPrenotati() {
 		if (this.serviziPrenotati == null)
 			this.serviziPrenotati = new ArrayList<ServizioPrenotato>();
@@ -130,20 +127,35 @@ public class Contratto implements Serializable {
 		this.importoFinale = importoFinale;
 	}
 
-	public Float getAcconto() {
-		return acconto;
+	public Float getImportoAcconto() {
+		return importoAcconto;
 	}
 
-	public void setAcconto(Float acconto) {
-		this.acconto = acconto;
+	public void setImportoAcconto(Float importoAcconto) {
+		this.importoAcconto = importoAcconto;
 	}
 
-	public Float getSconto() {
-		return sconto;
+	public Float getImportoSconto() {
+		return importoSconto;
 	}
 
-	public void setSconto(Float sconto) {
-		this.sconto = sconto;
+	public void setImportoSconto(Float importoSconto) {
+		this.importoSconto = importoSconto;
+	}
+
+	@OneToMany(cascade = { CascadeType.ALL }, targetEntity = Preventivo.class, fetch = FetchType.LAZY)
+	public List<Preventivo> getPreventivi() {
+		if (this.preventivi == null)
+			this.preventivi = new ArrayList<Preventivo>();
+		return preventivi;
+	}
+
+	public void setPreventivi(List<Preventivo> preventivi) {
+		this.preventivi = preventivi;
+	}
+
+	public void addPreventivo(Preventivo preventivo) {
+		getPreventivi().add(preventivo);
 	}
 
 }

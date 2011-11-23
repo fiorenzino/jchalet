@@ -33,6 +33,8 @@ public class Prenotazione implements Serializable {
 	private int numeroSedie;
 	private String fila;
 	private boolean occupato;
+	private boolean soloLiberi;
+	private boolean soloStagionali;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -44,6 +46,7 @@ public class Prenotazione implements Serializable {
 		this.id = id;
 	}
 
+	@ManyToOne(fetch = FetchType.LAZY)
 	public Contratto getContratto() {
 		return Contratto;
 	}
@@ -184,6 +187,24 @@ public class Prenotazione implements Serializable {
 
 	public void setOccupato(boolean occupato) {
 		this.occupato = occupato;
+	}
+
+	@Transient
+	public boolean isSoloLiberi() {
+		return soloLiberi;
+	}
+
+	public void setSoloLiberi(boolean soloLiberi) {
+		this.soloLiberi = soloLiberi;
+	}
+
+	@Transient
+	public boolean isSoloStagionali() {
+		return soloStagionali;
+	}
+
+	public void setSoloStagionali(boolean soloStagionali) {
+		this.soloStagionali = soloStagionali;
 	}
 
 }
