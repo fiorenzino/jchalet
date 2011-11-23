@@ -14,27 +14,43 @@
 				<p:menuitem value="ruoli" url="/private/ruoli/gestione.jsf" />
 			</p:submenu>
 
+			<p:submenu label="Configurazione" icon="ui-icon ui-icon-pencil">
+				<p:menuitem value="lista" url="/configurazione/lista.jsf" />
+				<p:menuitem value="aggiungi"
+					action="#{configurazioneController.addNew}" ajax="false" />
+				<p:menuitem value="vedi attuale"
+					action="#{configurazioneController.caricaConfigurazioneAttuale}"
+					ajax="false" />
+			</p:submenu>
+
 			<p:submenu label="Clienti" icon="ui-icon ui-icon-pencil">
 				<p:menuitem value="lista" url="/clienti/" />
 				<p:menuitem value="aggiungi"
 					action="#{clientiController.addElement}" ajax="false" />
 			</p:submenu>
 			<p:submenu label="Prenotazioni" icon="ui-icon ui-icon-pencil">
-				<p:menuitem value="con ricerca"
+				<p:menuitem value="cerca e prenota"
 					action="#{prenotazioniController.creaPrenotazione}" ajax="false" />
-				<p:menuitem value="solo preventivo"
-					action="#{prenotazioniController.calcolaPreventivo}" ajax="false" />
 			</p:submenu>
 			<p:submenu label="Contratti" icon="ui-icon ui-icon-pencil">
-				<p:menuitem value="lista" url="/contratti/" />
+				<p:menuitem value="lista" url="/contratti/lista.jsf" />
 				<p:menuitem value="aggiungi"
-					action="#{contrattiController.addElement}" ajax="false" />
+					action="#{prenotazioniController.creaPrenotazione}" ajax="false" />
 			</p:submenu>
 
 			<p:submenu label="Tariffe" icon="ui-icon ui-icon-pencil">
-				<p:menuitem value="lista" url="/tariffe/" />
-				<p:menuitem value="aggiungi"
-					action="#{tariffeController.addElement}" ajax="false" />
+				<p:menuitem value="lista" url="/tariffe/lista.jsf" />
+				<p:menuitem value="aggiungi" action="#{tariffeController.step1}"
+					ajax="false" />
+				<p:menuitem value="preventivo veloce"
+					action="#{prenotazioniController.calcolaPreventivo}" ajax="false" />
+			</p:submenu>
+
+			<p:submenu label="Cartellone Spiaggia" icon="ui-icon ui-icon-pencil">
+				<p:menuitem value="vista giorno" url="/spiaggia/vista-giorno.jsf" />
+				<p:menuitem value="vista mese" url="/spiaggia/vista-mese.jsf" />
+				<p:menuitem value="vista per ombrellone"
+					url="/spiaggia/vista-ombrellone.jsf" />
 			</p:submenu>
 
 

@@ -71,8 +71,8 @@
 				<h:outputLabel for="dataNascita" value="data nascita:" />
 				<h:outputText id="dataNascita"
 					value="#{clientiController.element.dataNascita}">
-					<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
-						locale="it" />
+					<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+						timeZone="Europe/Rome" locale="it" />
 				</h:outputText>
 
 

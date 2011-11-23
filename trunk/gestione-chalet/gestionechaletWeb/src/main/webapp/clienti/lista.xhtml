@@ -77,10 +77,11 @@
 
 				</p:column>
 			</p:dataTable>
-			<p>
-				<h:commandLink action="#{clientiController.addElement}"
-					value="aggiungi cliente" />
-			</p>
+			<p:panel style="width: 95%;">
+				<p:commandButton action="#{clientiController.addElement}"
+					value="aggiungi nuovo" ajax="false" immediate="true" />
+			</p:panel>
+
 		</h:form>
 	</ui:define>
 </ui:composition>

@@ -6,7 +6,7 @@
 		if (session != null) {
 			session.invalidate();
 		}
-		String redirectURL = "/index.jsp";
+		String redirectURL = "index.jsp";
 		response.sendRedirect(redirectURL);
 
 	} catch (Exception e) {

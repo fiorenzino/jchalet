@@ -7,115 +7,167 @@
 	xmlns:form="http://www.coopservice.it/commons2/form"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/layout/t.xhtml">
 
-	<ui:define name="title">Gestione Cliente</ui:define>
+	<ui:define name="title">Gestione Contratto</ui:define>
 
 	<ui:define name="content">
 		<h:form id="bv">
-			<h2>Gestione Cliente</h2>
-			<div>
-				<h:panelGrid columns="3">
-					<h:outputLabel value="nome" />
-					<h:inputText id="nome" value="#{clientiController.element.nome}" />
-					<h:message for="nome" errorClass="invalid" />
+			<h2>Gestione Contratto</h2>
+			<p:panel style="width: 95%;" id="servx" header="Servizi selezionati">
+				<p:dataTable var="servizio"
+					value="#{contrattiController.element.serviziPrenotati}"
+					rowIndexVar="rowIndexServ"
+					emptyMessage="non ci sono servizi selezionati.">
+					<p:column>
+						<f:facet name="header">num</f:facet>
+						#{rowIndexServ+1}
+					</p:column>
+					<p:column>
+						<f:facet name="header">servizio</f:facet>
+						<h:outputText value="#{servizio.servizio.tipo}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">fila</f:facet>
+						<h:outputText value="#{servizio.servizio.fila}"
+							rendered="#{servizio.servizio.tipo eq 'OMB'}" />
+
+					</p:column>
+					<p:column>
+						<f:facet name="header">numero</f:facet>
+						<h:outputText value="#{servizio.servizio.numero}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">dal</f:facet>
+						<h:outputText value="#{servizio.dal}">
+							<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+								timeZone="Europe/Rome" locale="it" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">al</f:facet>
+						<h:outputText value="#{servizio.al}">
+							<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+								timeZone="Europe/Rome" locale="it" />
+						</h:outputText>
+					</p:column>
+				</p:dataTable>
+				<br />
+			</p:panel>
+			<br />
+			<p:panel style="width: 95%;" id="prev" header="Preventivo">
+
+				<p:dataTable id="preventivi" var="preventivo"
+					value="#{contrattiController.element.preventivi}" paginator="false"
+					rowIndexVar="rowIndexServ">
+					<p:column>
+						<f:facet name="header">num</f:facet>
+						#{rowIndexServ+1}
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="servizio" />
+						</f:facet>
+						<h:outputText value="#{preventivo.servizio}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="dal" />
+						</f:facet>
+						<h:outputText value="#{preventivo.dal}">
+							<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+								timeZone="Europe/Rome" locale="it" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="al" />
+						</f:facet>
+						<h:outputText value="#{preventivo.al}">
+							<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+								timeZone="Europe/Rome" locale="it" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="giorni" />
+						</f:facet>
+						<h:outputText value="#{preventivo.numGiorni}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="totale" />
+						</f:facet>
+						<h:outputText value="euro #{preventivo.total}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+			<br />
+			<p:panel style="width: 95%;" id="dati" header="Dati Contratto">
+				<h:panelGrid columns="6">
+					<h:outputLabel for="cliente" value="Cliente:" />
+					<p:selectOneMenu id="cliente"
+						value="#{contrattiController.element.cliente.id}">
+						<f:selectItems value="#{clienti}" />
+					</p:selectOneMenu>
+					<h:message for="cliente" errorClass="invalid" />
+
+					<h:outputLabel for="dataStipula" value="data Stipula" />
+					<p:calendar id="dataStipula"
+						value="#{contrattiController.element.dataStipula}"
+						pattern="dd/MM/yyyy" title="Data al" locale="it" startWeekday="1"
+						showOn="button" />
+					<h:message for="dataStipula" errorClass="invalid" />
 
 
-					<h:outputLabel value="cognome" />
-					<h:inputText id="cognome"
-						value="#{clientiController.element.cognome}" />
-					<h:message for="cognome" errorClass="invalid" />
+
+					<h:outputLabel value="importo Iniziale" for="importoIniziale"
+						style="font-weight: bold;" />
+					<h:outputText id="importoIniziale" style="font-weight: bold;"
+						value="#{contrattiController.element.importoIniziale}" />
 
 
-					<h:outputLabel value="codicefiscale" />
-					<h:inputText id="codicefiscale"
-						value="#{clientiController.element.codicefiscale}" />
-					<h:message for="codicefiscale" errorClass="invalid" />
+					<h:outputLabel value="importo Sconto" for="importoSconto"
+						style="font-weight: bold;" />
+					<h:inputText id="importoSconto"
+						value="#{contrattiController.element.importoSconto}">
+						<p:ajax update="importoFinale" event="keyup"
+							listener="#{contrattiController.aggiornaImportoFinale}" />
+					</h:inputText>
 
+					<h:outputLabel value="importo Finale" for="importoFinale"
+						style="font-weight: bold;" />
+					<h:panelGroup id="importoFinale">
+						<h:outputText value="#{contrattiController.element.importoFinale}"
+							style="font-weight: bold;" />
+					</h:panelGroup>
 
-					<h:outputLabel value="indirizzo" />
-					<h:inputText id="indirizzo"
-						value="#{clientiController.element.indirizzo}" />
-					<h:message for="indirizzo" errorClass="invalid" />
-
-
-					<h:outputLabel value="cityName" />
-					<h:inputText id="cityName"
-						value="#{clientiController.element.cityName}" />
-					<h:message for="cityName" errorClass="invalid" />
-
-
-					<h:outputLabel value="provinciaName" />
-					<h:inputText id="provinciaName"
-						value="#{clientiController.element.provinciaName}" />
-					<h:message for="provinciaName" errorClass="invalid" />
-
-
-					<h:outputLabel value="cap" />
-					<h:inputText id="cap" value="#{clientiController.element.cap}" />
-					<h:message for="cap" errorClass="invalid" />
-
-
-					<h:outputLabel value="nazioneName" />
-					<h:inputText id="nazioneName"
-						value="#{clientiController.element.nazioneName}" />
-					<h:message for="cap" errorClass="invalid" />
-
-
-					<h:outputLabel value="telefono" />
-					<h:inputText id="telefono"
-						value="#{clientiController.element.telefono}" />
-					<h:message for="telefono" errorClass="invalid" />
-
-
-					<h:outputLabel value="cellulare" />
-					<h:inputText id="cellulare"
-						value="#{clientiController.element.cellulare}" />
-					<h:message for="cellulare" errorClass="invalid" />
-
-
-					<h:outputLabel value="email" />
-					<h:inputText id="email" value="#{clientiController.element.email}" />
-					<h:message for="email" errorClass="invalid" />
-
-
-
-
-					<h:outputLabel for="dataNascita" value="dataNascita:" />
-					<p:calendar id="dataNascita"
-						value="#{clientiController.element.dataNascita}" timeZone="it_IT"
-						title="Data dal" pattern="dd/MM/yyyy" locale="it" startWeekday="1"
-						required="true" />
-					<h:message for="dataNascita" errorClass="invalid" />
-
-
-
-					<h:outputLabel value="cityNascitaName" />
-					<h:inputText id="cityNascitaName"
-						value="#{clientiController.element.cityNascitaName}" />
-					<h:message for="cityNascitaName" errorClass="invalid" />
-
-
-					<h:outputLabel value="provinciaNascitaName" />
-					<h:inputText id="provinciaNascitaName"
-						value="#{clientiController.element.provinciaNascitaName}" />
-					<h:message for="provinciaNascitaName" errorClass="invalid" />
-
-
-					<h:outputLabel value="nazioneNascitaName" />
-					<h:inputText id="nazioneNascitaName"
-						value="#{clientiController.element.nazioneNascitaName}" />
-					<h:message for="nazioneNascitaName" errorClass="invalid" />
+					<h:outputLabel value="importo Acconto" for="importoAcconto" style="font-weight: bold;"/>
+					<h:inputText id="importoAcconto"
+						value="#{contrattiController.element.importoAcconto}" />
 
 
 				</h:panelGrid>
-			</div>
+
+				<h:outputLabel value="note:" />
+				<br />
+				<h:inputTextarea value="#{contrattiController.element.note}"
+					cols="120" rows="10" />
+
+
+			</p:panel>
+			<br />
 			<p>
-				<h:commandButton id="addCliente" action="#{clientiController.save}"
-					value="aggiungi cliente"
-					rendered="#{empty clientiController.element.id}" />
+				<h:commandButton id="addCliente"
+					action="#{contrattiController.save}" value="aggiungi contratto"
+					rendered="#{empty contrattiController.element.id}" />
 
 				<h:commandButton id="modCliente"
-					action="#{clientiController.update}" value="aggiorna cliente"
-					rendered="#{not empty clientiController.element.id}" />
+					action="#{contrattiController.update}" value="aggiorna contratto"
+					rendered="#{not empty contrattiController.element.id}" />
+
+				<h:commandButton id="delCliente"
+					action="#{contrattiController.delete}" value="elimina contratto"
+					rendered="#{not empty contrattiController.element.id}" />
 			</p>
 		</h:form>
 

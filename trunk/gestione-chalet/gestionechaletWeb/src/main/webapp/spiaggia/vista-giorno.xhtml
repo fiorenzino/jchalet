@@ -5,67 +5,58 @@
 	xmlns:coop="http://www.coopservice.it/commons2/taglib"
 	xmlns:perm="http://www.coopservice.it/commons2/permissions"
 	xmlns:form="http://www.coopservice.it/commons2/form"
-	xmlns:p="http://primefaces.org/ui"
-	template="/WEB-INF/layout/t.xhtml">
-	<ui:define name="title">Lista Tariffe</ui:define>
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">Disposizione Ombrelloni</ui:define>
+
 	<ui:define name="content">
-		<h1>Lista Tariffe</h1>
+		<h2>
+			Vista Giorno:
+			<h:outputText value="#{prenotazioniController.search.obj.dataDal}">
+				<f:convertDateTime type="both" pattern="dd/MM/yy" dateStyle="full"
+					locale="it" />
+			</h:outputText>
+		</h2>
 		<h:form id="bv">
-			<p:dataTable var="tariffa" value="#{tariffeController.model}"
-				paginator="true" rows="10" dynamic="true" lazy="true">
+			<p:panel style="width: 95%;">
+				<h:panelGrid columns="6" id="cerca">
+					<h:outputLabel for="dal" value="Dal:" />
+					<p:calendar id="dal"
+						value="#{prenotazioniController.search.obj.dataDal}"
+						title="Data dal" pattern="dd/MM/yyyy" locale="it" startWeekday="1"
+						showOn="button" />
 
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="nome" />
-					</f:facet>
-					<h:outputText value="#{tariffa.nome}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="servizio" />
-					</f:facet>
-					<h:outputText value="#{tariffa.serviceName}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="dal" />
-					</f:facet>
-					<h:outputText value="#{tariffa.dal}">
-						<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
-							locale="it" />
-					</h:outputText>
-				</p:column>
+					<p:commandButton
+						action="#{prenotazioniController.ricercaOmbrelloniPerMese}"
+						value="aggiorna tabella" ajax="true" immediate="false"
+						update="file" />
 
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="al" />
-					</f:facet>
-					<h:outputText value="#{tariffa.al}">
-						<f:convertDateTime type="both" pattern="dd/M/yy" dateStyle="full"
-							locale="it" />
-					</h:outputText>
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="operazioni" />
-					</f:facet>
-					<h:commandLink action="#{tariffeController.modElement}">
-						<h:graphicImage alt="modifica" title="modifica"
-							library="images/form" name="edit.gif" style="border: none;" />
-					</h:commandLink>
+				</h:panelGrid>
+			</p:panel>
 
-					<h:commandLink action="#{tariffeController.viewElement}">
-						<h:graphicImage alt="vedi" title="vedi" library="images/form"
-							name="view.gif" style="border: none;" />
-					</h:commandLink>
-
-				</p:column>
+			<p:dataTable var="posto" value="#{configurazioneController.posti}"
+				id="file" columnIndexVar="rowIndex">
+				<p:columns value="#{configurazioneController.colonne}" var="colonna"
+					columnIndexVar="colIndex">
+					<f:facet name="header">
+                    #{colonna}  
+					</f:facet>
+					<div style="text-align: center;">
+						<h:outputText value="#{posto[colIndex].descrizione}"
+							rendered="false" />
+						<h:graphicImage library="images" name="red.png"
+							style="border: none; width: 10px; height: 10px;"
+							rendered="#{not empty posto[colIndex].numero}" />
+						<h:graphicImage library="images" name="green.png"
+							style="border: none; width: 10px; height: 10px;"
+							rendered="#{empty posto[colIndex].numero}" />
+						<h:outputText
+							value="#{posto[colIndex].numero} #{posto[colIndex].fila}"
+							rendered="#{not empty posto[colIndex].numero}"
+							style="font-weight: bold; " />
+					</div>
+				</p:columns>
 			</p:dataTable>
-			<p>
-				<h:commandLink action="#{tariffeController.step1}"
-					value="aggiungi nuova" />
-			</p>
-
 		</h:form>
 	</ui:define>
 </ui:composition>

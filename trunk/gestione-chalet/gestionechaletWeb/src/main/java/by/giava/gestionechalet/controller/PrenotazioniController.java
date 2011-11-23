@@ -7,6 +7,7 @@ import it.coopservice.commons2.controllers.AbstractLazyController;
 import it.coopservice.commons2.domain.Search;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,7 +80,7 @@ public class PrenotazioniController extends
 	private Map<ServiceEnum, Long> serviziMap;
 
 	// private Ricerca ricerca;
-	private double total;
+	private float total;
 	private String prop;
 
 	@Override
@@ -94,27 +95,22 @@ public class PrenotazioniController extends
 	}
 
 	public String creaPrenotazione() {
-		reset();
+		resetRicercaOmbrelloni();
 		this.preventivi = null;
 		return EDIT + "?faces-redirect=true";
 	}
 
 	public void calcolaPrezzoByServices() {
-		this.serviziMap = null;
-		for (ServizioPrenotato servizioPrenotato : getServizi()) {
-			if (getServiziMap().containsKey(
-					servizioPrenotato.getServizio().getTipo())) {
-				Long res = getServiziMap().get(
-						servizioPrenotato.getServizio().getTipo());
-				getServiziMap().put(servizioPrenotato.getServizio().getTipo(),
-						res + 1);
-			} else {
-				getServiziMap().put(servizioPrenotato.getServizio().getTipo(),
-						new Long(1));
-			}
-
+		this.total = 0;
+		// CERCO LE TARIFFE PER PERIODO
+		List<Preventivo> lista = tariffeRepository
+				.getTariffeInPeriodForServiziPrenotati(getServizi());
+		// CALCOLO PER OGNI TARIFFA
+		this.preventivi = new ArrayList<Preventivo>();
+		for (Preventivo pre : lista) {
+			this.total = total + pre.getTotal();
+			this.preventivi.add(pre);
 		}
-		cercaTariffePerPeriodo();
 	}
 
 	public void calcolaPrezzo() {
@@ -186,6 +182,17 @@ public class PrenotazioniController extends
 		this.total = 0;
 	}
 
+	public void ricercaOmbrelloniPerMese() {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(getSearch().getObj().getDataDal());
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		getSearch().getObj().setDataDal(cal.getTime());
+		cal.add(Calendar.MONTH, 1);
+		cal.add(Calendar.DAY_OF_YEAR, -1);
+		getSearch().getObj().setDataAl(cal.getTime());
+		ricercaOmbrelloni();
+	}
+
 	public void ricercaOmbrelloni() {
 		// cerca ombrelloni dal/al
 
@@ -197,9 +204,16 @@ public class PrenotazioniController extends
 		// cerca tra le prenotazioni
 		Map<String, Map<String, Prenotazione>> prenotazioniReali = prenotazioniRepository
 				.getMappaPrenotazioni(getSearch());
-		this.prenotazioni = PrenotazioniUtils.getPrenotazioniPerPeriodo(
-				getSearch().getObj().getDataDal(), getSearch().getObj()
-						.getDataAl(), ombrelloni, prenotazioniReali);
+		if (getSearch().getObj().isSoloLiberi()) {
+			this.prenotazioni = PrenotazioniUtils.getPrenotazioniSoloLiberi(
+					getSearch().getObj().getDataDal(), getSearch().getObj()
+							.getDataAl(), ombrelloni, prenotazioniReali);
+		} else {
+			this.prenotazioni = PrenotazioniUtils.getPrenotazioniPerPeriodo(
+					getSearch().getObj().getDataDal(), getSearch().getObj()
+							.getDataAl(), ombrelloni, prenotazioniReali);
+		}
+
 		this.colonne = PrenotazioniUtils.creaColonne(getSearch().getObj()
 				.getDataDal(), getSearch().getObj().getDataAl());
 		this.righe = PrenotazioniUtils.creaRighe(ombrelloni);
@@ -343,11 +357,11 @@ public class PrenotazioniController extends
 		this.preventivi = preventivi;
 	}
 
-	public double getTotal() {
+	public float getTotal() {
 		return total;
 	}
 
-	public void setTotal(double total) {
+	public void setTotal(float total) {
 		this.total = total;
 	}
 
@@ -418,4 +432,15 @@ public class PrenotazioniController extends
 		this.serviziMap = serviziMap;
 	}
 
+	public void impostaRicercaStagionali() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.MONTH, Calendar.JUNE);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		if (getSearch().getObj().isSoloStagionali()) {
+			getSearch().getObj().setDataDal(cal.getTime());
+			cal.set(Calendar.MONTH, Calendar.SEPTEMBER);
+			cal.set(Calendar.DAY_OF_MONTH, 30);
+			getSearch().getObj().setDataAl(cal.getTime());
+		}
+	}
 }
