@@ -19,6 +19,7 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import by.giava.gestionechalet.enums.ContrattoStatus;
 import by.giava.gestionechalet.enums.ServiceType;
 import by.giava.gestionechalet.model.Cliente;
 import by.giava.gestionechalet.model.Configurazione;
@@ -43,6 +44,7 @@ public class PropertiesController implements Serializable {
 	private SelectItem[] ombrelloniItems = new SelectItem[] {};
 	private SelectItem[] numeroAccessori = new SelectItem[] {};
 	private SelectItem[] serviziNames = new SelectItem[] {};
+	private SelectItem[] statiContratto = new SelectItem[] {};
 
 	@Inject
 	ClientiRepository clienteRepository;
@@ -94,6 +96,21 @@ public class PropertiesController implements Serializable {
 			items.put(Cliente.class, si.toArray(new SelectItem[] {}));
 		}
 		return items.get(Cliente.class);
+	}
+
+	@Produces
+	@Named
+	public SelectItem[] getStatiContratto() {
+		if (statiContratto.length == 0) {
+			statiContratto = new SelectItem[ContrattoStatus.values().length + 1];
+			statiContratto[0] = new SelectItem("TUTTI", "tutti");
+			int i = 1;
+			for (ContrattoStatus service : ContrattoStatus.values()) {
+				statiContratto[i] = new SelectItem(service.name());
+				i++;
+			}
+		}
+		return statiContratto;
 	}
 
 	@Produces
@@ -193,6 +210,5 @@ public class PropertiesController implements Serializable {
 		logger.info("cambio fila per prenotazioni");
 		caricaOmbrelloni(prenotazioniController.getSearch().getObj().getFila());
 	}
-	
-	
+
 }

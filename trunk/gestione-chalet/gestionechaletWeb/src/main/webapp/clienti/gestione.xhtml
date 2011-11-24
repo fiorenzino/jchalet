@@ -118,12 +118,19 @@
 						ajax="false" immediate="false"
 						rendered="#{empty clientiController.element.id}" />
 
-					<p:commandButton action="#{clientiController.reload}"
-						value="Annulla" ajax="false" immediate="true" />
-
 					<p:commandButton action="#{clientiController.update}"
 						value="Aggiorna" ajax="false" immediate="false"
 						rendered="#{not empty clientiController.element.id}" />
+
+					<p:commandButton action="#{clientiController.reload}"
+						value="Annulla" ajax="false" immediate="true" />
+
+
+					<p:commandButton action="#{clientiController.delete}"
+						value="Elimina"
+						onclick="if (!confirm('Confermi l\' eliminazione?')) return false"
+						rendered="#{not empty clientiController.element.id}" ajax="false"
+						immediate="true" />
 
 
 				</h:panelGrid>

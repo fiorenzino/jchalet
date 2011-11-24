@@ -13,6 +13,7 @@ import javax.persistence.Query;
 import by.giava.gestionechalet.enums.ServiceEnum;
 import by.giava.gestionechalet.model.Configurazione;
 import by.giava.gestionechalet.model.Servizio;
+import by.giava.gestionechalet.model.Tariffa;
 
 @Stateless
 @LocalBean
@@ -143,5 +144,17 @@ public class ServiziRepository extends BaseRepository<Servizio> {
 		if (servizi != null && servizi.size() > 0)
 			return servizi;
 		return null;
+	}
+
+	@Override
+	public Servizio fetch(Object key) {
+		Servizio servizio = find(key);
+		for (Tariffa tariffa : servizio.getTariffe()) {
+			tariffa.getId();
+			tariffa.getNome();
+		}
+		servizio.getConfigurazione().getId();
+		servizio.getConfigurazione().getNome();
+		return servizio;
 	}
 }

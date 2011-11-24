@@ -47,6 +47,8 @@ public class PrenotazioniController extends
 	@EditPage
 	public static final String EDIT = "/prenotazioni/gestione.xhtml";
 
+	public static final String GIORNALIERO = "/prenotazioni/giornaliero.xhtml";
+
 	public static final String CALCOLA = "/prenotazioni/calcola-preventivo.xhtml";
 
 	@Inject
@@ -98,6 +100,12 @@ public class PrenotazioniController extends
 		resetRicercaOmbrelloni();
 		this.preventivi = null;
 		return EDIT + "?faces-redirect=true";
+	}
+
+	public String creaPrenotazioneGiornaliero() {
+		resetRicercaOmbrelloni();
+		this.preventivi = null;
+		return GIORNALIERO + "?faces-redirect=true";
 	}
 
 	public void calcolaPrezzoByServices() {
@@ -240,6 +248,7 @@ public class PrenotazioniController extends
 				for (Servizio servizio : serv) {
 					Cabina cabina = new Cabina();
 					cabina.setNumero(servizio.getNumero());
+					cabina.setId(servizio.getId());
 					cabina.setConfigurazione(configurazioneController
 							.getActual());
 					ServizioPrenotato servizioPrenotato = new ServizioPrenotato(
@@ -261,6 +270,7 @@ public class PrenotazioniController extends
 				for (Servizio servizio : serv) {
 					Lettino lettino = new Lettino();
 					lettino.setNumero(servizio.getNumero());
+					lettino.setId(servizio.getId());
 					lettino.setConfigurazione(configurazioneController
 							.getActual());
 					ServizioPrenotato servizioPrenotato = new ServizioPrenotato(
@@ -295,6 +305,7 @@ public class PrenotazioniController extends
 				for (Servizio servizio : serv) {
 					Sdraio sdraio = new Sdraio();
 					sdraio.setNumero(servizio.getNumero());
+					sdraio.setId(servizio.getId());
 					sdraio.setConfigurazione(configurazioneController
 							.getActual());
 					ServizioPrenotato servizioPrenotato = new ServizioPrenotato(
@@ -316,6 +327,7 @@ public class PrenotazioniController extends
 				for (Servizio servizio : serv) {
 					SediaRegista sediaRegista = new SediaRegista();
 					sediaRegista.setNumero(servizio.getNumero());
+					sediaRegista.setId(servizio.getId());
 					sediaRegista.setConfigurazione(configurazioneController
 							.getActual());
 					ServizioPrenotato servizioPrenotato = new ServizioPrenotato(

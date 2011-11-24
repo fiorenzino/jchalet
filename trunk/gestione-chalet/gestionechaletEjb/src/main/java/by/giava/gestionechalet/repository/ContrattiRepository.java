@@ -3,20 +3,31 @@ package by.giava.gestionechalet.repository;
 import it.coopservice.commons2.domain.Search;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.Query;
 
+import by.giava.gestionechalet.enums.ContrattoStatus;
 import by.giava.gestionechalet.model.Contratto;
-import by.giava.gestionechalet.model.servizi.Cabina;
+import by.giava.gestionechalet.model.Servizio;
+import by.giava.gestionechalet.model.ServizioPrenotato;
+import by.giava.gestionechalet.pojo.Preventivo;
 
 @Stateless
 @LocalBean
 public class ContrattiRepository extends BaseRepository<Contratto> {
 
 	private static final long serialVersionUID = 1L;
+
+	@Inject
+	PrenotazioniRepository prenotazioniRepository;
+
+	@Inject
+	ServiziRepository serviziRepository;
 
 	@Override
 	protected String getDefaultOrderBy() {
@@ -55,6 +66,41 @@ public class ContrattiRepository extends BaseRepository<Contratto> {
 			separator = " and ";
 		}
 
+		// stato
+		if (search.getObj().getStatusName() != null
+				&& !search.getObj().getStatusName().equals("TUTTI")) {
+			sb.append(separator).append(" ").append(alias)
+					.append(".stato = :stato ");
+			// aggiunta alla mappa
+			params.put("stato",
+					ContrattoStatus.valueOf(search.getObj().getStatusName()));
+			// separatore
+			separator = " and ";
+		}
+
+		// cliente cognome
+		if (search.getObj().getCliente() != null
+				&& search.getObj().getCliente().getCognome() != null
+				&& !search.getObj().getCliente().getCognome().isEmpty()) {
+			sb.append(separator).append(" ").append(alias)
+					.append(".cliente.cognome = :cognome ");
+			// aggiunta alla mappa
+			params.put("cognome", search.getObj().getCliente().getCognome());
+			// separatore
+			separator = " and ";
+		}
+
+		// cliente id
+		if (search.getObj().getCliente() != null
+				&& search.getObj().getCliente().getId() != null) {
+			sb.append(separator).append(" ").append(alias)
+					.append(".cliente.id = :idCliente ");
+			// aggiunta alla mappa
+			params.put("idCliente", search.getObj().getCliente().getId());
+			// separatore
+			separator = " and ";
+		}
+
 		if (!justCount) {
 			sb.append(getOrderBy(alias, search.getOrder()));
 		}
@@ -65,6 +111,78 @@ public class ContrattiRepository extends BaseRepository<Contratto> {
 		}
 
 		return q;
+	}
+
+	@Override
+	public Contratto persist(Contratto contratto) {
+		// TODO Auto-generated method stub
+		for (ServizioPrenotato servizioPrenotato : contratto
+				.getServiziPrenotati()) {
+			Servizio servizio = serviziRepository.fetch(servizioPrenotato
+					.getServizio().getId());
+			servizioPrenotato.setServizio(servizio);
+
+		}
+		for (Preventivo preventivo : contratto.getPreventivi()) {
+			preventivo.getTariffa();
+		}
+		super.persist(contratto);
+		contratto.getCliente().getCognome();
+		for (ServizioPrenotato servizioPrenotato : contratto
+				.getServiziPrenotati()) {
+			prenotazioniRepository
+					.creaPrenotazionePerServizio(servizioPrenotato);
+		}
+		return contratto;
+	}
+
+	@Override
+	public boolean update(Contratto contratto) {
+		for (ServizioPrenotato servizioPrenotato : contratto
+				.getServiziPrenotati()) {
+			Servizio servizio = serviziRepository.fetch(servizioPrenotato
+					.getServizio().getId());
+			servizioPrenotato.setServizio(servizio);
+		}
+		for (Preventivo preventivo : contratto.getPreventivi()) {
+			preventivo.getTariffa();
+		}
+		return super.update(contratto);
+	}
+
+	@Override
+	public List<Contratto> getList(Search<Contratto> ricerca, int startRow,
+			int pageSize) {
+		// TODO Auto-generated method stub
+		List<Contratto> lista = super.getList(ricerca, startRow, pageSize);
+		for (Contratto contratto : lista) {
+			contratto.getCliente().getId();
+			contratto.getCliente().getCognome();
+			contratto.getCliente().getNome();
+			for (ServizioPrenotato servizioPrenotato : contratto
+					.getServiziPrenotati()) {
+				servizioPrenotato.getServizio().getId();
+				servizioPrenotato.getDal();
+			}
+		}
+		return lista;
+	}
+
+	@Override
+	public Contratto fetch(Object key) {
+		Contratto contratto = super.fetch(key);
+		contratto.getCliente().getId();
+		contratto.getCliente().getCognome();
+		contratto.getCliente().getNome();
+		for (ServizioPrenotato servizioPrenotato : contratto
+				.getServiziPrenotati()) {
+			servizioPrenotato.getServizio().getId();
+			servizioPrenotato.getDal();
+		}
+		for (Preventivo preventivo : contratto.getPreventivi()) {
+			preventivo.getTariffa();
+		}
+		return contratto;
 	}
 
 }

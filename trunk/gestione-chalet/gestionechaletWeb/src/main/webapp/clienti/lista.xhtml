@@ -14,10 +14,10 @@
 		<h:form id="clienti">
 			<p:panel style="width: 95%;">
 				<h:panelGrid columns="4">
-					<h:outputLabel value="cognome:" for="cercaNome" />
+					<h:outputLabel value="Cognome:" for="cercaNome" />
 					<p:inputText id="cercaNome"
 						value="#{clientiController.search.obj.cognome}" />
-
+					
 					<p:commandButton actionListener="#{clientiController.reloadAjax}"
 						value="Cerca" ajax="true" immediate="false" update="lista" />
 					<p:commandButton action="#{clientiController.reset}"
@@ -31,7 +31,7 @@
 				style="width: 95%;">
 				<p:column>
 					<f:facet name="header">
-						<h:outputText value="id" />
+						<h:outputText value="id cliente" />
 					</f:facet>
 					<h:outputText value="#{cliente.id}" />
 				</p:column>

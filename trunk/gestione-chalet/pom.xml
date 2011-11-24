@@ -24,7 +24,7 @@
 
 		<!-- Application properties, if not in profiles -->
 		<default.schema>gestionechalet</default.schema>
-		<context>gestionechalet</context>
+		<context>Gestione Chalet</context>
 
 	</properties>
 

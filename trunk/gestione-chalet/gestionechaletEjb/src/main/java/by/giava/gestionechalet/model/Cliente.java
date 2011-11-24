@@ -17,7 +17,6 @@ public class Cliente implements Serializable {
 	private Long id;
 	private String nome;
 	private String cognome;
-	private String nomeCognome;
 	private Date dataInserimento;
 
 	private String codicefiscale;
@@ -134,10 +133,6 @@ public class Cliente implements Serializable {
 	@Transient
 	public String getNomeCognome() {
 		return (getCognome() + " " + getNome()).toUpperCase();
-	}
-
-	public void setNomeCognome(String nomeCognome) {
-		this.nomeCognome = nomeCognome;
 	}
 
 	public String getRilasciataDa() {

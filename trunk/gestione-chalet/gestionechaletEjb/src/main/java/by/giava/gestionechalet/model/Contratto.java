@@ -7,13 +7,17 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
+import by.giava.gestionechalet.enums.ContrattoStatus;
 import by.giava.gestionechalet.pojo.Preventivo;
 
 @Entity
@@ -22,18 +26,19 @@ public class Contratto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private Cliente cliente;
-	private boolean aperto;
+	private ContrattoStatus stato;
 	private List<ServizioPrenotato> serviziPrenotati;
 	private List<Preventivo> preventivi;
 	private Date dataStipula;
 	private Date dataChiusura;
 	private String note;
-	private Float importoIniziale;
-	private Float importoFinale;
-	private Float importoAcconto;
-	private Float importoSconto;
+	private float importoIniziale;
+	private float importoFinale;
+	private float importoAcconto;
+	private float importoSconto;
 
 	private boolean attivo = true;
+	private String statusName;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -54,14 +59,6 @@ public class Contratto implements Serializable {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
-	}
-
-	public boolean getAperto() {
-		return aperto;
-	}
-
-	public void setAperto(boolean aperto) {
-		this.aperto = aperto;
 	}
 
 	public Date getDataStipula() {
@@ -88,11 +85,11 @@ public class Contratto implements Serializable {
 		this.note = note;
 	}
 
-	public Float getImportoIniziale() {
+	public float getImportoIniziale() {
 		return importoIniziale;
 	}
 
-	public void setImportoIniziale(Float importoIniziale) {
+	public void setImportoIniziale(float importoIniziale) {
 		this.importoIniziale = importoIniziale;
 	}
 
@@ -119,27 +116,27 @@ public class Contratto implements Serializable {
 		this.attivo = attivo;
 	}
 
-	public Float getImportoFinale() {
+	public float getImportoFinale() {
 		return importoFinale;
 	}
 
-	public void setImportoFinale(Float importoFinale) {
+	public void setImportoFinale(float importoFinale) {
 		this.importoFinale = importoFinale;
 	}
 
-	public Float getImportoAcconto() {
+	public float getImportoAcconto() {
 		return importoAcconto;
 	}
 
-	public void setImportoAcconto(Float importoAcconto) {
+	public void setImportoAcconto(float importoAcconto) {
 		this.importoAcconto = importoAcconto;
 	}
 
-	public Float getImportoSconto() {
+	public float getImportoSconto() {
 		return importoSconto;
 	}
 
-	public void setImportoSconto(Float importoSconto) {
+	public void setImportoSconto(float importoSconto) {
 		this.importoSconto = importoSconto;
 	}
 
@@ -156,6 +153,24 @@ public class Contratto implements Serializable {
 
 	public void addPreventivo(Preventivo preventivo) {
 		getPreventivi().add(preventivo);
+	}
+
+	@Enumerated(EnumType.STRING)
+	public ContrattoStatus getStato() {
+		return stato;
+	}
+
+	public void setStato(ContrattoStatus stato) {
+		this.stato = stato;
+	}
+
+	@Transient
+	public String getStatusName() {
+		return statusName;
+	}
+
+	public void setStatusName(String statusName) {
+		this.statusName = statusName;
 	}
 
 }
