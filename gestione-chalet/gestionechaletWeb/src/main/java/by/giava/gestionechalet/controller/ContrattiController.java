@@ -13,6 +13,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import by.giava.gestionechalet.enums.ContrattoStatus;
 import by.giava.gestionechalet.model.Contratto;
 import by.giava.gestionechalet.model.ServizioPrenotato;
 import by.giava.gestionechalet.pojo.Preventivo;
@@ -31,7 +32,7 @@ public class ContrattiController extends AbstractLazyController<Contratto> {
 	public static final String EDIT = "/contratti/gestione.xhtml";
 
 	@ViewPage
-	public static final String VIEW = "/contratto/scheda.xhtml";
+	public static final String VIEW = "/contratti/scheda.xhtml";
 
 	@Inject
 	@OwnRepository(ContrattiRepository.class)
@@ -47,7 +48,7 @@ public class ContrattiController extends AbstractLazyController<Contratto> {
 
 	public String creaContratto() {
 		setElement(new Contratto());
-		getElement().setAperto(true);
+		getElement().setStato(ContrattoStatus.RISERVATO);
 		getElement().setDataStipula(new Date());
 		getElement().setImportoIniziale(prenotazioniController.getTotal());
 		getElement().setImportoAcconto(0F);
@@ -55,6 +56,7 @@ public class ContrattiController extends AbstractLazyController<Contratto> {
 		getElement().setImportoFinale(prenotazioniController.getTotal());
 		List<ServizioPrenotato> servizi = prenotazioniController.getServizi();
 		for (ServizioPrenotato servizioPrenotato : servizi) {
+			servizioPrenotato.setContratto(getElement());
 			getElement().addServizioPrenotato(servizioPrenotato);
 		}
 		List<Preventivo> preventivi = prenotazioniController.getPreventivi();
@@ -75,6 +77,19 @@ public class ContrattiController extends AbstractLazyController<Contratto> {
 	public String save() {
 		// TODO Auto-generated method stub
 		return super.save();
+	}
+
+	@Override
+	public String update() {
+		// TODO Auto-generated method stub
+		return super.update();
+	}
+
+	public String vediContratti(Long id) {
+		reset();
+		getSearch().getObj().getCliente().setId(id);
+		refreshModel();
+		return listPage();
 	}
 
 }

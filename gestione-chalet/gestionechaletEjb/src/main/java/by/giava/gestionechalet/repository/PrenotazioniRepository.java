@@ -2,6 +2,7 @@ package by.giava.gestionechalet.repository;
 
 import it.coopservice.commons2.domain.Search;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,9 @@ import javax.persistence.Query;
 
 import by.giava.gestionechalet.enums.ServiceEnum;
 import by.giava.gestionechalet.model.Prenotazione;
-import by.giava.gestionechalet.model.Servizio;
+import by.giava.gestionechalet.model.ServizioPrenotato;
+import by.giava.gestionechalet.model.servizi.Ombrellone;
+import by.giava.gestionechalet.repository.util.TimeUtil;
 
 @Stateless
 @LocalBean
@@ -151,4 +154,25 @@ public class PrenotazioniRepository extends BaseRepository<Prenotazione> {
 		return mappa;
 	}
 
+	public void creaPrenotazionePerServizio(ServizioPrenotato servizioPrenotato) {
+		Calendar calendar = Calendar.getInstance();
+		Long num = TimeUtil.getDiffDays(servizioPrenotato.getDal(),
+				servizioPrenotato.getAl());
+		calendar.setTime(servizioPrenotato.getDal());
+		for (int i = 0; i <= num + 1; i++) {
+			Prenotazione prenotazione = new Prenotazione();
+			prenotazione.setAttivo(true);
+			prenotazione.setData(calendar.getTime());
+			prenotazione.setContratto(servizioPrenotato.getContratto());
+			prenotazione.setNumero(servizioPrenotato.getServizio().getNumero());
+			if (servizioPrenotato.getServizio().getTipo()
+					.equals(ServiceEnum.OMB)) {
+				Ombrellone ombrellone = (Ombrellone) servizioPrenotato
+						.getServizio();
+				prenotazione.setFila(ombrellone.getFila());
+			}
+			persist(prenotazione);
+			calendar.add(Calendar.DAY_OF_YEAR, 1);
+		}
+	}
 }

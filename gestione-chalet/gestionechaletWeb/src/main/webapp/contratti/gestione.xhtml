@@ -141,7 +141,8 @@
 							style="font-weight: bold;" />
 					</h:panelGroup>
 
-					<h:outputLabel value="importo Acconto" for="importoAcconto" style="font-weight: bold;"/>
+					<h:outputLabel value="importo Acconto" for="importoAcconto"
+						style="font-weight: bold;" />
 					<h:inputText id="importoAcconto"
 						value="#{contrattiController.element.importoAcconto}" />
 
@@ -157,17 +158,29 @@
 			</p:panel>
 			<br />
 			<p>
-				<h:commandButton id="addCliente"
-					action="#{contrattiController.save}" value="aggiungi contratto"
+
+
+				<p:commandButton action="#{contrattiController.save}" value="Salva"
+					ajax="false" immediate="false"
 					rendered="#{empty contrattiController.element.id}" />
 
-				<h:commandButton id="modCliente"
-					action="#{contrattiController.update}" value="aggiorna contratto"
+				<p:commandButton action="#{contrattiController.reload}"
+					value="Annulla" ajax="false" immediate="true" />
+
+				<p:commandButton action="#{contrattiController.update}"
+					value="Aggiorna" ajax="false" immediate="false"
 					rendered="#{not empty contrattiController.element.id}" />
 
-				<h:commandButton id="delCliente"
-					action="#{contrattiController.delete}" value="elimina contratto"
-					rendered="#{not empty contrattiController.element.id}" />
+				<p:commandButton action="/prenotazioni/gestione.xhtml"
+					value="Modifica i servizi"
+					rendered="#{empty contrattiController.element.id}" ajax="false"
+					immediate="true" />
+
+				<p:commandButton action="#{contrattiController.delete}"
+					value="Elimina"
+					onclick="if (!confirm('Confermi l\' eliminazione?')) return false"
+					rendered="#{not empty contrattiController.element.id}" ajax="false"
+					immediate="true" />
 			</p>
 		</h:form>
 

@@ -20,8 +20,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.ManyToAny;
-
 import by.giava.gestionechalet.enums.ServiceEnum;
 
 @Entity
@@ -30,6 +28,7 @@ import by.giava.gestionechalet.enums.ServiceEnum;
 @Table(name = "Servizio")
 public class Servizio implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private ServiceEnum tipo;
 	private String numero;

@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class FilaOmbrelloni implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private Integer numero;
 	private Integer dal;

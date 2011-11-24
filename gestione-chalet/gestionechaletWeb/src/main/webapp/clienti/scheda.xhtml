@@ -93,7 +93,16 @@
 
 
 			</h:panelGrid>
-			<h:outputLink target="_blank" value="/stampa-privacy.jsf">stampa la privacy</h:outputLink>
+		</p:panel>
+		<p:panel style="width: 95%;">
+			<h:form id="contratti">
+				<p:commandButton action="/stampe/privacy.jsf" target="_blank"
+					value="stampa la privacy" immediate="true" />
+
+				<p:commandButton
+					action="#{contrattiController.vediContratti(clientiController.element.id)}"
+					value="vedi contratti" ajax="false" immediate="true" />
+			</h:form>
 		</p:panel>
 
 	</ui:define>

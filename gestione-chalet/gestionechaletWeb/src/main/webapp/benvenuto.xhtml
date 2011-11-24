@@ -133,6 +133,10 @@
 								<h:outputText value="vista mese" />
 							</h:outputLink>
 							<br />
+							<h:outputLink value="spiaggia/vista-stagionali.jsf">
+								<h:outputText value="vista stagionali" />
+							</h:outputLink>
+							<br/>
 							<h:outputLink value="spiaggia/vista-ombrellone.jsf">
 								<h:outputText value="vista per ombrellone" />
 							</h:outputLink>
@@ -154,6 +158,14 @@
 							<h:commandLink
 								action="#{prenotazioniController.creaPrenotazione}"
 								value="cerca e prenota" />
+							<br />
+							<h:commandLink
+								action="#{prenotazioniController.creaPrenotazioneGiornaliero}"
+								value="cerca giornaliero" />
+							<br />
+							<h:commandLink
+								action="#{prenotazioniController.creaPrenotazione}"
+								value="cerca stagionale" />
 
 						</h:panelGroup>
 					</h:panelGrid>

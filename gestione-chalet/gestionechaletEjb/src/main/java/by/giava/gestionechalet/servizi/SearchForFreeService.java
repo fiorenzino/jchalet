@@ -20,6 +20,9 @@ import by.giava.gestionechalet.repository.ServiziRepository;
 @Stateless
 @LocalBean
 public class SearchForFreeService implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	@Inject
 	PrenotazioniRepository prenotazioniRepository;
 
