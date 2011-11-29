@@ -16,7 +16,9 @@
 					<h:selectOneMenu id="nome"
 						value="#{tariffeController.search.obj.serviceName}"
 						required="true">
-						<f:selectItems value="#{serviziNames}" />
+						<f:selectItems value="#{serviceEnums}" var="service"
+							itemValue="#{service}" itemLabel="#{service}">
+						</f:selectItems>
 					</h:selectOneMenu>
 					<p:commandButton actionListener="#{tariffeController.reloadAjax}"
 						value="Cerca" ajax="true" immediate="false" update="lista" />
@@ -27,7 +29,8 @@
 			<br />
 			<p:dataTable id="lista" var="tariffa"
 				value="#{tariffeController.model}" paginator="true" rows="10"
-				dynamic="true" lazy="true" style="width: 95%;">
+				dynamic="true" lazy="true" style="width: 95%;"
+				paginatorPosition="bottom">
 
 				<p:column>
 					<f:facet name="header">
@@ -40,6 +43,14 @@
 						<h:outputText value="servizio" />
 					</f:facet>
 					<h:outputText value="#{tariffa.serviceName}" />
+					<h:outputText value=" - fila: #{tariffa.fila}" rendered="#{not empty tariffa.fila and tariffa.serviceName eq 'OMB'}"/>
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="stagionale" />
+					</f:facet>
+					<h:outputText value="SI" rendered="#{tariffa.stagionale}" />
+					<h:outputText value="NO" rendered="#{not tariffa.stagionale}" />
 				</p:column>
 				<p:column>
 					<f:facet name="header">
@@ -47,7 +58,7 @@
 					</f:facet>
 					<h:outputText value="#{tariffa.dal}">
 						<f:convertDateTime type="both" pattern="dd/MM/yyyy"
-								timeZone="Europe/Rome" locale="it" />
+							timeZone="Europe/Rome" locale="it" />
 					</h:outputText>
 				</p:column>
 
@@ -57,7 +68,7 @@
 					</f:facet>
 					<h:outputText value="#{tariffa.al}">
 						<f:convertDateTime type="both" pattern="dd/MM/yyyy"
-								timeZone="Europe/Rome" locale="it" />
+							timeZone="Europe/Rome" locale="it" />
 					</h:outputText>
 				</p:column>
 				<p:column>

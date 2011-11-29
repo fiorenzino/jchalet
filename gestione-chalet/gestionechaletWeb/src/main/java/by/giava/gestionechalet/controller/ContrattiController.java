@@ -13,10 +13,10 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import by.giava.gestionechalet.enums.ContrattoStatus;
+import by.giava.gestionechalet.enums.StatoContrattoEnum;
 import by.giava.gestionechalet.model.Contratto;
+import by.giava.gestionechalet.model.Preventivo;
 import by.giava.gestionechalet.model.ServizioPrenotato;
-import by.giava.gestionechalet.pojo.Preventivo;
 import by.giava.gestionechalet.repository.ContrattiRepository;
 
 @Named
@@ -48,11 +48,11 @@ public class ContrattiController extends AbstractLazyController<Contratto> {
 
 	public String creaContratto() {
 		setElement(new Contratto());
-		getElement().setStato(ContrattoStatus.RISERVATO);
+		getElement().setStato(StatoContrattoEnum.RISERVATO);
 		getElement().setDataStipula(new Date());
 		getElement().setImportoIniziale(prenotazioniController.getTotal());
 		getElement().setImportoAcconto(0F);
-		getElement().setImportoSconto(0F);
+		getElement().setImportoVariazione(0F);
 		getElement().setImportoFinale(prenotazioniController.getTotal());
 		List<ServizioPrenotato> servizi = prenotazioniController.getServizi();
 		for (ServizioPrenotato servizioPrenotato : servizi) {
@@ -69,7 +69,7 @@ public class ContrattiController extends AbstractLazyController<Contratto> {
 
 	public void aggiornaImportoFinale() {
 		float importoFinale = getElement().getImportoIniziale()
-				- getElement().getImportoSconto();
+				+ getElement().getImportoVariazione();
 		getElement().setImportoFinale(importoFinale);
 	}
 

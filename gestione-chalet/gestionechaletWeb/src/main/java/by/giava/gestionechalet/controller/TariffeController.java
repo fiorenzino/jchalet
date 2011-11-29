@@ -6,6 +6,7 @@ import it.coopservice.commons2.annotations.OwnRepository;
 import it.coopservice.commons2.annotations.ViewPage;
 import it.coopservice.commons2.controllers.AbstractLazyController;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.enterprise.context.SessionScoped;
@@ -53,32 +54,46 @@ public class TariffeController extends AbstractLazyController<Tariffa> {
 	}
 
 	public String step2() {
+		if (getElement().getFila() != null
+				&& getElement().getFila().equals("TUTTE")) {
+			getElement().setFila(null);
+		}
 		if (getElement().getId() == null) {
-			// getElement().setCosti(null);
-			// provo ad aggiungere quello che non c'è
-			Long num = TimeUtil.getDiffDays(getElement().getAl(), getElement()
-					.getDal());
-			for (int i = 1; i <= num; i++) {
+			if (getElement().isStagionale()) {
 				Costo costo = new Costo();
-				costo.setGiorno(new Long(i));
-				getElement().addCosto(new Long(i), costo);
-			}
-		} else {
-			logger.info("dal: " + getElement().getDal() + " - "
-					+ getElement().getAl());
-			logger.info("DIFF OLD: "
-					+ TimeUtil.getDiffDays(getElement().getDal(), getElement()
-							.getAl()));
-			Long num = TimeUtil.getDiffDays(getElement().getAl(), getElement()
-					.getDal());
-			logger.info("DIFF NEW: " + num);
-			for (int i = 1; i <= num; i++) {
-				if (getElement().containsCosto(new Long(i))) {
-					logger.info("esiste gia la tariffa");
-				} else {
+				costo.setGiorno(0L);
+				getElement().addCosto(0L, costo);
+			} else {
+				// getElement().setCosti(null);
+				// provo ad aggiungere quello che non c'è
+				Long num = TimeUtil.getDiffDays(getElement().getAl(),
+						getElement().getDal());
+				for (int i = 1; i <= num; i++) {
 					Costo costo = new Costo();
 					costo.setGiorno(new Long(i));
 					getElement().addCosto(new Long(i), costo);
+				}
+			}
+		} else {
+			if (getElement().isStagionale()) {
+
+			} else {
+				logger.info("dal: " + getElement().getDal() + " - "
+						+ getElement().getAl());
+				logger.info("DIFF OLD: "
+						+ TimeUtil.getDiffDays(getElement().getDal(),
+								getElement().getAl()));
+				Long num = TimeUtil.getDiffDays(getElement().getAl(),
+						getElement().getDal());
+				logger.info("DIFF NEW: " + num);
+				for (int i = 1; i <= num; i++) {
+					if (getElement().containsCosto(new Long(i))) {
+						logger.info("esiste gia la tariffa");
+					} else {
+						Costo costo = new Costo();
+						costo.setGiorno(new Long(i));
+						getElement().addCosto(new Long(i), costo);
+					}
 				}
 			}
 		}
@@ -114,6 +129,16 @@ public class TariffeController extends AbstractLazyController<Tariffa> {
 	public String view(Long id) {
 		setElement(tariffeRepository.fetch(id));
 		return VIEW + REDIRECT_PARAM;
+	}
+
+	public void impostaDateStagionali() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.MONTH, Calendar.JUNE);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		getElement().setDal(cal.getTime());
+		cal.set(Calendar.MONTH, Calendar.SEPTEMBER);
+		cal.set(Calendar.DAY_OF_MONTH, 30);
+		getElement().setAl(cal.getTime());
 	}
 
 }

@@ -6,12 +6,12 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import by.giava.gestionechalet.enums.ServiceEnum;
+import by.giava.gestionechalet.enums.TipoServizioEnum;
 import by.giava.gestionechalet.model.Configurazione;
 import by.giava.gestionechalet.model.Servizio;
 
 @Entity
-@Table(name = "Ombrellone")
+@Table(name = "chalet_ombrelloni")
 @DiscriminatorValue(value = "OMB")
 public class Ombrellone extends Servizio implements Serializable {
 
@@ -23,23 +23,23 @@ public class Ombrellone extends Servizio implements Serializable {
 	private String colonna;
 
 	public Ombrellone() {
-		super.setTipo(ServiceEnum.OMB);
+		super.setTipo(TipoServizioEnum.OMB);
 	}
 
 	public Ombrellone(String numero, String fila) {
-		super.setTipo(ServiceEnum.OMB);
+		super.setTipo(TipoServizioEnum.OMB);
 		this.fila = fila;
 		super.setNumero(numero);
 	}
 
 	public Ombrellone(String fila, Configurazione configurazione) {
-		super.setTipo(ServiceEnum.OMB);
+		super.setTipo(TipoServizioEnum.OMB);
 		this.fila = fila;
 		super.setConfigurazione(configurazione);
 	}
 
 	public Ombrellone(String numero, String fila, Configurazione configurazione) {
-		super.setTipo(ServiceEnum.OMB);
+		super.setTipo(TipoServizioEnum.OMB);
 		this.fila = fila;
 		super.setNumero(numero);
 		super.setConfigurazione(configurazione);

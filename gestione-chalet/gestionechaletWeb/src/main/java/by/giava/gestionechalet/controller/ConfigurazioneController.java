@@ -186,6 +186,7 @@ public class ConfigurazioneController extends
 		ombrellone.setConfigurazione(getElement());
 		Search<Ombrellone> ricerca = new Search<Ombrellone>(ombrellone);
 		this.ombrelloni = ombrelloniRepository.getList(ricerca, 0, 0);
+		configurazioneRepository.update(getElement());
 		return VIEW + REDIRECT_PARAM;
 	}
 

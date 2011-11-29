@@ -47,27 +47,23 @@
 
 				<p:column>
 					<f:facet name="header">
-						<h:outputText value="numeroSdraio" />
+						<h:outputText value="data Inizio Stagione" />
 					</f:facet>
-					<h:outputText value="#{configurazione.numeroSdraio}" />
+					<h:outputText id="dataInizioStagione"
+						value="#{configurazione.dataInizioStagione}">
+						<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+							timeZone="Europe/Rome" locale="it" />
+					</h:outputText>
 				</p:column>
 				<p:column>
 					<f:facet name="header">
-						<h:outputText value="numeroLettini" />
+						<h:outputText value="data Fine Stagione" />
 					</f:facet>
-					<h:outputText value="#{configurazione.numeroLettini}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="numeroCabine" />
-					</f:facet>
-					<h:outputText value="#{configurazione.numeroCabine}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="numeroSedieRegista" />
-					</f:facet>
-					<h:outputText value="#{configurazione.numeroSedieRegista}" />
+					<h:outputText id="dataFineStagione"
+						value="#{configurazione.dataFineStagione}">
+						<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+							timeZone="Europe/Rome" locale="it" />
+					</h:outputText>
 				</p:column>
 				<p:column>
 					<f:facet name="header">

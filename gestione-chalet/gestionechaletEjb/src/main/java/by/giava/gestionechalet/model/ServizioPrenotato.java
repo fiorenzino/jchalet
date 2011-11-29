@@ -11,8 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "chalet_serviziprenotato")
 public class ServizioPrenotato {
 
 	private Long id;
@@ -34,7 +37,8 @@ public class ServizioPrenotato {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "servizioPrenotato")
+	@SequenceGenerator(name = "servizioPrenotato", sequenceName = "servizioPrenotato")
 	public Long getId() {
 		return id;
 	}

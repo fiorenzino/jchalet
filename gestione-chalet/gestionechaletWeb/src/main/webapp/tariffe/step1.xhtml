@@ -5,39 +5,77 @@
 	xmlns:coop="http://www.coopservice.it/commons2/taglib"
 	xmlns:perm="http://www.coopservice.it/commons2/permissions"
 	xmlns:form="http://www.coopservice.it/commons2/form"
-	xmlns:p="http://primefaces.org/ui"
-	template="/WEB-INF/layout/t.xhtml">
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/layout/t.xhtml">
 	<ui:define name="title">Step1 - Tariffe</ui:define>
 	<ui:define name="content">
 		<h1>Creazione Tariffa - step 1</h1>
 		<b>attenzione: gli estremi sono compresi!</b>
 		<h:form>
 			<p:panel style="width: 95%;">
-				<h:panelGrid columns="6">
-					<h:outputLabel for="nome" value="Nome Tariffa:" />
-					<h:inputText id="nome" value="#{tariffeController.element.nome}"
-						required="true" />
-					<h:message for="nome" errorClass="invalid" />
+				<h:panelGrid columns="3" id="dati">
 
-					<br />
-					<br />
-					<h:outputLabel for="nome" value="Tipo Servizio:" />
-					<h:selectOneMenu id="servizio"
-						value="#{tariffeController.element.serviceType}" required="true">
-						<f:selectItems value="#{serviziItems}" />
-					</h:selectOneMenu>
+					<h:panelGroup>
+						<h:outputLabel for="nome" value="Nome Tariffa:" />
+						<h:inputText id="nome" value="#{tariffeController.element.nome}"
+							required="true" />
+						<h:message for="nome" errorClass="invalid" />
+					</h:panelGroup>
 
-					<h:outputLabel for="dal" value="Dal:" />
-					<p:calendar id="dal" value="#{tariffeController.element.dal}"
-						timeZone="it_IT" title="Data dal" pattern="dd/MM/yyyy" locale="it"
-						startWeekday="1" required="true" showOn="button" />
-					<h:message for="dal" errorClass="invalid" />
 
-					<h:outputLabel for="al" value="Al:" />
-					<p:calendar id="al" value="#{tariffeController.element.al}"
-						timeZone="it_IT" pattern="dd/MM/yyyy" title="Data al" locale="it"
-						startWeekday="1" required="true" showOn="button" />
-					<h:message for="al" errorClass="invalid" />
+
+					<h:panelGroup>
+						<h:outputLabel for="nome" value="Tipo Servizio:" />
+						<h:selectOneMenu id="servizio"
+							value="#{tariffeController.element.serviceName}" required="true">
+							<f:selectItems value="#{serviceEnums}" var="service"
+								itemValue="#{service}" itemLabel="#{service}">
+							</f:selectItems>
+							<p:ajax update="fila" />
+						</h:selectOneMenu>
+						<h:message for="nome" errorClass="invalid" />
+					</h:panelGroup>
+
+
+					<h:panelGroup id="fila">
+						<h:outputLabel for="fila" value="Fila:" id="filaLabel" />
+						<p:selectOneMenu
+							rendered="#{tariffeController.element.serviceName eq 'OMB'}"
+							value="#{tariffeController.element.fila}">
+							<f:selectItems value="#{fileItems}" />
+						</p:selectOneMenu>
+					</h:panelGroup>
+
+
+
+
+
+					<h:panelGroup>
+						<h:outputLabel for="dal" value="Dal:" />
+						<p:calendar id="dal" value="#{tariffeController.element.dal}"
+							timeZone="it_IT" title="Data dal" pattern="dd/MM/yyyy"
+							locale="it" startWeekday="1" required="true" showOn="button" />
+						<h:message for="dal" errorClass="invalid" />
+					</h:panelGroup>
+
+
+					<h:panelGroup>
+						<h:outputLabel for="al" value="Al:" />
+						<p:calendar id="al" value="#{tariffeController.element.al}"
+							timeZone="it_IT" pattern="dd/MM/yyyy" title="Data al" locale="it"
+							startWeekday="1" required="true" showOn="button" />
+						<h:message for="al" errorClass="invalid" />
+					</h:panelGroup>
+
+
+					<h:panelGroup>
+						<h:outputLabel for="stagionale" value="Stagionale:" />
+						<p:selectBooleanCheckbox id="stagionale"
+							value="#{tariffeController.element.stagionale}">
+							<p:ajax listener="#{tariffeController.impostaDateStagionali}"
+								update="dati" />
+						</p:selectBooleanCheckbox>
+						<h:message for="stagionale" errorClass="invalid" />
+					</h:panelGroup>
 
 				</h:panelGrid>
 			</p:panel>

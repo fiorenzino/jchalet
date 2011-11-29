@@ -26,8 +26,10 @@
 
 					<h:outputLabel for="stati" value="Stato:" />
 					<h:selectOneMenu id="stati"
-						value="#{contrattiController.search.obj.statusName}">
-						<f:selectItems value="#{statiContratto}" />
+						value="#{contrattiController.search.obj.stato}">
+						<f:selectItems value="#{statoContrattoEnums}" var="stato"
+							itemValue="#{stato}" itemLabel="#{stato}">
+						</f:selectItems>
 					</h:selectOneMenu>
 
 					<p:commandButton actionListener="#{contrattiController.reloadAjax}"

@@ -12,8 +12,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "chalet_configurazioni")
 public class Configurazione implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -29,6 +32,9 @@ public class Configurazione implements Serializable {
 	private Long numeroCabine;
 	private Long numeroSedieRegista;
 
+	private Date dataInizioStagione;
+	private Date dataFineStagione;
+
 	private Date dataCreazione;
 	private List<FilaOmbrelloni> fileOmbrelloni;
 	private boolean attivo = true;
@@ -36,7 +42,8 @@ public class Configurazione implements Serializable {
 	private boolean attuale;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "configurazione")
+	@SequenceGenerator(name = "configurazione", sequenceName = "configurazione")
 	public Long getId() {
 		return id;
 	}
@@ -156,5 +163,21 @@ public class Configurazione implements Serializable {
 
 	public void setAttuale(boolean attuale) {
 		this.attuale = attuale;
+	}
+
+	public Date getDataInizioStagione() {
+		return dataInizioStagione;
+	}
+
+	public void setDataInizioStagione(Date dataInizioStagione) {
+		this.dataInizioStagione = dataInizioStagione;
+	}
+
+	public Date getDataFineStagione() {
+		return dataFineStagione;
+	}
+
+	public void setDataFineStagione(Date dataFineStagione) {
+		this.dataFineStagione = dataFineStagione;
 	}
 }

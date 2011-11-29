@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,9 +18,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import by.giava.gestionechalet.enums.TipoServizioEnum;
+
 @Entity
+@Table(name = "chalet_tariffe")
 public class Tariffa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -29,13 +36,14 @@ public class Tariffa implements Serializable {
 	private List<Servizio> servizi;
 	private Date dal;
 	private Date al;
-	private int serviceType;
-	// deve diventare ServiceEnum
-	private String serviceName;
+	private TipoServizioEnum serviceName;
+	private boolean stagionale = false;
 	private boolean attivo = true;
+	private String fila;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "tariffa")
+	@SequenceGenerator(name = "tariffa", sequenceName = "tariffa")
 	public Long getId() {
 		return id;
 	}
@@ -107,20 +115,12 @@ public class Tariffa implements Serializable {
 		this.al = al;
 	}
 
-	@Transient
-	public int getServiceType() {
-		return serviceType;
-	}
-
-	public void setServiceType(int serviceType) {
-		this.serviceType = serviceType;
-	}
-
-	public String getServiceName() {
+	@Enumerated(EnumType.STRING)
+	public TipoServizioEnum getServiceName() {
 		return serviceName;
 	}
 
-	public void setServiceName(String serviceName) {
+	public void setServiceName(TipoServizioEnum serviceName) {
 		this.serviceName = serviceName;
 	}
 
@@ -130,5 +130,21 @@ public class Tariffa implements Serializable {
 
 	public void setAttivo(boolean attivo) {
 		this.attivo = attivo;
+	}
+
+	public boolean isStagionale() {
+		return stagionale;
+	}
+
+	public void setStagionale(boolean stagionale) {
+		this.stagionale = stagionale;
+	}
+
+	public String getFila() {
+		return fila;
+	}
+
+	public void setFila(String fila) {
+		this.fila = fila;
 	}
 }

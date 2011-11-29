@@ -8,9 +8,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
+@Table(name = "chalet_clienti")
 public class Cliente implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -56,7 +59,8 @@ public class Cliente implements Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "cliente")
+	@SequenceGenerator(name = "cliente", sequenceName = "cliente")
 	public Long getId() {
 		return id;
 	}
