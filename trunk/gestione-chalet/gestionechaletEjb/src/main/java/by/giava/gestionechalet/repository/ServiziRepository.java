@@ -10,7 +10,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 
-import by.giava.gestionechalet.enums.ServiceEnum;
+import by.giava.gestionechalet.enums.TipoServizioEnum;
 import by.giava.gestionechalet.model.Configurazione;
 import by.giava.gestionechalet.model.Servizio;
 import by.giava.gestionechalet.model.Tariffa;
@@ -130,7 +130,7 @@ public class ServiziRepository extends BaseRepository<Servizio> {
 	}
 
 	public List<Servizio> findOneNotIn(List<Long> notIn,
-			ServiceEnum serviceEnum, Long idConf, int num) {
+			TipoServizioEnum serviceEnum, Long idConf, int num) {
 		Servizio servizio = new Servizio();
 		servizio.setConfigurazione(new Configurazione());
 		servizio.getConfigurazione().setId(idConf);

@@ -126,10 +126,10 @@
 						value="#{contrattiController.element.importoIniziale}" />
 
 
-					<h:outputLabel value="importo Sconto" for="importoSconto"
-						style="font-weight: bold;" />
-					<h:inputText id="importoSconto"
-						value="#{contrattiController.element.importoSconto}">
+					<h:outputLabel value="importo Variazione(+ o -)"
+						for="importoVariazione" style="font-weight: bold;" />
+					<h:inputText id="importoVariazione" maxlength="5" size="5"
+						value="#{contrattiController.element.importoVariazione}">
 						<p:ajax update="importoFinale" event="keyup"
 							listener="#{contrattiController.aggiornaImportoFinale}" />
 					</h:inputText>

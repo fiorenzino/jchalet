@@ -23,13 +23,40 @@
 	</ui:insert>
 
 	<h:head>
-		<title><ui:insert name="title">{title}</ui:insert> - ${context}</title>
+		<title><ui:insert name="title">{title}</ui:insert> -
+			${context}</title>
 		<h:outputStylesheet library="css" name="basic.css" />
 
 		<ui:insert name="styles">
 			<style type="text/css">
 </style>
 		</ui:insert>
+		<script type="text/javascript"> PrimeFaces.locales ['it'] = {
+closeText: 'Chiudi', 
+prevText: 'Precedente', 
+nextText: 'Successivo', 
+currentText: 'Oggi', 
+monthNames: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
+monthNamesShort: ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'], 
+dayNames: ['Lunedi', 'Martedi', 'Mercoledi', 'Giovedi', 'Venerdi', 'Sabato', 'Domenica'], 
+dayNamesShort: ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab','Dom'], 
+dayNamesMin: ['L', 'M', 'M ', 'G', 'V ', 'S','D'], 
+weekHeader: 'Settimana', 
+FirstDay: 1, 
+isRTL: false, 
+showMonthAfterYear: false, 
+yearSuffix:'', 
+timeOnlyTitle: 'Solo Ora', 
+timeText: 'Ora', 
+hourText: 'Ore', 
+minuteText: 'Minuti', 
+secondText: 'Secondi', 
+ampm: false, 
+month: 'Mese', 
+week: 'Settimana', 
+day: 'Giorno', 
+allDayText: 'Tutto il giorno'}; 
+</script>
 	</h:head>
 
 	<h:body>

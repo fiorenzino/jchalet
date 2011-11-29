@@ -19,8 +19,8 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import by.giava.gestionechalet.enums.ContrattoStatus;
-import by.giava.gestionechalet.enums.ServiceType;
+import by.giava.gestionechalet.enums.StatoContrattoEnum;
+import by.giava.gestionechalet.enums.TipoServizioEnum;
 import by.giava.gestionechalet.model.Cliente;
 import by.giava.gestionechalet.model.Configurazione;
 import by.giava.gestionechalet.model.servizi.Ombrellone;
@@ -98,19 +98,25 @@ public class PropertiesController implements Serializable {
 		return items.get(Cliente.class);
 	}
 
+	// @Produces
+	// @Named
+	// public SelectItem[] getStatiContratto() {
+	// if (statiContratto.length == 0) {
+	// statiContratto = new SelectItem[StatoContrattoEnum.values().length + 1];
+	// statiContratto[0] = new SelectItem("TUTTI", "tutti");
+	// int i = 1;
+	// for (StatoContrattoEnum service : StatoContrattoEnum.values()) {
+	// statiContratto[i] = new SelectItem(service.name());
+	// i++;
+	// }
+	// }
+	// return statiContratto;
+	// }
+
 	@Produces
 	@Named
-	public SelectItem[] getStatiContratto() {
-		if (statiContratto.length == 0) {
-			statiContratto = new SelectItem[ContrattoStatus.values().length + 1];
-			statiContratto[0] = new SelectItem("TUTTI", "tutti");
-			int i = 1;
-			for (ContrattoStatus service : ContrattoStatus.values()) {
-				statiContratto[i] = new SelectItem(service.name());
-				i++;
-			}
-		}
-		return statiContratto;
+	public StatoContrattoEnum[] getStatoContrattoEnums() {
+		return StatoContrattoEnum.values();
 	}
 
 	@Produces
@@ -128,36 +134,41 @@ public class PropertiesController implements Serializable {
 		return numeroAccessori;
 	}
 
-	@Produces
-	@Named
-	public SelectItem[] getServiziItems() {
-		if (serviziItems.length == 0) {
-			serviziItems = new SelectItem[5];
-			serviziItems[0] = new SelectItem(1, "ombrellone");
-			serviziItems[1] = new SelectItem(2, "sdraio");
-			serviziItems[2] = new SelectItem(3, "lettino");
-			serviziItems[3] = new SelectItem(4, "cabina");
-			serviziItems[4] = new SelectItem(5, "sedia");
-		}
-		return serviziItems;
-	}
+	// @Produces
+	// @Named
+	// public SelectItem[] getServiziItems() {
+	// if (serviziItems.length == 0) {
+	// serviziItems = new SelectItem[5];
+	// serviziItems[0] = new SelectItem(4, "cabina");
+	// serviziItems[1] = new SelectItem(3, "lettino");
+	// serviziItems[2] = new SelectItem(1, "ombrellone");
+	// serviziItems[3] = new SelectItem(2, "sdraio");
+	// serviziItems[4] = new SelectItem(5, "sedia");
+	// }
+	// return serviziItems;
+	// }
+
+	// @Produces
+	// @Named
+	// public SelectItem[] getServiziNames() {
+	// if (serviziNames.length == 0) {
+	// serviziNames = new SelectItem[ServiceEnum.values().length + 1];
+	// // serviziNames[0] = new SelectItem("TUTTI", "tutti");
+	// int i = 1;
+	// for (ServiceEnum service : ServiceEnum.values()) {
+	// serviziNames[i] = new SelectItem(service, service.name());
+	// i++;
+	// }
+	// Arrays.sort(serviziNames, SELECT_ITEMS);
+	// }
+	//
+	// return serviziNames;
+	// }
 
 	@Produces
 	@Named
-	public SelectItem[] getServiziNames() {
-		if (serviziNames.length == 0) {
-			serviziNames = new SelectItem[ServiceType.values().length + 1];
-			serviziNames[0] = new SelectItem("TUTTI", "tutti");
-			int i = 1;
-			for (ServiceType service : ServiceType.values()) {
-				serviziNames[i] = new SelectItem(service.name().substring(0, 3)
-						.toUpperCase(), service.name());
-				i++;
-			}
-			Arrays.sort(serviziNames, SELECT_ITEMS);
-		}
-
-		return serviziNames;
+	public TipoServizioEnum[] getServiceEnums() {
+		return TipoServizioEnum.values();
 	}
 
 	@Produces
@@ -166,12 +177,12 @@ public class PropertiesController implements Serializable {
 		if (fileItems.length == 0) {
 			configurazioneController.caricaConfigurazioneAttuale();
 			Configurazione config = configurazioneController.getElement();
-			fileItems = new SelectItem[config.getNumeroFile().intValue()];
-			for (int i = 0; i < config.getNumeroFile().intValue(); i++) {
-				int num = i + 1;
-				fileItems[i] = new SelectItem(num, num + "");
+			fileItems = new SelectItem[config.getNumeroFile().intValue() + 1];
+			fileItems[0] = new SelectItem("TUTTE");
+			for (int i = 1; i <= config.getNumeroFile().intValue(); i++) {
+				fileItems[i] = new SelectItem("" + i);
 			}
-			Arrays.sort(fileItems, SELECT_ITEMS);
+			// Arrays.sort(fileItems, SELECT_ITEMS);
 		}
 		return fileItems;
 	}

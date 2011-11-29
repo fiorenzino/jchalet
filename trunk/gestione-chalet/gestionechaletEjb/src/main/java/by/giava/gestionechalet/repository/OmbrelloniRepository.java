@@ -102,7 +102,8 @@ public class OmbrelloniRepository extends BaseRepository<Ombrellone> {
 
 		// fila
 		if (search.getObj().getFila() != null
-				&& !search.getObj().getFila().isEmpty()) {
+				&& !search.getObj().getFila().isEmpty()
+				&& !search.getObj().getFila().equals("TUTTE")) {
 			sb.append(separator).append(" ").append(alias)
 					.append(".fila = :fila ");
 			// aggiunta alla mappa

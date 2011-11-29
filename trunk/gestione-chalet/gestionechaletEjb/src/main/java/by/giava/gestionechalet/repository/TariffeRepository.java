@@ -15,9 +15,10 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.persistence.Query;
 
-import by.giava.gestionechalet.enums.ServiceEnum;
+import by.giava.gestionechalet.enums.TipoServizioEnum;
 import by.giava.gestionechalet.model.Configurazione;
 import by.giava.gestionechalet.model.Costo;
+import by.giava.gestionechalet.model.Preventivo;
 import by.giava.gestionechalet.model.ServizioPrenotato;
 import by.giava.gestionechalet.model.Tariffa;
 import by.giava.gestionechalet.model.servizi.Cabina;
@@ -25,7 +26,6 @@ import by.giava.gestionechalet.model.servizi.Lettino;
 import by.giava.gestionechalet.model.servizi.Ombrellone;
 import by.giava.gestionechalet.model.servizi.Sdraio;
 import by.giava.gestionechalet.model.servizi.SediaRegista;
-import by.giava.gestionechalet.pojo.Preventivo;
 import by.giava.gestionechalet.repository.util.Tariffeutils;
 
 @Stateless
@@ -59,28 +59,52 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public List<Preventivo> getTariffeInPeriod(Date start, Date stop,
-			Map<ServiceEnum, Long> servizi) {
+			Map<TipoServizioEnum, Long> servizi, boolean soloStagionali,
+			String fila) {
 		List<Preventivo> result = new ArrayList<Preventivo>();
 		StringBuffer serviziS = new StringBuffer("");
-		for (ServiceEnum service : servizi.keySet()) {
+		for (TipoServizioEnum service : servizi.keySet()) {
 			serviziS.append(",'").append(service.name()).append("'");
 		}
+		List<Tariffa> resultP;
+		Query query;
 		try {
-			List<Tariffa> resultP = (List<Tariffa>) em
-					.createQuery(
-							"select distinct(t) from Tariffa t left join fetch t.costi ti where (t.dal <= :START OR  t.al >= :STOP) AND t.serviceName in ("
-									+ serviziS.toString().substring(1)
-									+ ")order by t.nome")
-					.setParameter("START", start).setParameter("STOP", stop)
-					.getResultList();
-			for (Tariffa tariffa : resultP) {
-				// if (servizi.containsKey(tariffa.getServiceName())) {
-				Preventivo pre = Tariffeutils.getPrenotazione(tariffa, start,
-						stop, servizi.get(ServiceEnum.valueOf(tariffa
-								.getServiceName())));
-				result.add(pre);
-				// }
+			String ql = "select distinct(t) from Tariffa t left join fetch t.costi ti where (t.stagionale = :STAGIONALE) AND t.serviceName in ("
+					+ serviziS.toString().substring(1) + ") ";
 
+			if (fila != null) {
+				ql = ql + " AND t.fila = :FILA ";
+			}
+
+			if (soloStagionali) {
+				// qui va presa la configurazione corrispondente
+				Configurazione configurazione = configurazioneRepository
+						.findAttuale();
+				start = configurazione.getDataInizioStagione();
+				stop = configurazione.getDataFineStagione();
+				query = em.createQuery(ql + " order by t.nome");
+				query.setParameter("STAGIONALE", true);
+				if (fila != null) {
+					query.setParameter("FILA", fila);
+				}
+			} else {
+				query = em
+						.createQuery(
+								ql
+										+ " AND (t.dal <= :START OR  t.al >= :STOP) order by t.nome")
+						.setParameter("START", start)
+						.setParameter("STOP", stop)
+						.setParameter("STAGIONALE", false);
+				if (fila != null) {
+					query.setParameter("FILA", fila);
+				}
+			}
+
+			resultP = (List<Tariffa>) query.getResultList();
+			for (Tariffa tariffa : resultP) {
+				Preventivo pre = Tariffeutils.getPrenotazione(tariffa, start,
+						stop, servizi.get(tariffa.getServiceName()));
+				result.add(pre);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -90,19 +114,19 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public List<Preventivo> getTariffeInPeriodForServiziPrenotati(
-			List<ServizioPrenotato> servizi) {
+			List<ServizioPrenotato> servizi, boolean soloStagionali) {
 		List<Preventivo> result = new ArrayList<Preventivo>();
 		for (ServizioPrenotato servizioPrenotato : servizi) {
 			try {
 				List<Tariffa> resultP = (List<Tariffa>) em
 						.createQuery(
-								"select distinct(t) from Tariffa t left join fetch t.costi ti where (t.dal <= :START OR  t.al >= :STOP) AND t.serviceName = :SERVICENAME order by t.nome")
+								"select distinct(t) from Tariffa t left join fetch t.costi ti where (t.stagionale = :STAGIONALE) AND (t.dal <= :START OR  t.al >= :STOP) AND t.serviceName = :SERVICENAME order by t.nome")
 						.setParameter("START", servizioPrenotato.getDal())
 						.setParameter("STOP", servizioPrenotato.getAl())
-						.setParameter(
-								"SERVICENAME",
-								servizioPrenotato.getServizio().getTipo()
-										.name()).getResultList();
+						.setParameter("STAGIONALE", soloStagionali)
+						.setParameter("SERVICENAME",
+								servizioPrenotato.getServizio().getTipo())
+						.getResultList();
 				if (resultP != null) {
 					for (Tariffa tariffa : resultP) {
 						// if (servizi.containsKey(tariffa.getServiceName())) {
@@ -157,8 +181,8 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 			Configurazione configurazione = configurazioneRepository
 					.findAttuale();
 
-			switch (tariffa.getServiceType()) {
-			case 1:
+			switch (tariffa.getServiceName()) {
+			case OMB:
 				// 1, "ombrellone");
 				// List<Ombrellone> ombrelloni =
 				// ombrelloniRepository.getAllList();
@@ -169,15 +193,15 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 				List<Ombrellone> ombrelloni = ombrelloniRepository.getList(
 						ricercaOmbr, 0, 0);
 				logger.info("num omb: " + ombrelloni.size());
-				tariffa.setServiceName("OMB");
+				// tariffa.setServiceName(ServiceEnum.OMB);
 				for (Ombrellone ombrellone : ombrelloni) {
 					ombrellone.addTariffa(tariffa);
 					ombrelloniRepository.update(ombrellone);
 				}
 				break;
-			case 2:
+			case SDR:
 				// 2, "sdraio");
-				tariffa.setServiceName("SDR");
+				// tariffa.setServiceName(ServiceEnum.SDR);
 				Sdraio sdraioSearch = new Sdraio();
 				sdraioSearch.setConfigurazione(configurazione);
 				Search<Sdraio> ricercaSdr = new Search<Sdraio>(sdraioSearch);
@@ -188,9 +212,9 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 					sdraieRepository.update(sdraio);
 				}
 				break;
-			case 3:
+			case LET:
 				// 3, "lettino");
-				tariffa.setServiceName("LET");
+				// tariffa.setServiceName(ServiceEnum.LET);
 				Lettino lettinoSearch = new Lettino();
 				lettinoSearch.setConfigurazione(configurazione);
 				Search<Lettino> ricercaLett = new Search<Lettino>(lettinoSearch);
@@ -201,9 +225,9 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 					lettiniRepository.update(lettino);
 				}
 				break;
-			case 4:
+			case CAB:
 				// 4, "cabina");
-				tariffa.setServiceName("CAB");
+				// tariffa.setServiceName(ServiceEnum.CAB);
 				Cabina cabinaSearch = new Cabina();
 				cabinaSearch.setConfigurazione(configurazione);
 				Search<Cabina> ricercaCab = new Search<Cabina>(cabinaSearch);
@@ -214,9 +238,9 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 					cabineRepository.update(cabina);
 				}
 				break;
-			case 5:
+			case SED:
 				// 5, "sedia");
-				tariffa.setServiceName("SED");
+				// tariffa.setServiceName(ServiceEnum.SED);
 				SediaRegista sediaSearch = new SediaRegista();
 				sediaSearch.setConfigurazione(configurazione);
 				Search<SediaRegista> ricercaSed = new Search<SediaRegista>(
@@ -273,8 +297,9 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 
 		// serviceType
 		if (search.getObj().getServiceName() != null
-				&& !search.getObj().getServiceName().isEmpty()
-				&& !search.getObj().getServiceName().equals("TUTTI")) {
+		// && !search.getObj().getServiceName().isEmpty()
+				&& !search.getObj().getServiceName()
+						.equals(TipoServizioEnum.TUTTI)) {
 			sb.append(separator).append(" ").append(alias)
 					.append(".serviceName = :serviceName ");
 			// aggiunta alla mappa

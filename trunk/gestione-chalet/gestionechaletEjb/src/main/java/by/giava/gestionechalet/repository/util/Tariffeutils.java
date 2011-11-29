@@ -6,8 +6,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
 import by.giava.gestionechalet.model.Costo;
+import by.giava.gestionechalet.model.Preventivo;
 import by.giava.gestionechalet.model.Tariffa;
-import by.giava.gestionechalet.pojo.Preventivo;
 
 public class Tariffeutils {
 	public static Long getNumeroGiorni(Tariffa tariffa, Date dal, Date al) {
@@ -32,19 +32,27 @@ public class Tariffeutils {
 		Preventivo preventivo = null;
 		Date start = dal;
 		Date stop = al;
-
-		if (tariffa.getDal().compareTo(dal) > 0)
-			start = tariffa.getDal();
-		if (tariffa.getAl().compareTo(al) < 0)
-			stop = tariffa.getAl();
 		Long numGiorni = TimeUtil.getDiffDays(start, stop);
-		Costo costo = tariffa.getCosti().get(numGiorni);
-		if (costo != null)
+		if (tariffa.isStagionale()) {
+			Costo costo = tariffa.getCosti().get(0L);
 			preventivo = new Preventivo(start, stop, tariffa.getServiceName(),
 					costo.getPrezzo(), numGiorni, numPezzi, tariffa.getId());
-		else
-			preventivo = new Preventivo(start, stop, tariffa.getServiceName(),
-					0, numGiorni, numPezzi, tariffa.getId());
+		} else {
+			if (tariffa.getDal().compareTo(dal) > 0)
+				start = tariffa.getDal();
+			if (tariffa.getAl().compareTo(al) < 0)
+				stop = tariffa.getAl();
+
+			Costo costo = tariffa.getCosti().get(numGiorni);
+			if (costo != null)
+				preventivo = new Preventivo(start, stop,
+						tariffa.getServiceName(), costo.getPrezzo(), numGiorni,
+						numPezzi, tariffa.getId());
+			else
+				preventivo = new Preventivo(start, stop,
+						tariffa.getServiceName(), 0, numGiorni, numPezzi,
+						tariffa.getId());
+		}
 		return preventivo;
 	}
 }

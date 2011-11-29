@@ -7,37 +7,18 @@
 	template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
-		<h:outputText value="Gestione Prenotazione" />
+		<h:outputText value="Gestione Prenotazione Stagionali" />
 	</ui:define>
 
 	<ui:define name="content">
 		<h:form id="bv" prependId="false">
-			<h2>Gestione Prenotazione</h2>
+			<h2>Gestione Prenotazione Stagionali</h2>
 			<p:panel style="width: 95%;">
 				<h:panelGrid columns="6" id="cerca">
-					<h:outputLabel for="dal" value="Dal:" />
-					<p:calendar id="dal"
-						value="#{prenotazioniController.search.obj.dataDal}"
-						title="Data dal" pattern="dd/MM/yyyy" locale="it" startWeekday="1"
-						showOn="button" />
-
-					<h:outputLabel for="al" value="Al:" />
-					<p:calendar id="al"
-						value="#{prenotazioniController.search.obj.dataAl}"
-						pattern="dd/MM/yyyy" title="Data al" locale="it" startWeekday="1"
-						showOn="button" />
-
-					<h:outputLabel for="stagionali" value="Solo stagionali" />
-					<p:selectBooleanCheckbox id="stagionali"
-						value="#{prenotazioniController.search.obj.soloStagionali}">
-						<p:ajax
-							listener="#{prenotazioniController.impostaRicercaStagionali}"
-							update="cerca" />
-					</p:selectBooleanCheckbox>
-
 					<h:outputLabel for="fila" value="Fila:" />
 					<p:selectOneMenu id="fila"
 						value="#{prenotazioniController.search.obj.fila}">
+						<f:selectItem itemLabel="Fila" itemValue="" />
 						<f:selectItems value="#{fileItems}" />
 						<p:ajax listener="#{propertiesController.cambioFilaPrenotazione}"
 							update="ombrelloni" />
@@ -63,8 +44,7 @@
 
 					<p:commandButton
 						action="#{prenotazioniController.resetRicercaOmbrelloni}"
-						value="reset" ajax="true" immediate="true"
-						update="prenotazioni, cerca" />
+						value="reset" ajax="true" immediate="true" update="prenotazioni" />
 				</h:panelGrid>
 			</p:panel>
 			<br />

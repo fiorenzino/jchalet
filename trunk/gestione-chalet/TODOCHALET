@@ -5,15 +5,22 @@ gestire la vista giornaliera
 gestire la vista stagionale
 
 M1
-possibilità di modificare importo finale (permettere sconto/aumento)
-aggiungi tariffa stagionale
+possibilità di modificare importo finale (permettere sconto/aumento) OK
+aggiungi tariffa stagionale OK 
 gestire prenotazione per giornalieri (senza scegliere contratto)
 gestire lo stato di un contratto
 gestire aggiunta di un cliente contestuale all'apertura di un contratto
 gestire eliminazione contratto (quando? solo sospeso?)
 eliminazione delle prenotazioni collegate
+
+gestire la vista degli stagionali
+aggiustare PrenotazioniController.ricercaOmbrelloni
 -----viste
 
+
+--nella creazione contratto:
+se non ci sono servizi, non deve andare avanti
+se non ci sono servizi, non deve calcolare preventivo
 
 M2
 gestione pagamenti (acconti)

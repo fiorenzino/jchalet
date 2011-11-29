@@ -15,19 +15,37 @@
 			<h2>Calcolo Preventivo</h2>
 
 			<p:panel style="width: 95%;">
-				<h:panelGrid columns="4">
-					<h:outputLabel for="dal" value="Dal:" />
+				<h:panelGrid columns="6" id="dati">
+					<h:outputLabel for="dal" value="Dal:"
+						rendered="#{not prenotazioniController.search.obj.soloStagionali}" />
 					<p:calendar id="dal"
 						value="#{prenotazioniController.search.obj.dataDal}"
 						title="Data dal" pattern="dd/MM/yyyy" locale="it" startWeekday="1"
-						showOn="button" />
-					<h:outputLabel for="al" value="Al:" />
+						showOn="button"
+						rendered="#{not prenotazioniController.search.obj.soloStagionali}" />
+					<h:outputLabel for="al" value="Al:"
+						rendered="#{not prenotazioniController.search.obj.soloStagionali}" />
 					<p:calendar id="al"
 						value="#{prenotazioniController.search.obj.dataAl}"
 						pattern="dd/MM/yyyy" title="Data al" locale="it" startWeekday="1"
-						showOn="button" />
+						showOn="button"
+						rendered="#{not prenotazioniController.search.obj.soloStagionali}" />
+					<h:outputLabel for="stagionale" value="Stagionale:" />
+					<p:selectBooleanCheckbox id="stagionale"
+						value="#{prenotazioniController.search.obj.soloStagionali}">
+						<p:ajax update="dati fila" />
+					</p:selectBooleanCheckbox>
 				</h:panelGrid>
-				<h:panelGrid columns="10">
+				<h:panelGrid columns="11">
+					<h:panelGroup id="fila">
+						<h:outputLabel for="fila" value="Fila:" id="filaLabel"
+							rendered="#{prenotazioniController.search.obj.soloStagionali}" />
+						<p:selectOneMenu
+							rendered="#{prenotazioniController.search.obj.soloStagionali}"
+							value="#{prenotazioniController.search.obj.fila}">
+							<f:selectItems value="#{fileItems}" />
+						</p:selectOneMenu>
+					</h:panelGroup>
 					<h:outputLabel for="ombrelloni" value="Nro Ombrelloni:" />
 					<h:selectOneMenu id="ombrelloni"
 						value="#{prenotazioniController.search.obj.numeroOmbrelloni}">

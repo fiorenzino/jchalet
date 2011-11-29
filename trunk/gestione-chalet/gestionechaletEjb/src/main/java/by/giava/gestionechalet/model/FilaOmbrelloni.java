@@ -8,8 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "chalet_fileombrelloni")
 public class FilaOmbrelloni implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -21,7 +24,8 @@ public class FilaOmbrelloni implements Serializable {
 	private boolean attivo = true;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "filaOmbrelloni")
+	@SequenceGenerator(name = "filaOmbrelloni", sequenceName = "filaOmbrelloni")
 	public Long getId() {
 		return id;
 	}

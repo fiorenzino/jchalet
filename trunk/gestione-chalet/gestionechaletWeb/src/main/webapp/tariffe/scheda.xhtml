@@ -5,14 +5,13 @@
 	xmlns:coop="http://www.coopservice.it/commons2/taglib"
 	xmlns:perm="http://www.coopservice.it/commons2/permissions"
 	xmlns:form="http://www.coopservice.it/commons2/form"
-	xmlns:p="http://primefaces.org/ui"
-	template="/WEB-INF/layout/t.xhtml">
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/layout/t.xhtml">
 	<ui:define name="title">Scheda Tariffa</ui:define>
 	<ui:define name="content">
 		<h1>Scheda Tariffa</h1>
 		<h:form id="bv">
 			<p:panel style="width: 95%;">
-				<h:panelGrid columns="4" style="width: 95%;">
+				<h:panelGrid columns="6" style="width: 95%;">
 					<h:outputLabel for="nome" value="Nome Tariffa:" />
 					<h:outputText id="nome" value="#{tariffeController.element.nome}" />
 
@@ -20,16 +19,32 @@
 					<h:outputText id="serviceName"
 						value="#{tariffeController.element.serviceName}" />
 
+					<h:outputLabel for="stagionale" value="Stagionale:" />
+					<h:panelGroup>
+						<h:outputText id="stagionale1" value="SI"
+							rendered="#{tariffeController.element.stagionale}" />
+						<h:outputText id="stagionale2" value="NO"
+							rendered="#{not tariffeController.element.stagionale}" />
+					</h:panelGroup>
+
+					<h:outputLabel for="fila" value="Fila:" />
+					<h:panelGroup id="fila">
+						<h:outputText value="#{tariffeController.element.fila}"
+							rendered="#{not empty tariffeController.element.fila}" />
+						<h:outputText value="TUTTE"
+							rendered="#{empty tariffeController.element.fila}" />
+					</h:panelGroup>
+
 					<h:outputLabel for="dataDal" value="Dal:" />
 					<h:outputText id="dataDal" value="#{tariffeController.element.dal}">
 						<f:convertDateTime type="both" pattern="dd/MM/yyyy"
-								timeZone="Europe/Rome" locale="it" />
+							timeZone="Europe/Rome" locale="it" />
 					</h:outputText>
 
 					<h:outputLabel for="dataAl" value="Al:" />
 					<h:outputText id="dataAl" value="#{tariffeController.element.al}">
 						<f:convertDateTime type="both" pattern="dd/MM/yyyy"
-								timeZone="Europe/Rome" locale="it" />
+							timeZone="Europe/Rome" locale="it" />
 					</h:outputText>
 				</h:panelGrid>
 			</p:panel>
@@ -41,7 +56,9 @@
 						<f:facet name="header">
 							<h:outputText value="giorno" />
 						</f:facet>
-						<h:outputText value="#{costo.giorno}" />
+						<h:outputText value="#{costo.giorno}"
+							rendered="#{costo.giorno != 0}" />
+						<h:outputText value="stagione" rendered="#{costo.giorno eq 0}" />
 					</p:column>
 					<p:column>
 						<f:facet name="header">

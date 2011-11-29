@@ -11,7 +11,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import by.giava.gestionechalet.enums.ServiceEnum;
+import by.giava.gestionechalet.enums.TipoServizioEnum;
 import by.giava.gestionechalet.model.Prenotazione;
 import by.giava.gestionechalet.model.Servizio;
 import by.giava.gestionechalet.repository.PrenotazioniRepository;
@@ -30,10 +30,10 @@ public class SearchForFreeService implements Serializable {
 	ServiziRepository serviziRepository;
 
 	public List<Servizio> findLibero(Date dal, Date al,
-			ServiceEnum serviceEnum, Long confId, int num) {
+			TipoServizioEnum serviceEnum, Long confId, int num) {
 		// cerco tutti quelli occupati nel periodo
 		Prenotazione prenotazione = new Prenotazione();
-		prenotazione.setTipoServizio(ServiceEnum.CAB.name());
+		prenotazione.setTipoServizio(TipoServizioEnum.CAB.name());
 		prenotazione.setDataDal(dal);
 		prenotazione.setDataAl(al);
 		List<Prenotazione> occupati = prenotazioniRepository.getList(

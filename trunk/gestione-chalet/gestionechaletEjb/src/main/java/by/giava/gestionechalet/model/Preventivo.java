@@ -1,4 +1,4 @@
-package by.giava.gestionechalet.pojo;
+package by.giava.gestionechalet.model;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -8,16 +8,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import by.giava.gestionechalet.model.Contratto;
+import by.giava.gestionechalet.enums.TipoServizioEnum;
 
 @Entity
+@Table(name = "chalet_preventivi")
 public class Preventivo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Long id;
-	private String servizio;
+	private TipoServizioEnum servizio;
 	private Long numPezzi;
 	private Long numGiorni;
 	private Date dal;
@@ -31,8 +34,8 @@ public class Preventivo implements Serializable {
 
 	}
 
-	public Preventivo(Date dal, Date al, String servizio, float costo,
-			Long numGiorni, Long numPezzi, Long tariffa) {
+	public Preventivo(Date dal, Date al, TipoServizioEnum servizio,
+			float costo, Long numGiorni, Long numPezzi, Long tariffa) {
 		this.dal = dal;
 		this.al = al;
 		this.servizio = servizio;
@@ -44,7 +47,8 @@ public class Preventivo implements Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "preventivo")
+	@SequenceGenerator(name = "preventivo", sequenceName = "preventivo")
 	public Long getId() {
 		return id;
 	}
@@ -54,11 +58,11 @@ public class Preventivo implements Serializable {
 	}
 
 	@Transient
-	public String getServizio() {
+	public TipoServizioEnum getServizio() {
 		return servizio;
 	}
 
-	public void setServizio(String servizio) {
+	public void setServizio(TipoServizioEnum servizio) {
 		this.servizio = servizio;
 	}
 

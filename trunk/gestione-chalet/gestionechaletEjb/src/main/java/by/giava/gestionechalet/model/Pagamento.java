@@ -8,8 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "chalet_pagamenti")
 public class Pagamento implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -19,7 +22,8 @@ public class Pagamento implements Serializable {
 	private Contratto contratto;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "pagamento")
+	@SequenceGenerator(name = "pagamento", sequenceName = "pagamento")
 	public Long getId() {
 		return id;
 	}

@@ -11,11 +11,11 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.Query;
 
-import by.giava.gestionechalet.enums.ContrattoStatus;
+import by.giava.gestionechalet.enums.StatoContrattoEnum;
 import by.giava.gestionechalet.model.Contratto;
+import by.giava.gestionechalet.model.Preventivo;
 import by.giava.gestionechalet.model.Servizio;
 import by.giava.gestionechalet.model.ServizioPrenotato;
-import by.giava.gestionechalet.pojo.Preventivo;
 
 @Stateless
 @LocalBean
@@ -67,13 +67,12 @@ public class ContrattiRepository extends BaseRepository<Contratto> {
 		}
 
 		// stato
-		if (search.getObj().getStatusName() != null
-				&& !search.getObj().getStatusName().equals("TUTTI")) {
+		if (search.getObj().getStato() != null
+				&& !search.getObj().getStato().equals(StatoContrattoEnum.TUTTI)) {
 			sb.append(separator).append(" ").append(alias)
 					.append(".stato = :stato ");
 			// aggiunta alla mappa
-			params.put("stato",
-					ContrattoStatus.valueOf(search.getObj().getStatusName()));
+			params.put("stato", search.getObj().getStato());
 			// separatore
 			separator = " and ";
 		}

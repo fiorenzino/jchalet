@@ -15,18 +15,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-import by.giava.gestionechalet.enums.ContrattoStatus;
-import by.giava.gestionechalet.pojo.Preventivo;
+import by.giava.gestionechalet.enums.StatoContrattoEnum;
 
 @Entity
+@Table(name = "chalet_contratti")
 public class Contratto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private Cliente cliente;
-	private ContrattoStatus stato;
+	private StatoContrattoEnum stato;
 	private List<ServizioPrenotato> serviziPrenotati;
 	private List<Preventivo> preventivi;
 	private Date dataStipula;
@@ -35,13 +36,13 @@ public class Contratto implements Serializable {
 	private float importoIniziale;
 	private float importoFinale;
 	private float importoAcconto;
-	private float importoSconto;
+	private float importoVariazione;
 
 	private boolean attivo = true;
-	private String statusName;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "contratto")
+	@SequenceGenerator(name = "contratto", sequenceName = "contratto")
 	public Long getId() {
 		return id;
 	}
@@ -132,12 +133,12 @@ public class Contratto implements Serializable {
 		this.importoAcconto = importoAcconto;
 	}
 
-	public float getImportoSconto() {
-		return importoSconto;
+	public float getImportoVariazione() {
+		return importoVariazione;
 	}
 
-	public void setImportoSconto(float importoSconto) {
-		this.importoSconto = importoSconto;
+	public void setImportoVariazione(float importoVariazione) {
+		this.importoVariazione = importoVariazione;
 	}
 
 	@OneToMany(cascade = { CascadeType.ALL }, targetEntity = Preventivo.class, fetch = FetchType.LAZY)
@@ -156,21 +157,12 @@ public class Contratto implements Serializable {
 	}
 
 	@Enumerated(EnumType.STRING)
-	public ContrattoStatus getStato() {
+	public StatoContrattoEnum getStato() {
 		return stato;
 	}
 
-	public void setStato(ContrattoStatus stato) {
+	public void setStato(StatoContrattoEnum stato) {
 		this.stato = stato;
-	}
-
-	@Transient
-	public String getStatusName() {
-		return statusName;
-	}
-
-	public void setStatusName(String statusName) {
-		this.statusName = statusName;
 	}
 
 }

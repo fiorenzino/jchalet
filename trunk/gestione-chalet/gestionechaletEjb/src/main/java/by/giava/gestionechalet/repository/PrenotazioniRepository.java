@@ -11,7 +11,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 
-import by.giava.gestionechalet.enums.ServiceEnum;
+import by.giava.gestionechalet.enums.TipoServizioEnum;
 import by.giava.gestionechalet.model.Prenotazione;
 import by.giava.gestionechalet.model.ServizioPrenotato;
 import by.giava.gestionechalet.model.servizi.Ombrellone;
@@ -68,7 +68,7 @@ public class PrenotazioniRepository extends BaseRepository<Prenotazione> {
 					.append(".servizio.tipo = :tipoServizio ");
 			// aggiunta alla mappa
 			params.put("tipoServizio",
-					ServiceEnum.valueOf(search.getObj().getTipoServizio()));
+					TipoServizioEnum.valueOf(search.getObj().getTipoServizio()));
 			// separatore
 			separator = " and ";
 		}
@@ -166,7 +166,7 @@ public class PrenotazioniRepository extends BaseRepository<Prenotazione> {
 			prenotazione.setContratto(servizioPrenotato.getContratto());
 			prenotazione.setNumero(servizioPrenotato.getServizio().getNumero());
 			if (servizioPrenotato.getServizio().getTipo()
-					.equals(ServiceEnum.OMB)) {
+					.equals(TipoServizioEnum.OMB)) {
 				Ombrellone ombrellone = (Ombrellone) servizioPrenotato
 						.getServizio();
 				prenotazione.setFila(ombrellone.getFila());

@@ -17,8 +17,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import by.giava.gestionechalet.controller.util.PrenotazioniUtils;
-import by.giava.gestionechalet.enums.ServiceEnum;
+import by.giava.gestionechalet.enums.TipoServizioEnum;
 import by.giava.gestionechalet.model.Prenotazione;
+import by.giava.gestionechalet.model.Preventivo;
 import by.giava.gestionechalet.model.Servizio;
 import by.giava.gestionechalet.model.ServizioPrenotato;
 import by.giava.gestionechalet.model.servizi.Cabina;
@@ -26,7 +27,6 @@ import by.giava.gestionechalet.model.servizi.Lettino;
 import by.giava.gestionechalet.model.servizi.Ombrellone;
 import by.giava.gestionechalet.model.servizi.Sdraio;
 import by.giava.gestionechalet.model.servizi.SediaRegista;
-import by.giava.gestionechalet.pojo.Preventivo;
 import by.giava.gestionechalet.repository.ConfigurazioneRepository;
 import by.giava.gestionechalet.repository.OmbrelloniRepository;
 import by.giava.gestionechalet.repository.PrenotazioniRepository;
@@ -49,7 +49,9 @@ public class PrenotazioniController extends
 
 	public static final String GIORNALIERO = "/prenotazioni/giornaliero.xhtml";
 
-	public static final String CALCOLA = "/prenotazioni/calcola-preventivo.xhtml";
+	public static final String CALCOLA = "/tariffe/calcola-preventivo.xhtml";
+
+	public static final String EDIT_STAGIONALI = "/prenotazioni/stagionali.xhtml";
 
 	@Inject
 	@OwnRepository(PrenotazioniRepository.class)
@@ -79,7 +81,7 @@ public class PrenotazioniController extends
 	private List<String> righe;
 	private List<ServizioPrenotato> servizi;
 	private int numAccessori = 1;
-	private Map<ServiceEnum, Long> serviziMap;
+	private Map<TipoServizioEnum, Long> serviziMap;
 
 	// private Ricerca ricerca;
 	private float total;
@@ -97,9 +99,22 @@ public class PrenotazioniController extends
 	}
 
 	public String creaPrenotazione() {
+		reset();
 		resetRicercaOmbrelloni();
 		this.preventivi = null;
 		return EDIT + "?faces-redirect=true";
+	}
+
+	public String creaPrenotazioneStagionale() {
+		reset();
+		resetRicercaOmbrelloni();
+		getSearch().getObj().setSoloStagionali(true);
+		getSearch().getObj().setDataDal(
+				configurazioneController.getActual().getDataInizioStagione());
+		getSearch().getObj().setDataAl(
+				configurazioneController.getActual().getDataFineStagione());
+		this.preventivi = null;
+		return EDIT_STAGIONALI + "?faces-redirect=true";
 	}
 
 	public String creaPrenotazioneGiornaliero() {
@@ -112,7 +127,8 @@ public class PrenotazioniController extends
 		this.total = 0;
 		// CERCO LE TARIFFE PER PERIODO
 		List<Preventivo> lista = tariffeRepository
-				.getTariffeInPeriodForServiziPrenotati(getServizi());
+				.getTariffeInPeriodForServiziPrenotati(getServizi(),
+						getSearch().getObj().isSoloStagionali());
 		// CALCOLO PER OGNI TARIFFA
 		this.preventivi = new ArrayList<Preventivo>();
 		for (Preventivo pre : lista) {
@@ -122,22 +138,26 @@ public class PrenotazioniController extends
 	}
 
 	public void calcolaPrezzo() {
+		this.serviziMap = null;
 		// numeroSdraie;
+		if (getSearch().getObj().getFila() == null
+				|| getSearch().getObj().getFila().equals("TUTTE"))
+			getSearch().getObj().setFila(null);
 		int num = 0;
 		if (getSearch().getObj().getNumeroSdraie() > 0) {
-			getServiziMap().put(ServiceEnum.SDR,
+			getServiziMap().put(TipoServizioEnum.SDR,
 					new Long(getSearch().getObj().getNumeroSdraie()));
 			num++;
 		}
 		// numeroLettini;
 		if (getSearch().getObj().getNumeroLettini() > 0) {
-			getServiziMap().put(ServiceEnum.LET,
+			getServiziMap().put(TipoServizioEnum.LET,
 					new Long(getSearch().getObj().getNumeroLettini()));
 			num++;
 		}
 		// numeroCabine;
 		if (getSearch().getObj().getNumeroCabine() > 0) {
-			getServiziMap().put(ServiceEnum.CAB,
+			getServiziMap().put(TipoServizioEnum.CAB,
 					new Long(getSearch().getObj().getNumeroCabine()));
 			num++;
 		}
@@ -149,13 +169,13 @@ public class PrenotazioniController extends
 		// }
 		// numeroOmbrelloni
 		if (getSearch().getObj().getNumeroOmbrelloni() > 0) {
-			getServiziMap().put(ServiceEnum.OMB,
+			getServiziMap().put(TipoServizioEnum.OMB,
 					new Long(getSearch().getObj().getNumeroOmbrelloni()));
 			num++;
 		}
 		// numero sedie
 		if (Integer.valueOf(getSearch().getObj().getNumeroSedie()) > 0) {
-			getServiziMap().put(ServiceEnum.SED,
+			getServiziMap().put(TipoServizioEnum.SED,
 					new Long(getSearch().getObj().getNumeroSedie()));
 			num++;
 		}
@@ -172,7 +192,8 @@ public class PrenotazioniController extends
 		// CERCO LE TARIFFE PER PERIODO
 		List<Preventivo> lista = tariffeRepository.getTariffeInPeriod(
 				getSearch().getObj().getDataDal(), getSearch().getObj()
-						.getDataAl(), getServiziMap());
+						.getDataAl(), getServiziMap(), getSearch().getObj()
+						.isSoloStagionali(), getSearch().getObj().getFila());
 		// CALCOLO PER OGNI TARIFFA
 		this.preventivi = new ArrayList<Preventivo>();
 		for (Preventivo pre : lista) {
@@ -188,6 +209,7 @@ public class PrenotazioniController extends
 		this.servizi = null;
 		this.serviziMap = null;
 		this.total = 0;
+		reset();
 	}
 
 	public void ricercaOmbrelloniPerMese() {
@@ -203,7 +225,9 @@ public class PrenotazioniController extends
 
 	public void ricercaOmbrelloni() {
 		// cerca ombrelloni dal/al
-
+		if (getSearch().getObj().getDataDal() == null
+				&& getSearch().getObj().getDataDal() == null)
+			return;
 		Search<Ombrellone> search = new Search<Ombrellone>(new Ombrellone(
 				getSearch().getObj().getNumero(), getSearch().getObj()
 						.getFila(), configurazioneController.getActual()));
@@ -225,6 +249,9 @@ public class PrenotazioniController extends
 		this.colonne = PrenotazioniUtils.creaColonne(getSearch().getObj()
 				.getDataDal(), getSearch().getObj().getDataAl());
 		this.righe = PrenotazioniUtils.creaRighe(ombrelloni);
+		if (getSearch().getObj().isSoloStagionali()) {
+			// TODO
+		}
 	}
 
 	public void aggiungi() {
@@ -238,11 +265,11 @@ public class PrenotazioniController extends
 	public void aggiungiServizio(String fila, String numero, String tipo) {
 		logger.info("aggiungiServizio: " + fila + ":" + numero + " " + tipo);
 		List<Servizio> serv = null;
-		switch (ServiceEnum.valueOf(tipo)) {
+		switch (TipoServizioEnum.valueOf(tipo)) {
 		case CAB:
 			serv = searchForFreeService.findLibero(getSearch().getObj()
 					.getDataDal(), getSearch().getObj().getDataAl(),
-					ServiceEnum.CAB, configurazioneController.getActual()
+					TipoServizioEnum.CAB, configurazioneController.getActual()
 							.getId(), getNumAccessori());
 			if (serv != null) {
 				for (Servizio servizio : serv) {
@@ -263,7 +290,7 @@ public class PrenotazioniController extends
 		case LET:
 			serv = searchForFreeService.findLibero(getSearch().getObj()
 					.getDataDal(), getSearch().getObj().getDataAl(),
-					ServiceEnum.LET, configurazioneController.getActual()
+					TipoServizioEnum.LET, configurazioneController.getActual()
 							.getId(), getNumAccessori());
 
 			if (serv != null) {
@@ -299,7 +326,7 @@ public class PrenotazioniController extends
 		case SDR:
 			serv = searchForFreeService.findLibero(getSearch().getObj()
 					.getDataDal(), getSearch().getObj().getDataAl(),
-					ServiceEnum.SDR, configurazioneController.getActual()
+					TipoServizioEnum.SDR, configurazioneController.getActual()
 							.getId(), getNumAccessori());
 			if (serv != null) {
 				for (Servizio servizio : serv) {
@@ -320,7 +347,7 @@ public class PrenotazioniController extends
 		case SED:
 			serv = searchForFreeService.findLibero(getSearch().getObj()
 					.getDataDal(), getSearch().getObj().getDataAl(),
-					ServiceEnum.SDR, configurazioneController.getActual()
+					TipoServizioEnum.SDR, configurazioneController.getActual()
 							.getId(), getNumAccessori());
 
 			if (serv != null) {
@@ -352,7 +379,7 @@ public class PrenotazioniController extends
 		for (ServizioPrenotato servizioPrenotato : getServizi()) {
 			if (servizioPrenotato.getServizio().getNumero().equals(numero)
 					&& servizioPrenotato.getServizio().getTipo()
-							.equals(ServiceEnum.valueOf(tipo))) {
+							.equals(TipoServizioEnum.valueOf(tipo))) {
 				if (elimina)
 					getServizi().remove(servizioPrenotato);
 				return true;
@@ -434,13 +461,13 @@ public class PrenotazioniController extends
 		this.numAccessori = numAccessori;
 	}
 
-	public Map<ServiceEnum, Long> getServiziMap() {
+	public Map<TipoServizioEnum, Long> getServiziMap() {
 		if (serviziMap == null)
-			this.serviziMap = new HashMap<ServiceEnum, Long>();
+			this.serviziMap = new HashMap<TipoServizioEnum, Long>();
 		return serviziMap;
 	}
 
-	public void setServiziMap(Map<ServiceEnum, Long> serviziMap) {
+	public void setServiziMap(Map<TipoServizioEnum, Long> serviziMap) {
 		this.serviziMap = serviziMap;
 	}
 

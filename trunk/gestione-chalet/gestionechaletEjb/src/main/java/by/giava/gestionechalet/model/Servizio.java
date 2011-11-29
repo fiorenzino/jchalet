@@ -17,20 +17,21 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import by.giava.gestionechalet.enums.ServiceEnum;
+import by.giava.gestionechalet.enums.TipoServizioEnum;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(columnDefinition = "tipo", name = "TIPO", discriminatorType = DiscriminatorType.STRING, length = 3)
-@Table(name = "Servizio")
+@Table(name = "chalet_servizi")
 public class Servizio implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Long id;
-	private ServiceEnum tipo;
+	private TipoServizioEnum tipo;
 	private String numero;
 	private List<Tariffa> tariffe;
 	private boolean attivo = true;
@@ -38,7 +39,8 @@ public class Servizio implements Serializable {
 	private List<Long> notIn;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "servizio")
+	@SequenceGenerator(name = "servizio", sequenceName = "servizio")
 	public Long getId() {
 		return id;
 	}
@@ -48,11 +50,11 @@ public class Servizio implements Serializable {
 	}
 
 	@Enumerated(EnumType.STRING)
-	public ServiceEnum getTipo() {
+	public TipoServizioEnum getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(ServiceEnum tipo) {
+	public void setTipo(TipoServizioEnum tipo) {
 		this.tipo = tipo;
 	}
 

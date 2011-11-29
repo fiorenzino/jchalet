@@ -5,8 +5,7 @@
 	xmlns:coop="http://www.coopservice.it/commons2/taglib"
 	xmlns:perm="http://www.coopservice.it/commons2/permissions"
 	xmlns:form="http://www.coopservice.it/commons2/form"
-	xmlns:p="http://primefaces.org/ui"
-	template="/WEB-INF/layout/t.xhtml">
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">Gestione Configurazione - Dati Generali</ui:define>
 
@@ -71,6 +70,21 @@
 					<h:inputText id="numeroSedie"
 						value="#{configurazioneController.element.numeroSedieRegista}" />
 					<h:message for="numeroSedie" errorClass="invalid" />
+
+					<h:outputLabel for="dataInizioStagione"
+						value="data Inizio Stagione:" />
+					<p:calendar id="dataInizioStagione"
+						value="#{configurazioneController.element.dataInizioStagione}"
+						title="Data dal" pattern="dd/MM/yyyy" locale="it" startWeekday="1"
+						showOn="button" />
+					<h:message for="dataInizioStagione" errorClass="invalid" />
+
+					<h:outputLabel for="dataFineStagione" value="data Fine Stagione:" />
+					<p:calendar id="dataFineStagione"
+						value="#{configurazioneController.element.dataFineStagione}"
+						pattern="dd/MM/yyyy" title="Data al" locale="it" startWeekday="1"
+						showOn="button" />
+					<h:message for="dataFineStagione" errorClass="invalid" />
 				</h:panelGrid>
 			</p:panel>
 			<br />

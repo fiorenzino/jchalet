@@ -52,12 +52,30 @@
 						for="numeroSedieRegista" />
 					<h:outputText id="numeroSedieRegista"
 						value="#{configurazioneController.element.numeroSedieRegista}" />
+
+					<h:outputText value=" " />
+					<h:outputText value=" " />
+
+					<h:outputLabel value="data Inizio Stagione:"
+						for="dataInizioStagione" />
+					<h:outputText id="dataInizioStagione"
+						value="#{configurazioneController.element.dataInizioStagione}">
+						<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+							timeZone="Europe/Rome" locale="it" />
+					</h:outputText>
+
+					<h:outputLabel value="data Fine Stagione:" for="dataFineStagione" />
+					<h:outputText id="dataFineStagione"
+						value="#{configurazioneController.element.dataFineStagione}">
+						<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+							timeZone="Europe/Rome" locale="it" />
+					</h:outputText>
 				</h:panelGrid>
 			</p:panel>
 			<br />
 			<p:panel style="width: 95%;">
 				<h:panelGrid columns="2">
-					
+
 
 					<p:commandButton action="#{configurazioneController.step1}"
 						value="gestisci attuale" ajax="false" immediate="true" />

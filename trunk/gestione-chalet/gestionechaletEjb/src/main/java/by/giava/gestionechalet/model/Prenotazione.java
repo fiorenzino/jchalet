@@ -10,9 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
+@Table(name = "chalet_prenotazioni")
 public class Prenotazione implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -37,7 +40,8 @@ public class Prenotazione implements Serializable {
 	private boolean soloStagionali;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "prenotazione")
+	@SequenceGenerator(name = "prenotazione", sequenceName = "prenotazione")
 	public Long getId() {
 		return id;
 	}
