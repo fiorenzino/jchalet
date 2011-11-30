@@ -9,7 +9,6 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 
-import by.giava.gestionechalet.model.servizi.Sdraio;
 import by.giava.gestionechalet.model.servizi.SediaRegista;
 
 @Stateless

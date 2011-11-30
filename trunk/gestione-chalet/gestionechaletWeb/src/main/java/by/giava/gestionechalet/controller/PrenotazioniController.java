@@ -449,7 +449,7 @@ public class PrenotazioniController extends
 	}
 
 	public void setProp(String prop) {
-		System.out.println("prop: " + prop);
+		logger.info("prop: " + prop);
 		this.prop = prop;
 	}
 
