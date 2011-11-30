@@ -190,7 +190,7 @@ public class PropertiesController implements Serializable {
 	@Produces
 	@Named
 	public SelectItem[] getOmbrelloniItems() {
-		System.out.println("getOmbrelloniItems: " + ombrelloniItems.length);
+		logger.info("getOmbrelloniItems: " + ombrelloniItems.length);
 		return ombrelloniItems;
 	}
 
@@ -207,7 +207,7 @@ public class PropertiesController implements Serializable {
 				.getList(search, 0, 0);
 		ombrelloniItems = new SelectItem[ombrelloni.size() + 1];
 		int i = 1;
-		System.out.println("ombrelloni: " + ombrelloni.size());
+		logger.info("ombrelloni: " + ombrelloni.size());
 		for (Ombrellone ombrellone : ombrelloni) {
 			ombrelloniItems[i] = new SelectItem(ombrellone.getNumero(),
 					ombrellone.getNumero());

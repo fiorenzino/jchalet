@@ -5,12 +5,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.jboss.logging.Logger;
+
 public class TimeUtil {
+
+	static Logger logger = Logger.getLogger(TimeUtil.class);
 
 	static DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
 	public static Long getDiffDays(Date dataInit, Date dataEnd) {
-		System.out.println("INTERVALLO: " + format.format(dataInit) + "-"
+		logger.info("INTERVALLO: " + format.format(dataInit) + "-"
 				+ format.format(dataEnd));
 		if (dataEnd.after(dataInit)) {
 			Calendar cal1 = Calendar.getInstance();
