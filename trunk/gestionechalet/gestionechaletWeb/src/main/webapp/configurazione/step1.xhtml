@@ -1,0 +1,110 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:coop="http://www.coopservice.it/commons2/taglib"
+	xmlns:perm="http://www.coopservice.it/commons2/permissions"
+	xmlns:form="http://www.coopservice.it/commons2/form"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">Gestione Configurazione - Dati Generali</ui:define>
+
+	<ui:define name="content">
+		<h1>Gestione Configurazione - Dati Generali</h1>
+		<h:form id="bv">
+			<p>
+				<h:outputText
+					value="lasciare un tot di righe in piu', davanti e dietro!" />
+			</p>
+			<p:panel style="width: 95%;">
+				<h:panelGrid columns="6">
+					<h:outputLabel for="nome" value="Nome" />
+					<h:inputText id="nome"
+						value="#{configurazioneController.element.nome}" />
+					<h:message for="nome" errorClass="invalid" />
+
+
+					<h:outputLabel value="Attuale:" for="attuale" />
+					<p:selectBooleanCheckbox id="attuale"
+						value="#{configurazioneController.element.attuale}" />
+					<h:message for="attuale" errorClass="invalid" />
+
+					<h:outputLabel for="numeroColonne" value="Numero Colonne(*):" />
+					<h:inputText id="numeroColonne"
+						value="#{configurazioneController.element.numeroColonne}"
+						required="true" />
+					<h:message for="numeroColonne" errorClass="invalid" />
+
+					<h:outputLabel for="numeroRighe" value="Numero Righe(*):"
+						required="true" />
+					<h:inputText id="numeroRighe"
+						value="#{configurazioneController.element.numeroRighe}" />
+					<h:message for="numeroRighe" errorClass="invalid" />
+
+					<h:outputLabel for="numeroFile" value="Numero File:" />
+					<h:inputText id="numeroFile"
+						value="#{configurazioneController.element.numeroFile}" />
+					<h:message for="numeroFile" errorClass="invalid" />
+
+					<h:outputLabel for="numeroOmbrelloni" value="Numero Ombrelloni(*):" />
+					<h:inputText id="numeroOmbrelloni"
+						value="#{configurazioneController.element.numeroOmbrelloni}" />
+					<h:message for="numeroOmbrelloni" errorClass="invalid" />
+
+					<h:outputLabel for="numeroFile" value="Numero Lettini(*):" />
+					<h:inputText id="numeroLettini"
+						value="#{configurazioneController.element.numeroLettini}" />
+					<h:message for="numeroLettini" errorClass="invalid" />
+
+					<h:outputLabel for="numeroFile" value="Numero sdraio:" />
+					<h:inputText id="numeroSdraio"
+						value="#{configurazioneController.element.numeroSdraio}" />
+					<h:message for="numeroSdraio" errorClass="invalid" />
+
+					<h:outputLabel for="numeroFile" value="Numero cabine:" />
+					<h:inputText id="numeroCabine"
+						value="#{configurazioneController.element.numeroCabine}" />
+					<h:message for="numeroCabine" errorClass="invalid" />
+
+					<h:outputLabel for="numeroSedie" value="Numero sedie regista:" />
+					<h:inputText id="numeroSedie"
+						value="#{configurazioneController.element.numeroSedieRegista}" />
+					<h:message for="numeroSedie" errorClass="invalid" />
+
+					<h:outputLabel for="dataInizioStagione"
+						value="data Inizio Stagione:" />
+					<p:calendar id="dataInizioStagione"
+						value="#{configurazioneController.element.dataInizioStagione}"
+						title="Data dal" pattern="dd/MM/yyyy" locale="it" startWeekday="1"
+						showOn="button" />
+					<h:message for="dataInizioStagione" errorClass="invalid" />
+
+					<h:outputLabel for="dataFineStagione" value="data Fine Stagione:" />
+					<p:calendar id="dataFineStagione"
+						value="#{configurazioneController.element.dataFineStagione}"
+						pattern="dd/MM/yyyy" title="Data al" locale="it" startWeekday="1"
+						showOn="button" />
+					<h:message for="dataFineStagione" errorClass="invalid" />
+				</h:panelGrid>
+			</p:panel>
+			<br />
+			<p:panel style="width: 95%;">
+				<h:panelGrid columns="4">
+					<p:commandButton action="#{configurazioneController.step2}"
+						value="Salva e Disposi Ombrelloni" ajax="false" immediate="false" />
+
+					<p:commandButton action="#{configurazioneController.reload}"
+						value="Annulla" ajax="false" immediate="true" />
+
+					<p:commandButton action="#{configurazioneController.delete}"
+						value="Elimina"
+						onclick="if (!confirm('Confermi l'eliminazione?')) return false"
+						rendered="#{not empty configurazioneController.element.id}"
+						ajax="true" />
+
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

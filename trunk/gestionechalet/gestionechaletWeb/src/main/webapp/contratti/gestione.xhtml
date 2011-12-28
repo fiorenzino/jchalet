@@ -1,0 +1,188 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:coop="http://www.coopservice.it/commons2/taglib"
+	xmlns:perm="http://www.coopservice.it/commons2/permissions"
+	xmlns:form="http://www.coopservice.it/commons2/form"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">Gestione Contratto</ui:define>
+
+	<ui:define name="content">
+		<h:form id="bv">
+			<h2>Gestione Contratto</h2>
+			<p:panel style="width: 95%;" id="servx" header="Servizi selezionati">
+				<p:dataTable var="servizio"
+					value="#{contrattiController.element.serviziPrenotati}"
+					rowIndexVar="rowIndexServ"
+					emptyMessage="non ci sono servizi selezionati.">
+					<p:column>
+						<f:facet name="header">num</f:facet>
+						#{rowIndexServ+1}
+					</p:column>
+					<p:column>
+						<f:facet name="header">servizio</f:facet>
+						<h:outputText value="#{servizio.servizio.tipo}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">fila</f:facet>
+						<h:outputText value="#{servizio.servizio.fila}"
+							rendered="#{servizio.servizio.tipo eq 'OMB'}" />
+
+					</p:column>
+					<p:column>
+						<f:facet name="header">numero</f:facet>
+						<h:outputText value="#{servizio.servizio.numero}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">dal</f:facet>
+						<h:outputText value="#{servizio.dal}">
+							<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+								timeZone="Europe/Rome" locale="it" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">al</f:facet>
+						<h:outputText value="#{servizio.al}">
+							<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+								timeZone="Europe/Rome" locale="it" />
+						</h:outputText>
+					</p:column>
+				</p:dataTable>
+				<br />
+			</p:panel>
+			<br />
+			<p:panel style="width: 95%;" id="prev" header="Preventivo">
+
+				<p:dataTable id="preventivi" var="preventivo"
+					value="#{contrattiController.element.preventivi}" paginator="false"
+					rowIndexVar="rowIndexServ">
+					<p:column>
+						<f:facet name="header">num</f:facet>
+						#{rowIndexServ+1}
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="servizio" />
+						</f:facet>
+						<h:outputText value="#{preventivo.servizio}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="dal" />
+						</f:facet>
+						<h:outputText value="#{preventivo.dal}">
+							<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+								timeZone="Europe/Rome" locale="it" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="al" />
+						</f:facet>
+						<h:outputText value="#{preventivo.al}">
+							<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+								timeZone="Europe/Rome" locale="it" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="giorni" />
+						</f:facet>
+						<h:outputText value="#{preventivo.numGiorni}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="totale" />
+						</f:facet>
+						<h:outputText value="euro #{preventivo.total}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+			<br />
+			<p:panel style="width: 95%;" id="dati" header="Dati Contratto">
+				<h:panelGrid columns="6">
+					<h:outputLabel for="cliente" value="Cliente:" />
+					<p:selectOneMenu id="cliente"
+						value="#{contrattiController.element.cliente.id}">
+						<f:selectItems value="#{clienti}" />
+					</p:selectOneMenu>
+					<h:message for="cliente" errorClass="invalid" />
+
+					<h:outputLabel for="dataStipula" value="data Stipula" />
+					<p:calendar id="dataStipula"
+						value="#{contrattiController.element.dataStipula}"
+						pattern="dd/MM/yyyy" title="Data al" locale="it" startWeekday="1"
+						showOn="button" />
+					<h:message for="dataStipula" errorClass="invalid" />
+
+
+
+					<h:outputLabel value="importo Iniziale" for="importoIniziale"
+						style="font-weight: bold;" />
+					<h:outputText id="importoIniziale" style="font-weight: bold;"
+						value="#{contrattiController.element.importoIniziale}" />
+
+
+					<h:outputLabel value="importo Variazione(+ o -)"
+						for="importoVariazione" style="font-weight: bold;" />
+					<h:inputText id="importoVariazione" maxlength="5" size="5"
+						value="#{contrattiController.element.importoVariazione}">
+						<p:ajax update="importoFinale" event="keyup"
+							listener="#{contrattiController.aggiornaImportoFinale}" />
+					</h:inputText>
+
+					<h:outputLabel value="importo Finale" for="importoFinale"
+						style="font-weight: bold;" />
+					<h:panelGroup id="importoFinale">
+						<h:outputText value="#{contrattiController.element.importoFinale}"
+							style="font-weight: bold;" />
+					</h:panelGroup>
+
+					<h:outputLabel value="importo Acconto" for="importoAcconto"
+						style="font-weight: bold;" />
+					<h:inputText id="importoAcconto"
+						value="#{contrattiController.element.importoAcconto}" />
+
+
+				</h:panelGrid>
+
+				<h:outputLabel value="note:" />
+				<br />
+				<h:inputTextarea value="#{contrattiController.element.note}"
+					cols="120" rows="10" />
+
+
+			</p:panel>
+			<br />
+			<p>
+
+
+				<p:commandButton action="#{contrattiController.save}" value="Salva"
+					ajax="false" immediate="false"
+					rendered="#{empty contrattiController.element.id}" />
+
+				<p:commandButton action="#{contrattiController.reload}"
+					value="Annulla" ajax="false" immediate="true" />
+
+				<p:commandButton action="#{contrattiController.update}"
+					value="Aggiorna" ajax="false" immediate="false"
+					rendered="#{not empty contrattiController.element.id}" />
+
+				<p:commandButton action="/prenotazioni/gestione.xhtml"
+					value="Modifica i servizi"
+					rendered="#{empty contrattiController.element.id}" ajax="false"
+					immediate="true" />
+
+				<p:commandButton action="#{contrattiController.delete}"
+					value="Elimina"
+					onclick="if (!confirm('Confermi l\' eliminazione?')) return false"
+					rendered="#{not empty contrattiController.element.id}" ajax="false"
+					immediate="true" />
+			</p>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
