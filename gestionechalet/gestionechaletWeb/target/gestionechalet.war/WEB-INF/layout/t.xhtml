@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:coop="http://www.coopservice.it/commons2/taglib"
+	xmlns:perm="http://www.coopservice.it/commons2/permissions"
+	xmlns:form="http://www.coopservice.it/commons2/form">
+
+<f:view contentType="text/html">
+
+	<f:event type="preRenderView"
+		listener="#{permissionController.checkRoles}" />
+
+	<ui:insert name="roles">
+		<f:attribute name="roles" value="ANY" />
+	</ui:insert>
+
+	<ui:insert name="params">
+	</ui:insert>
+
+	<h:head>
+		<title><ui:insert name="title">{title}</ui:insert> -
+			Gestione Chalet</title>
+		<h:outputStylesheet library="css" name="basic.css" />
+
+		<ui:insert name="styles">
+			<style type="text/css">
+</style>
+		</ui:insert>
+		<script type="text/javascript"> PrimeFaces.locales ['it'] = {
+closeText: 'Chiudi', 
+prevText: 'Precedente', 
+nextText: 'Successivo', 
+currentText: 'Oggi', 
+monthNames: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
+monthNamesShort: ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'], 
+dayNames: ['Lunedi', 'Martedi', 'Mercoledi', 'Giovedi', 'Venerdi', 'Sabato', 'Domenica'], 
+dayNamesShort: ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab','Dom'], 
+dayNamesMin: ['L', 'M', 'M ', 'G', 'V ', 'S','D'], 
+weekHeader: 'Settimana', 
+FirstDay: 1, 
+isRTL: false, 
+showMonthAfterYear: false, 
+yearSuffix:'', 
+timeOnlyTitle: 'Solo Ora', 
+timeText: 'Ora', 
+hourText: 'Ore', 
+minuteText: 'Minuti', 
+secondText: 'Secondi', 
+ampm: false, 
+month: 'Mese', 
+week: 'Settimana', 
+day: 'Giorno', 
+allDayText: 'Tutto il giorno'}; 
+</script>
+	</h:head>
+
+	<h:body>
+		<p:idleMonitor timeout="120000" onidle="idleDialog.show();"
+			onactive="idleDialog.hide();" />
+
+		<p:dialog header="Cosa Succede?" resizable="false"
+			widgetVar="idleDialog" modal="true" width="400">
+			<h:outputText
+				value="Sei ancora al monitor? Salva per evitare di perdere il tuo lavoro!" />
+		</p:dialog>
+
+		<coop:center>
+			<p:panel style="width: 95%;">
+
+				<ui:insert name="menu">
+					<ui:include src="menu.xhtml" />
+				</ui:insert>
+
+				<coop:spacer></coop:spacer>
+
+
+				<p:panel style="width: 95%; text-align: left;">
+					<coop:primeBreadcrumbs />
+
+					<div style="float: right;">
+						<ui:insert name="label">
+						</ui:insert>
+					</div>
+
+					<coop:spacer></coop:spacer>
+
+					<p:growl id="messages" showDetail="true" />
+
+
+
+
+					<coop:spacer></coop:spacer>
+
+					<coop:center>
+						<ui:insert name="content">{content}</ui:insert>
+					</coop:center>
+
+					<coop:spacer></coop:spacer>
+					<coop:spacer></coop:spacer>
+
+
+				</p:panel>
+				<coop:spacer></coop:spacer>
+				<p:panel style="width: 95%;">
+					<ui:insert name="footer">
+						<ui:include src="footer.xhtml" />
+					</ui:insert>
+				</p:panel>
+			</p:panel>
+			<h:panelGroup width="80%"
+				rendered="#{permissionController.development}">
+				<h:form>
+					<h:panelGrid columns="1">
+						<h:commandLink action="#{permissionController.reloadPermissions}"
+							value="ricarica la tabella dei permessi" />
+					</h:panelGrid>
+				</h:form>
+			</h:panelGroup>
+		</coop:center>
+	</h:body>
+</f:view>
+</html>

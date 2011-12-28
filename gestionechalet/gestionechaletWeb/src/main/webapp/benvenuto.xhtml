@@ -1,0 +1,251 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:coop="http://www.coopservice.it/commons2/taglib"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Home Page" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<coop:spacer></coop:spacer>
+		<coop:spacer></coop:spacer>
+
+		<h:form>
+
+			<h:panelGrid columns="3">
+
+				<p:panel style="width: 250px; height: 120px;">
+					<f:facet name="header">
+						<h:outputText value="Configurazione" />
+					</f:facet>
+					<h:panelGrid columns="2">
+						<h:panelGroup style="vertical-align:middle;">
+							<h:graphicImage library="images" name="configurazione.png"
+								style="border: none; width: 48px; height: 48px;" />
+						</h:panelGroup>
+						<h:panelGroup style="vertical-align:middle;">
+							<h:outputLink value="configurazione/lista.jsf">
+								<h:outputText value="lista" />
+							</h:outputLink>
+
+							<br />
+							<h:commandLink action="#{configurazioneController.addNew}"
+								value="aggiungi nuova" />
+							<br />
+							<h:commandLink
+								action="#{configurazioneController.caricaConfigurazioneAttuale}">
+								<h:outputText value="vedi attuale" />
+							</h:commandLink>
+						</h:panelGroup>
+					</h:panelGrid>
+					<br />
+				</p:panel>
+
+				<p:panel style="width: 250px; height: 120px;">
+					<f:facet name="header">
+						<h:outputText value="Clienti" />
+					</f:facet>
+					<h:panelGrid columns="2">
+						<h:panelGroup style="vertical-align:middle;">
+							<h:graphicImage library="images" name="clienti.png"
+								style="border: none; width: 48px; height: 48px;" />
+						</h:panelGroup>
+						<h:panelGroup style="vertical-align:middle;">
+							<h:outputLink value="clienti/lista.jsf">
+								<h:outputText value="lista" />
+							</h:outputLink>
+							<br />
+							<h:commandLink action="#{clientiController.addElement}"
+								value="aggiungi nuovo" />
+						</h:panelGroup>
+					</h:panelGrid>
+					<br />
+				</p:panel>
+
+				<p:panel style="width: 250px; height: 120px;">
+					<f:facet name="header">
+						<h:outputText value="Contratti" />
+					</f:facet>
+					<h:panelGrid columns="2">
+						<h:panelGroup style="vertical-align:middle;">
+							<h:graphicImage library="images" name="contratti.png"
+								style="border: none; width: 48px; height: 48px;" />
+						</h:panelGroup>
+						<h:panelGroup style="vertical-align:middle;">
+							<h:outputLink value="contratti/lista.jsf">
+								<h:outputText value="lista" />
+							</h:outputLink>
+							<br />
+							<h:commandLink
+								action="#{prenotazioniController.creaPrenotazione}"
+								value="aggiungi nuovo" />
+						</h:panelGroup>
+					</h:panelGrid>
+					<br />
+				</p:panel>
+
+				<p:panel style="width: 250px; height: 120px;">
+					<f:facet name="header">
+						<h:outputText value="Tariffe" />
+					</f:facet>
+					<h:panelGrid columns="2">
+						<h:panelGroup style="vertical-align:middle;">
+							<h:graphicImage library="images" name="tariffe.png"
+								style="border: none; width: 48px; height: 48px;" />
+						</h:panelGroup>
+						<h:panelGroup style="vertical-align:middle;">
+							<h:outputLink value="tariffe/lista.jsf">
+								<h:outputText value="lista" />
+							</h:outputLink>
+							<br />
+							<h:commandLink action="#{tariffeController.step1}"
+								value="aggiungi nuova" />
+							<br />
+							<h:commandLink
+								action="#{prenotazioniController.calcolaPreventivo}"
+								value="preventivo veloce" />
+						</h:panelGroup>
+					</h:panelGrid>
+					<br />
+				</p:panel>
+
+
+				<p:panel style="width: 250px; height: 120px;">
+					<f:facet name="header">
+						<h:outputText value="Cartellone Spiaggia" />
+					</f:facet>
+					<h:panelGrid columns="2">
+						<h:panelGroup style="vertical-align:middle;">
+							<h:graphicImage library="images" name="umbrella.png"
+								style="border: none; width: 48px; height: 48px;" />
+						</h:panelGroup>
+						<h:panelGroup style="vertical-align:middle;">
+							<h:commandLink action="#{tabelloneController.vistaGiornalieri}"
+								value="vista giorno" />
+							<br />
+							<h:outputLink value="spiaggia/vista-mese.jsf">
+								<h:outputText value="vista mese" />
+							</h:outputLink>
+							<br />
+							<h:commandLink action="#{tabelloneController.vistaStagionali}"
+								value="vista stagionali" />
+						</h:panelGroup>
+					</h:panelGrid>
+					<br />
+				</p:panel>
+
+				<p:panel style="width: 250px; height: 120px;">
+					<f:facet name="header">
+						<h:outputText value="Prenotazioni" />
+					</f:facet>
+					<h:panelGrid columns="2">
+						<h:panelGroup style="vertical-align:middle;">
+							<h:graphicImage library="images" name="plus.png"
+								style="border: none; width: 48px; height: 48px;" />
+						</h:panelGroup>
+						<h:panelGroup style="vertical-align:middle;">
+							<h:commandLink
+								action="#{prenotazioniController.creaPrenotazione}"
+								value="cerca e prenota" />
+							<br />
+							<h:commandLink
+								action="#{prenotazioniController.creaPrenotazioneGiornaliero}"
+								value="cerca giornaliero" />
+							<br />
+							<h:commandLink
+								action="#{prenotazioniController.creaPrenotazioneStagionale}"
+								value="cerca stagionale" />
+
+						</h:panelGroup>
+					</h:panelGrid>
+					<br />
+				</p:panel>
+				<h:panelGroup>
+					<br />
+					<br />
+				</h:panelGroup>
+				<h:panelGroup>
+					<br />
+					<br />
+				</h:panelGroup>
+				<h:panelGroup>
+					<br />
+					<br />
+				</h:panelGroup>
+				<p:panel style="width: 250px; height: 120px;">
+					<f:facet name="header">
+						<h:outputText value="Fax" />
+					</f:facet>
+					<h:panelGrid columns="2">
+						<h:panelGroup style="vertical-align:middle;">
+							<h:graphicImage library="images" name="fax.png"
+								style="border: none; width: 48px; height: 48px;" />
+						</h:panelGroup>
+						<h:panelGroup style="vertical-align:middle;">
+							<h:outputLink value="#">
+								<h:outputText value="lista" />
+							</h:outputLink>
+							<br />
+							<h:outputLink value="#">
+								<h:outputText value="nuovo" />
+							</h:outputLink>
+						</h:panelGroup>
+					</h:panelGrid>
+					<br />
+				</p:panel>
+
+				<p:panel style="width: 250px; height: 120px;">
+					<f:facet name="header">
+						<h:outputText value="SMS" />
+					</f:facet>
+					<h:panelGrid columns="2">
+						<h:panelGroup style="vertical-align:middle;">
+							<h:graphicImage library="images" name="sms.png"
+								style="border: none; width: 48px; height: 48px;" />
+						</h:panelGroup>
+						<h:panelGroup style="vertical-align:middle;">
+							<h:outputLink value="#">
+								<h:outputText value="lista" />
+							</h:outputLink>
+							<br />
+							<h:outputLink value="#">
+								<h:outputText value="nuovo" />
+							</h:outputLink>
+						</h:panelGroup>
+					</h:panelGrid>
+					<br />
+				</p:panel>
+
+				<p:panel style="width: 250px; height: 120px;">
+					<f:facet name="header">
+						<h:outputText value="Email" />
+					</f:facet>
+					<h:panelGrid columns="2">
+						<h:panelGroup style="vertical-align:middle;">
+							<h:graphicImage library="images" name="email.png"
+								style="border: none; width: 48px; height: 48px;" />
+						</h:panelGroup>
+						<h:panelGroup style="vertical-align:middle;">
+							<h:outputLink value="#">
+								<h:outputText value="lista" />
+							</h:outputLink>
+							<br />
+							<h:outputLink value="#">
+								<h:outputText value="nuovo" />
+							</h:outputLink>
+						</h:panelGroup>
+					</h:panelGrid>
+					<br />
+				</p:panel>
+
+			</h:panelGrid>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

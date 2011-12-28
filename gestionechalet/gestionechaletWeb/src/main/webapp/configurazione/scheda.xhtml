@@ -1,0 +1,93 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:coop="http://www.coopservice.it/commons2/taglib"
+	xmlns:perm="http://www.coopservice.it/commons2/permissions"
+	xmlns:form="http://www.coopservice.it/commons2/form"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">Creazione Configurazione 1</ui:define>
+
+	<ui:define name="content">
+		<h1>Scheda Configurazione</h1>
+		<h:form id="bv">
+			<p:panel style="width: 95%;">
+				<h:panelGrid columns="4" style="width: 95%;">
+					<h:outputLabel value="id:" for="id" />
+					<h:outputText id="id"
+						value="#{configurazioneController.element.id}" />
+
+					<h:outputLabel value="data creazione:" for="dataCreazione" />
+					<h:outputText id="dataCreazione"
+						value="#{configurazioneController.element.dataCreazione}">
+						<f:convertDateTime type="both" pattern="dd/M/yyyy"
+							timeZone="Europe/Rome" locale="it" />
+					</h:outputText>
+
+					<h:outputLabel value="numero Colonne:" for="numeroColonne" />
+					<h:outputText id="numeroColonne"
+						value="#{configurazioneController.element.numeroColonne}" />
+
+					<h:outputLabel value="numero Righe:" for="numeroRighe" />
+					<h:outputText id="numeroRighe"
+						value="#{configurazioneController.element.numeroRighe}" />
+
+					<h:outputLabel value="numero File:" for="numeroFile" />
+					<h:outputText id="numeroFile"
+						value="#{configurazioneController.element.numeroFile}" />
+
+					<h:outputLabel value="numero Sdraio:" for="numeroSdraio" />
+					<h:outputText id="numeroSdraio"
+						value="#{configurazioneController.element.numeroSdraio}" />
+
+					<h:outputLabel value="numero Lettini:" for="numeroLettini" />
+					<h:outputText id="numeroLettini"
+						value="#{configurazioneController.element.numeroLettini}" />
+
+					<h:outputLabel value="numero Cabine:" for="numeroCabine" />
+					<h:outputText id="numeroCabine"
+						value="#{configurazioneController.element.numeroCabine}" />
+
+					<h:outputLabel value="numero sedie regista:"
+						for="numeroSedieRegista" />
+					<h:outputText id="numeroSedieRegista"
+						value="#{configurazioneController.element.numeroSedieRegista}" />
+
+					<h:outputText value=" " />
+					<h:outputText value=" " />
+
+					<h:outputLabel value="data Inizio Stagione:"
+						for="dataInizioStagione" />
+					<h:outputText id="dataInizioStagione"
+						value="#{configurazioneController.element.dataInizioStagione}">
+						<f:convertDateTime type="both" pattern="dd/M/yyyy"
+							timeZone="Europe/Rome" locale="it" />
+					</h:outputText>
+
+					<h:outputLabel value="data Fine Stagione:" for="dataFineStagione" />
+					<h:outputText id="dataFineStagione"
+						value="#{configurazioneController.element.dataFineStagione}">
+						<f:convertDateTime type="both" pattern="dd/M/yyyy"
+							timeZone="Europe/Rome" locale="it" />
+					</h:outputText>
+				</h:panelGrid>
+			</p:panel>
+			<br />
+			<p:panel style="width: 95%;">
+				<h:panelGrid columns="2">
+
+
+					<p:commandButton action="#{configurazioneController.step1}"
+						value="gestisci attuale" ajax="false" immediate="true" />
+
+					<p:commandButton
+						action="#{configurazioneController.vediConfigurazioneOmbrelloni}"
+						value="vedi disposizione ombrelloni" ajax="false" />
+
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:coop="http://www.coopservice.it/commons2/taglib"
+	xmlns:perm="http://www.coopservice.it/commons2/permissions"
+	xmlns:form="http://www.coopservice.it/commons2/form"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">Creazione Configurazione 3</ui:define>
+
+	<ui:define name="content">
+		<h:form id="bv">
+			<p:dataTable var="ombrellone" id="filaTb" rows="0"
+				value="#{configurazioneController.ombrelloni}">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Numero" />
+					</f:facet>
+					<h:outputText value="#{ombrellone.numero}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Fila" />
+					</f:facet>
+					<h:outputText value="#{ombrellone.fila}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Riga" />
+					</f:facet>
+					<h:inputText value="#{ombrellone.riga}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Colonna" />
+					</f:facet>
+					<h:inputText value="#{ombrellone.colonna}" />
+				</p:column>
+			</p:dataTable>
+
+
+			<p>
+				<h:commandButton id="check"
+					action="#{configurazioneController.step4}" value="Concludi" />
+
+			</p>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

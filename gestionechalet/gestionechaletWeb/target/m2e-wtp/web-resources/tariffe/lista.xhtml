@@ -1,0 +1,98 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:coop="http://www.coopservice.it/commons2/taglib"
+	xmlns:perm="http://www.coopservice.it/commons2/permissions"
+	xmlns:form="http://www.coopservice.it/commons2/form"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/layout/t.xhtml">
+	<ui:define name="title">Lista Tariffe</ui:define>
+	<ui:define name="content">
+		<h1>Lista Tariffe</h1>
+		<h:form id="bv">
+			<p:panel style="width: 95%;">
+				<h:panelGrid columns="6">
+					<h:outputLabel for="nome" value="Tipo Servizio:" />
+					<h:selectOneMenu id="nome"
+						value="#{tariffeController.search.obj.serviceName}"
+						required="true">
+						<f:selectItems value="#{serviceEnums}" var="service"
+							itemValue="#{service}" itemLabel="#{service}">
+						</f:selectItems>
+					</h:selectOneMenu>
+					<p:commandButton actionListener="#{tariffeController.reloadAjax}"
+						value="Cerca" ajax="true" immediate="false" update="lista" />
+					<p:commandButton action="#{tariffeController.reset}"
+						value="Annulla" ajax="false" immediate="true" />
+				</h:panelGrid>
+			</p:panel>
+			<br />
+			<p:dataTable id="lista" var="tariffa"
+				value="#{tariffeController.model}" paginator="true" rows="10"
+				dynamic="true" lazy="true" style="width: 95%;"
+				paginatorPosition="bottom">
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="nome" />
+					</f:facet>
+					<h:outputText value="#{tariffa.nome}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="servizio" />
+					</f:facet>
+					<h:outputText value="#{tariffa.serviceName}" />
+					<h:outputText value=" - fila: #{tariffa.fila}"
+						rendered="#{not empty tariffa.fila}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="stagionale" />
+					</f:facet>
+					<h:outputText value="SI" rendered="#{tariffa.stagionale}" />
+					<h:outputText value="NO" rendered="#{not tariffa.stagionale}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="dal" />
+					</f:facet>
+					<h:outputText value="#{tariffa.dal}">
+						<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+							timeZone="Europe/Rome" locale="it" />
+					</h:outputText>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="al" />
+					</f:facet>
+					<h:outputText value="#{tariffa.al}">
+						<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+							timeZone="Europe/Rome" locale="it" />
+					</h:outputText>
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="operazioni" />
+					</f:facet>
+					<h:commandLink action="#{tariffeController.modElement}">
+						<h:graphicImage alt="modifica" title="modifica"
+							library="images/form" name="edit.gif" style="border: none;" />
+					</h:commandLink>
+
+					<h:commandLink action="#{tariffeController.viewElement}">
+						<h:graphicImage alt="vedi" title="vedi" library="images/form"
+							name="view.gif" style="border: none;" />
+					</h:commandLink>
+
+				</p:column>
+			</p:dataTable>
+			<p:panel style="width: 95%;">
+				<p:commandButton action="#{tariffeController.step1}"
+					value="aggiungi nuova" ajax="false" immediate="true" />
+			</p:panel>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

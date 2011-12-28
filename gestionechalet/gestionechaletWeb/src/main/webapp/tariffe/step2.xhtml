@@ -1,0 +1,40 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:coop="http://www.coopservice.it/commons2/taglib"
+	xmlns:perm="http://www.coopservice.it/commons2/permissions"
+	xmlns:form="http://www.coopservice.it/commons2/form"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layout/t.xhtml">
+	<ui:define name="title">Tariffe - Step2</ui:define>
+	<ui:define name="content">
+		<h:form id="bv">
+			<p:dataTable var="costo" id="filaTb" rows="0"
+				value="#{tariffeController.element.costiValues}">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="giorno" />
+					</f:facet>
+					<h:outputText value="#{costo.giorno}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="prezzo" />
+					</f:facet>
+					<h:inputText value="#{costo.prezzo}" />
+				</p:column>
+			</p:dataTable>
+			<br />
+			<p:panel style="width: 95%;">
+				<h:panelGrid columns="2">
+					<p:commandButton id="check" action="#{tariffeController.step3}"
+						value="Vai Alla fase 3" ajax="false" immediate="false" />
+					<p:commandButton action="#{tariffeController.reload}"
+						value="Annulla" ajax="false" immediate="true" />
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
