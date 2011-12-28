@@ -1,0 +1,141 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:coop="http://www.coopservice.it/commons2/taglib"
+	xmlns:perm="http://www.coopservice.it/commons2/permissions"
+	xmlns:form="http://www.coopservice.it/commons2/form"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">Gestione Cliente</ui:define>
+
+	<ui:define name="content">
+		<h:form id="bv">
+			<h2>Gestione Cliente</h2>
+
+			<p:panel style="width: 95%;">
+				<h:panelGrid columns="6">
+					<h:outputLabel value="nome" />
+					<h:inputText id="nome" value="#{clientiController.element.nome}" />
+					<h:message for="nome" errorClass="invalid" />
+
+
+					<h:outputLabel value="cognome" />
+					<h:inputText id="cognome"
+						value="#{clientiController.element.cognome}" />
+					<h:message for="cognome" errorClass="invalid" />
+
+
+					<h:outputLabel value="codice fiscale" />
+					<h:inputText id="codicefiscale"
+						value="#{clientiController.element.codicefiscale}" />
+					<h:message for="codicefiscale" errorClass="invalid" />
+
+
+					<h:outputLabel value="indirizzo" />
+					<h:inputText id="indirizzo"
+						value="#{clientiController.element.indirizzo}" />
+					<h:message for="indirizzo" errorClass="invalid" />
+
+
+					<h:outputLabel value="citta'" />
+					<h:inputText id="cityName"
+						value="#{clientiController.element.cityName}" />
+					<h:message for="cityName" errorClass="invalid" />
+
+
+					<h:outputLabel value="provincia" />
+					<h:inputText id="provinciaName"
+						value="#{clientiController.element.provinciaName}" />
+					<h:message for="provinciaName" errorClass="invalid" />
+
+
+					<h:outputLabel value="cap" />
+					<h:inputText id="cap" value="#{clientiController.element.cap}" />
+					<h:message for="cap" errorClass="invalid" />
+
+
+					<h:outputLabel value="nazione" />
+					<h:inputText id="nazioneName"
+						value="#{clientiController.element.nazioneName}" />
+					<h:message for="cap" errorClass="invalid" />
+
+
+					<h:outputLabel value="telefono" />
+					<h:inputText id="telefono"
+						value="#{clientiController.element.telefono}" />
+					<h:message for="telefono" errorClass="invalid" />
+
+
+					<h:outputLabel value="cellulare" />
+					<h:inputText id="cellulare"
+						value="#{clientiController.element.cellulare}" />
+					<h:message for="cellulare" errorClass="invalid" />
+
+
+					<h:outputLabel value="email" />
+					<h:inputText id="email" value="#{clientiController.element.email}" />
+					<h:message for="email" errorClass="invalid" />
+
+
+
+
+					<h:outputLabel for="dataNascita" value="data nascita:" />
+					<p:calendar id="dataNascita"
+						value="#{clientiController.element.dataNascita}" timeZone="it_IT"
+						title="Data dal" pattern="dd/MM/yyyy" locale="it" startWeekday="1"
+						required="true" showOn="button" />
+					<h:message for="dataNascita" errorClass="invalid" />
+
+
+
+					<h:outputLabel value="citta' nascita" />
+					<h:inputText id="cityNascitaName"
+						value="#{clientiController.element.cityNascitaName}" />
+					<h:message for="cityNascitaName" errorClass="invalid" />
+
+
+					<h:outputLabel value="provincia nascita" />
+					<h:inputText id="provinciaNascitaName"
+						value="#{clientiController.element.provinciaNascitaName}" />
+					<h:message for="provinciaNascitaName" errorClass="invalid" />
+
+
+					<h:outputLabel value="nazione nascita" />
+					<h:inputText id="nazioneNascitaName"
+						value="#{clientiController.element.nazioneNascitaName}" />
+					<h:message for="nazioneNascitaName" errorClass="invalid" />
+
+
+				</h:panelGrid>
+			</p:panel>
+			<br />
+
+			<p:panel style="width: 95%;">
+				<h:panelGrid columns="4">
+
+					<p:commandButton action="#{clientiController.save}" value="Salva"
+						ajax="false" immediate="false"
+						rendered="#{empty clientiController.element.id}" />
+
+					<p:commandButton action="#{clientiController.update}"
+						value="Aggiorna" ajax="false" immediate="false"
+						rendered="#{not empty clientiController.element.id}" />
+
+					<p:commandButton action="#{clientiController.reload}"
+						value="Annulla" ajax="false" immediate="true" />
+
+
+					<p:commandButton action="#{clientiController.delete}"
+						value="Elimina"
+						onclick="if (!confirm('Confermi l\' eliminazione?')) return false"
+						rendered="#{not empty clientiController.element.id}" ajax="false"
+						immediate="true" />
+
+
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
