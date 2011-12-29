@@ -87,7 +87,7 @@ public class PrenotazioniController extends
 	private float total;
 	private String prop;
 
-	private int fila;
+	private int fila = 0;
 
 	@Override
 	public Object getId(Prenotazione t) {
@@ -219,6 +219,7 @@ public class PrenotazioniController extends
 		this.servizi = null;
 		this.serviziMap = null;
 		this.total = 0;
+		this.fila = 0;
 		reset();
 	}
 
@@ -272,13 +273,22 @@ public class PrenotazioniController extends
 		aggiungiServizio("1", "1", "OMB");
 	}
 
-	public void aggiungiServizio(String fila, String numero, String tipo) {
+	public void aggiungiServizio(String filaS, String numero, String tipo) {
 		logger.info("aggiungiServizio: " + fila + ":" + numero + " " + tipo);
 		try {
-			if (fila != null && fila.length() > 0) {
-				int filaNum = Integer.parseInt(fila);
-				if (filaNum > this.fila) {
-					setFila(filaNum);
+			if (filaS != null && filaS.length() > 0) {
+				int filaNum = Integer.parseInt(filaS);
+				if (filaNum > 0) {
+					if (this.fila == 0) {
+						logger.info("inizializzo la fila: " + filaNum);
+						this.fila = filaNum;
+					} else if (filaNum < this.fila) {
+						setFila(filaNum);
+						logger.info("modifico la fila (" + fila + ") - nuova: "
+								+ filaNum);
+					}
+				} else {
+					logger.info("non modifico la fila: " + fila);
 				}
 			}
 		} catch (Exception e) {
@@ -330,10 +340,10 @@ public class PrenotazioniController extends
 			}
 			break;
 		case OMB:
-			if (fila != null && !fila.isEmpty() && numero != null
+			if (filaS != null && !filaS.isEmpty() && numero != null
 					&& !numero.isEmpty()) {
 				Ombrellone ombrellone = ombrelloniRepository
-						.findByFilaNumeroIdConf(fila, numero,
+						.findByFilaNumeroIdConf(filaS, numero,
 								configurazioneController.getActual().getId());
 				ServizioPrenotato servizioPrenotato = new ServizioPrenotato(
 						getSearch().getObj().getDataDal(), getSearch().getObj()
@@ -492,15 +502,10 @@ public class PrenotazioniController extends
 	}
 
 	public void impostaRicercaStagionali() {
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.MONTH, Calendar.JUNE);
-		cal.set(Calendar.DAY_OF_MONTH, 1);
-		if (getSearch().getObj().isSoloStagionali()) {
-			getSearch().getObj().setDataDal(cal.getTime());
-			cal.set(Calendar.MONTH, Calendar.SEPTEMBER);
-			cal.set(Calendar.DAY_OF_MONTH, 30);
-			getSearch().getObj().setDataAl(cal.getTime());
-		}
+		getSearch().getObj().setDataDal(
+				configurazioneController.getActual().getDataInizioStagione());
+		getSearch().getObj().setDataAl(
+				configurazioneController.getActual().getDataFineStagione());
 	}
 
 	public int getFila() {

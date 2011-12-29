@@ -1,13 +1,12 @@
 package by.giava.gestionechalet.controller;
 
-import it.coopservice.commons2.domain.Search;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -22,7 +21,6 @@ import javax.inject.Named;
 import by.giava.gestionechalet.enums.StatoContrattoEnum;
 import by.giava.gestionechalet.enums.TipoServizioEnum;
 import by.giava.gestionechalet.model.Cliente;
-import by.giava.gestionechalet.model.Configurazione;
 import by.giava.gestionechalet.model.servizi.Ombrellone;
 import by.giava.gestionechalet.repository.ClientiRepository;
 import by.giava.gestionechalet.repository.ConfigurazioneRepository;
@@ -98,21 +96,6 @@ public class PropertiesController implements Serializable {
 		return items.get(Cliente.class);
 	}
 
-	// @Produces
-	// @Named
-	// public SelectItem[] getStatiContratto() {
-	// if (statiContratto.length == 0) {
-	// statiContratto = new SelectItem[StatoContrattoEnum.values().length + 1];
-	// statiContratto[0] = new SelectItem("TUTTI", "tutti");
-	// int i = 1;
-	// for (StatoContrattoEnum service : StatoContrattoEnum.values()) {
-	// statiContratto[i] = new SelectItem(service.name());
-	// i++;
-	// }
-	// }
-	// return statiContratto;
-	// }
-
 	@Produces
 	@Named
 	public StatoContrattoEnum[] getStatoContrattoEnums() {
@@ -124,46 +107,12 @@ public class PropertiesController implements Serializable {
 	public SelectItem[] getNumeroAccessori() {
 		if (numeroAccessori.length == 0) {
 			numeroAccessori = new SelectItem[5];
-			numeroAccessori[0] = new SelectItem(0, "0");
-			numeroAccessori[1] = new SelectItem(1, "1");
-			numeroAccessori[2] = new SelectItem(2, "2");
-			numeroAccessori[3] = new SelectItem(3, "3");
-			numeroAccessori[4] = new SelectItem(4, "4");
-
+			for (int i = 0; i < 5; i++) {
+				numeroAccessori[i] = new SelectItem(i, ""+i);
+			}
 		}
 		return numeroAccessori;
 	}
-
-	// @Produces
-	// @Named
-	// public SelectItem[] getServiziItems() {
-	// if (serviziItems.length == 0) {
-	// serviziItems = new SelectItem[5];
-	// serviziItems[0] = new SelectItem(4, "cabina");
-	// serviziItems[1] = new SelectItem(3, "lettino");
-	// serviziItems[2] = new SelectItem(1, "ombrellone");
-	// serviziItems[3] = new SelectItem(2, "sdraio");
-	// serviziItems[4] = new SelectItem(5, "sedia");
-	// }
-	// return serviziItems;
-	// }
-
-	// @Produces
-	// @Named
-	// public SelectItem[] getServiziNames() {
-	// if (serviziNames.length == 0) {
-	// serviziNames = new SelectItem[ServiceEnum.values().length + 1];
-	// // serviziNames[0] = new SelectItem("TUTTI", "tutti");
-	// int i = 1;
-	// for (ServiceEnum service : ServiceEnum.values()) {
-	// serviziNames[i] = new SelectItem(service, service.name());
-	// i++;
-	// }
-	// Arrays.sort(serviziNames, SELECT_ITEMS);
-	// }
-	//
-	// return serviziNames;
-	// }
 
 	@Produces
 	@Named

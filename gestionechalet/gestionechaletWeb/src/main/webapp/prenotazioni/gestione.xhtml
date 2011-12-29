@@ -64,13 +64,13 @@
 					<p:commandButton
 						action="#{prenotazioniController.resetRicercaOmbrelloni}"
 						value="reset" ajax="true" immediate="true"
-						update="prenotazioni, cerca" />
+						update="prenotazioni, cerca, prev,servx" />
 				</h:panelGrid>
 			</p:panel>
 			<br />
 			<p:panel style="width: 95%;" id="prenotazioni"
 				header="risultati della ricerca">
-				<table border="1">
+				<table style="border: 1px solid;">
 					<tr>
 						<ui:repeat varStatus="col"
 							value="#{prenotazioniController.colonne}" var="colonna">
@@ -147,7 +147,8 @@
 			</p:panel>
 
 			<br />
-			<p:panel style="width: 95%;" id="servx" header="Servizi selezionati">
+			<p:panel style="width: 95%;" id="servx"
+				header="Servizi selezionati (fila max: #{prenotazioniController.fila})">
 				<p:dataTable var="servizio"
 					value="#{prenotazioniController.servizi}"
 					rowIndexVar="rowIndexServ"
@@ -257,7 +258,7 @@
 
 					<p:commandButton
 						action="#{prenotazioniController.resetRicercaOmbrelloni}"
-						value="reset" ajax="true" immediate="true" update="prenotazioni" />
+						value="reset" ajax="true" immediate="true" update="prev,servx" />
 
 
 				</h:panelGrid>

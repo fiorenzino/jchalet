@@ -25,7 +25,6 @@ import by.giava.gestionechalet.model.servizi.SediaRegista;
 import by.giava.gestionechalet.pojo.Posto;
 import by.giava.gestionechalet.repository.CabineRepository;
 import by.giava.gestionechalet.repository.ConfigurazioneRepository;
-import by.giava.gestionechalet.repository.FilaOmbrelloniRepository;
 import by.giava.gestionechalet.repository.LettiniRepository;
 import by.giava.gestionechalet.repository.OmbrelloniRepository;
 import by.giava.gestionechalet.repository.SdraieRepository;
@@ -57,9 +56,6 @@ public class ConfigurazioneController extends
 	@Inject
 	@OwnRepository(ConfigurazioneRepository.class)
 	ConfigurazioneRepository configurazioneRepository;
-
-	@Inject
-	FilaOmbrelloniRepository filaOmbrelloniRepository;
 
 	@Inject
 	OmbrelloniRepository ombrelloniRepository;

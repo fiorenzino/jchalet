@@ -1,17 +1,12 @@
 package by.giava.gestionechalet.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -36,7 +31,7 @@ public class Configurazione implements Serializable {
 	private Date dataFineStagione;
 
 	private Date dataCreazione;
-	private List<FilaOmbrelloni> fileOmbrelloni;
+//	private List<FilaOmbrelloni> fileOmbrelloni;
 	private boolean attivo = true;
 
 	private boolean attuale;
@@ -68,22 +63,22 @@ public class Configurazione implements Serializable {
 		this.numeroRighe = numeroRighe;
 	}
 
-	@OneToMany(mappedBy = "configurazione", fetch = FetchType.LAZY)
-	@OrderBy("numero")
-	public List<FilaOmbrelloni> getFileOmbrelloni() {
-		if (fileOmbrelloni == null)
-			this.fileOmbrelloni = new ArrayList<FilaOmbrelloni>();
-		// System.out.println("num file: " + this.fileOmbrelloni.size());
-		return fileOmbrelloni;
-	}
-
-	public void setFileOmbrelloni(List<FilaOmbrelloni> fileOmbrelloni) {
-		this.fileOmbrelloni = fileOmbrelloni;
-	}
-
-	public void addFilaOmbrelloni(FilaOmbrelloni filaOmbrelloni) {
-		getFileOmbrelloni().add(filaOmbrelloni);
-	}
+	// @OneToMany(mappedBy = "configurazione", fetch = FetchType.LAZY)
+	// @OrderBy("numero")
+	// public List<FilaOmbrelloni> getFileOmbrelloni() {
+	// if (fileOmbrelloni == null)
+	// this.fileOmbrelloni = new ArrayList<FilaOmbrelloni>();
+	// // System.out.println("num file: " + this.fileOmbrelloni.size());
+	// return fileOmbrelloni;
+	// }
+	//
+	// public void setFileOmbrelloni(List<FilaOmbrelloni> fileOmbrelloni) {
+	// this.fileOmbrelloni = fileOmbrelloni;
+	// }
+	//
+	// public void addFilaOmbrelloni(FilaOmbrelloni filaOmbrelloni) {
+	// getFileOmbrelloni().add(filaOmbrelloni);
+	// }
 
 	public Date getDataCreazione() {
 		return dataCreazione;

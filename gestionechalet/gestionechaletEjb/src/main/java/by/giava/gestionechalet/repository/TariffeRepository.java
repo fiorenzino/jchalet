@@ -131,7 +131,7 @@ public class TariffeRepository extends BaseRepository<Tariffa> {
 										// " (t.dal <= :START OR  t.al >= :STOP) "
 										// +
 										" (t.dal <= :START AND t.dal <= :STOP AND t.al >= :START AND t.al >= :STOP ) "
-										+ "AND t.serviceName = :SERVICENAME order by t.nome")
+										+ " AND t.fila = :FILA AND t.serviceName = :SERVICENAME order by t.nome")
 						.setParameter("START", servizioPrenotato.getDal())
 						.setParameter("STOP", servizioPrenotato.getAl())
 						.setParameter("STAGIONALE", soloStagionali)

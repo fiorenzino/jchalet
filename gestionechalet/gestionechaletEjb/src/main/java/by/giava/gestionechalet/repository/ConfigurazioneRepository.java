@@ -47,7 +47,7 @@ public class ConfigurazioneRepository extends BaseRepository<Configurazione> {
 		try {
 			result = (Configurazione) em
 					.createQuery(
-							"select t from Configurazione t left join fetch t.fileOmbrelloni ti where t.attuale = :ATTUALE")
+							"select t from Configurazione t where t.attuale = :ATTUALE")
 					.setParameter("ATTUALE", true).getSingleResult();
 			if (result == null)
 				return null;
