@@ -1,3 +1,0 @@
-<%
-	response.sendRedirect("lista.jsf");
-%>
