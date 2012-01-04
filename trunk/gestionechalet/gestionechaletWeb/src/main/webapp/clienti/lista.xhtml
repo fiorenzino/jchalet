@@ -17,7 +17,7 @@
 					<h:outputLabel value="Cognome:" for="cercaNome" />
 					<p:inputText id="cercaNome"
 						value="#{clientiController.search.obj.cognome}" />
-					
+
 					<p:commandButton actionListener="#{clientiController.reloadAjax}"
 						value="Cerca" ajax="true" immediate="false" update="lista" />
 					<p:commandButton action="#{clientiController.reset}"
@@ -27,8 +27,8 @@
 			<br />
 			<p:dataTable id="lista" var="cliente"
 				value="#{clientiController.model}" paginator="true"
-				paginatorPosition="bottom" rows="10" dynamic="true" lazy="true"
-				style="width: 95%;">
+				paginatorPosition="bottom" rows="10" dynamic="true"
+				style="width: 95%;" emptyMessage="non ci sono clienti.">
 				<p:column>
 					<f:facet name="header">
 						<h:outputText value="id cliente" />

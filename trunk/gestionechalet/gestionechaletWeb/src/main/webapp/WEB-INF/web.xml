@@ -29,6 +29,17 @@
 		<param-name>aclPath</param-name>
 		<param-value>gestione-chalet</param-value>
 	</context-param>
+
+	<filter>
+		<filter-name>RendererFilter</filter-name>
+		<filter-class>it.coopservice.commons2.filter.RendererFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>RendererFilter</filter-name>
+		<url-pattern>/print/*</url-pattern>
+	</filter-mapping>
+
+
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>non lo so</web-resource-name>

@@ -29,8 +29,8 @@
 			<br />
 			<p:dataTable id="lista" var="tariffa"
 				value="#{tariffeController.model}" paginator="true" rows="10"
-				dynamic="true" lazy="true" style="width: 95%;"
-				paginatorPosition="bottom">
+				dynamic="true" style="width: 95%;" paginatorPosition="bottom"
+				emptyMessage="non ci sono tariffe.">
 
 				<p:column>
 					<f:facet name="header">
