@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.persistence.Query;
 
 import by.giava.gestionechalet.enums.StatoContrattoEnum;
+import by.giava.gestionechalet.enums.TipoServizioEnum;
 import by.giava.gestionechalet.model.Contratto;
 import by.giava.gestionechalet.model.Prenotazione;
 import by.giava.gestionechalet.model.Preventivo;
@@ -48,6 +49,14 @@ public class ContrattiRepository extends BaseRepository<Contratto> {
 		StringBuffer sb = new StringBuffer(getBaseList(search.getObj()
 				.getClass(), alias, justCount));
 
+		String leftOuterJoinAlias = "s";
+		if (search.getObj().getNumero() != null
+				&& search.getObj().getNumero().trim().length() > 0) {
+			sb.append(" left outer join ").append(alias)
+					.append(".serviziPrenotati ").append(leftOuterJoinAlias);
+			// sb.append(" on ").append(leftOuterJoinAlias).append(".allegati.id = ").append(alias).append(".id");
+		}
+
 		String separator = " where ";
 
 		// attivo
@@ -69,13 +78,16 @@ public class ContrattiRepository extends BaseRepository<Contratto> {
 
 		// numero ombrellone
 		if (search.getObj().getNumero() != null
-				&& !search.getObj().getNumero().isEmpty()) {
-			// sb.append(separator).append(" ").append(alias).append(".id = :id ");
-			// // aggiunta alla mappa
-			// params.put("id", search.getObj().getId());
-			// // separatore
-			// separator = " and ";
-			logger.info("devo ancora gestire il numero di ombrellone");
+				&& !search.getObj().getNumero().trim().isEmpty()) {
+			sb.append(separator).append(leftOuterJoinAlias)
+					.append(".servizio.numero = :numero and ")
+					.append(leftOuterJoinAlias)
+					.append(".servizio.tipo = :tipoServizio ");
+			// aggiunta alla mappa
+			params.put("numero", search.getObj().getNumero());
+			params.put("tipoServizio", TipoServizioEnum.OMB);
+			// separatore
+			separator = " and ";
 		}
 
 		// stato
