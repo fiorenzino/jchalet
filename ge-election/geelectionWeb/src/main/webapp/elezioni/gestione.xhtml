@@ -1,0 +1,178 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:gel="http://http://www.rhcloud.com/geelection"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">Gestione Elezione</ui:define>
+
+	<ui:define name="content">
+
+		<h:outputText value="#{elezioniController.redirect}"
+			rendered="#{not elezioniController.element.modificabile}" />
+
+		<h:form>
+			<p:panel style="width: 95%;"
+				header="Elezione #{elezioniController.element.id}">
+
+				<h:panelGrid columns="2">
+
+					<h:outputLabel for="nome" value="Nome:" />
+					<h:inputText value="#{elezioniController.element.nome}" id="nome"
+						style="width: 400px;" onkeydown="textCounter(this, 30);" />
+
+					<h:outputLabel for="desc" value="Descrizione:" />
+					<h:inputTextarea value="#{elezioniController.element.descrizione}"
+						style="width: 400px;" id="desc"
+						onkeydown="textCounter(this, 250);" />
+
+					<h:outputLabel for="cre" value="Creata il:" />
+					<h:outputText value="#{elezioniController.element.creata}" id="cre">
+						<f:convertDateTime timeZone="Europe/Rome" locale="it"
+							pattern="dd/MM/yyyy HH:mm" />
+					</h:outputText>
+
+					<h:outputLabel for="dal" value="Inizio votazioni:" />
+					<p:calendar value="#{elezioniController.element.dal}" id="dal"
+						required="true"
+						requiredMessage="La data di inizio votazioni e' obbligatoria"
+						pattern="dd/MM/yyyy" />
+
+					<h:outputLabel for="al" value="Fine votazioni:" />
+					<p:calendar value="#{elezioniController.element.al}" id="al"
+						required="true"
+						requiredMessage="La data di fine votazioni e' obbligatoria"
+						pattern="dd/MM/yyyy" />
+
+				</h:panelGrid>
+
+				<br />
+
+				<h:commandButton value="Salva" action="#{elezioniController.update}"
+					onclick="if (!confirm('Confermi la modifica?')) return false" />
+
+			</p:panel>
+
+			<br />
+			<br />
+
+		</h:form>
+
+		<h:form rendered="#{not elezioniController.element.aperta}">
+			<p:panel style="width: 95%;" header="Aggiungi candidato">
+
+				<h:panelGrid columns="3">
+
+					<h:outputLabel value="Cognome" for="ncognome" />
+					<h:outputLabel value="Nome" for="nnome" />
+					<h:outputLabel value="Altre informazioni" for="naltro" />
+
+					<h:inputText value="#{elezioniController.nuovoCandidato.cognome}"
+						id="ncognome" required="true"
+						requiredMessage="Il cognome del candidato e' obbligatorio" />
+					<h:inputText value="#{elezioniController.nuovoCandidato.nome}"
+						id="nnome" required="true"
+						requiredMessage="Il nome del candidato e' obbligatorio" />
+					<h:inputText value="#{elezioniController.nuovoCandidato.altriDati}"
+						id="naltro" />
+
+				</h:panelGrid>
+				<br />
+				<h:commandButton action="#{elezioniController.aggiungiCandidato}"
+					value="Aggiungi"
+					onclick="if (!confirm('Confermi l\'aggiunta del nuovo candidato?')) return false" />
+
+			</p:panel>
+			<br />
+			<br />
+		</h:form>
+
+
+		<h:form>
+			<p:panel style="width: 95%;" header="Candidati">
+
+				<p:dataTable id="list" rowIndexVar="rowIndex" var="item"
+					emptyMessage="Nessun candidato iscritto"
+					value="#{elezioniController.element.candidati}"
+					style="width: 95% !important;"
+					rows="#{elezioniController.rowsPerPage}"
+					rowStyleClass="odd-row, even-row" paginator="true"
+					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#" />
+						</f:facet>
+						<center>
+							<h:outputText value="#{rowIndex+1}" />
+						</center>
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<center>
+								<h:outputText value="cognome e nome" />
+							</center>
+						</f:facet>
+						<center>
+							<h:outputText value="#{item.cognome} #{item.nome}" />
+						</center>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<center>
+								<h:outputText value="altre informazioni" />
+							</center>
+						</f:facet>
+						<center>
+							<h:outputText value="#{item.altriDati}" />
+						</center>
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<center>
+								<h:outputText value="voti ricevuti" />
+							</center>
+						</f:facet>
+						<center>
+							<h:outputText value="#{item.nroVoti}" />
+						</center>
+					</p:column>
+
+					<p:column rendered="#{not elezioniController.element.aperta}">
+						<f:facet name="header">
+							<center>
+								<h:outputText value="operazioni" />
+							</center>
+						</f:facet>
+						<center>
+							<h:commandLink
+								action="#{elezioniController.rimuoviCandidato(item.id)}">
+								<h:graphicImage library="images/form" name="failed.png"
+									alt="rimuovi" title="rimuovi"
+									style="border: none; width: 16px; height: 16px;" />
+							</h:commandLink>
+						</center>
+					</p:column>
+
+				</p:dataTable>
+
+				<br />
+
+			</p:panel>
+
+			<br />
+			<br />
+		</h:form>
+
+		<h:form>
+			<h:commandButton action="#{elezioniController.reload}" value="Esci"
+				immediate="true" />
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:gel="http://www.rhcloud.com/geelection"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"	>
+
+	<h:panelGroup styleClass="revision">
+		<h:outputText value="Rev 0" />
+	</h:panelGroup>
+	<br />
+	<h:panelGrid border="1" cellspacing="0" style="width: 100%;"
+		columns="1">
+		<h:panelGrid border="1" cellspacing="0" style="width: 100%;"
+			columns="3" columnClasses="headerLeft,headerCenter,headerRight">
+			<h:panelGroup>
+				<h:graphicImage 
+					url="#{gel:hostPort()}#{request.contextPath}/images/ge-logo.gif"
+					style="border: none; width: 60%; height: 60%;" alt="ge med logo" />
+				<br />
+				<center>
+					<i>GE Medical Systems</i>
+				</center>
+			</h:panelGroup>
+			<h:panelGroup>
+				<center>
+					<h:outputText value="#{titolo}" />
+				</center>
+			</h:panelGroup>
+			<h:panelGroup styleClass="uuid">
+				<div style="margin: 10px;"><h:outputText
+					value="Risultati generati" /> <br />
+				<h:outputText value="il " /> <h:outputText value="#{gel:date()}">
+					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Rome" />
+				</h:outputText> <h:outputText value=" alle ore " /> <h:outputText
+					value="#{gel:date()}">
+					<f:convertDateTime pattern="HH:mm" timeZone="Europe/Rome" />
+				</h:outputText></div>
+			</h:panelGroup>
+		</h:panelGrid>
+	</h:panelGrid>
+
+</ui:composition>

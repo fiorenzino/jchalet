@@ -1,0 +1,213 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:gel="http://www.rhcloud.com/geelection"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">Scheda Elezione</ui:define>
+
+	<ui:define name="content">
+		<span style="color: blue; font-size: larger;"> 
+<h:panelGrid columns="1">
+		<h:outputText
+				value="Esprimi il tuo voto!"
+				rendered="#{not empty elezioniController.elettore and not elezioniController.elettore.votato and elezioniController.element.aperta and not elezioniController.element.conclusa}" />
+		<h:outputText
+				value="L'elezione non e' ancora aperta!"
+				rendered="#{not empty elezioniController.elettore and not elezioniController.elettore.votato and not elezioniController.element.aperta}" />
+			<h:outputText value="Grazie per aver votato!"
+				rendered="#{not empty elezioniController.elettore and elezioniController.elettore.votato}" />
+			<h:outputText value="Richiedi le credenziali per votare!"
+				rendered="#{empty elezioniController.elettore and not elezioniController.element.conclusa}" />
+			<h:outputText value="L'elezione si e' conclusa!"
+				rendered="#{elezioniController.element.conclusa}" />
+</h:panelGrid>
+		</span>
+
+		<br />
+		<br />
+
+		<p:panel style="width: 95%;"
+			header="Elezione #{elezioniController.element.id}">
+
+			<h:panelGrid columns="2">
+
+				<h:outputLabel for="nome" value="Nome:" />
+				<h:outputText value="#{elezioniController.element.nome}" id="nome" />
+
+				<h:outputLabel for="desc" value="Descrizione:" />
+				<h:outputText value="#{elezioniController.element.descrizione}"
+					id="desc" />
+
+				<h:outputLabel for="cre" value="Creata il:" />
+				<h:outputText value="#{elezioniController.element.creata}" id="cre">
+					<f:convertDateTime timeZone="Europe/Rome" locale="it"
+						pattern="dd/MM/yyyy HH:mm" />
+				</h:outputText>
+
+				<h:outputLabel for="dal" value="Inizio votazioni:" />
+				<h:outputText value="#{elezioniController.element.dal}" id="dal">
+					<f:convertDateTime timeZone="Europe/Rome" locale="it"
+						pattern="dd/MM/yyyy" />
+				</h:outputText>
+
+				<h:outputLabel for="al" value="Fine votazioni:" />
+				<h:outputText value="#{elezioniController.element.al}" id="al">
+					<f:convertDateTime timeZone="Europe/Rome" locale="it"
+						pattern="dd/MM/yyyy" />
+				</h:outputText>
+
+				<h:outputLabel for="totE" value="Elettori registrati:" />
+				<h:outputText value="#{elezioniController.element.totaleElettori}"
+					id="totE" />
+
+				<h:outputLabel for="totV" value="Totale voti:" />
+				<h:outputText value="#{elezioniController.element.totaleVoti}"
+					id="totV" />
+
+			</h:panelGrid>
+
+		</p:panel>
+
+		<br />
+		<br />
+
+		<h:form>
+			<p:panel style="width: 95%;" header="Candidati">
+
+				<p:dataTable id="list" rowIndexVar="rowIndex" var="item"
+					emptyMessage="Nessun candidato iscritto"
+					value="#{elezioniController.element.candidati}"
+					style="width: 95% !important;"
+					rows="#{elezioniController.rowsPerPage}"
+					rowStyleClass="odd-row, even-row">
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#" />
+						</f:facet>
+						<center>
+							<h:outputText value="#{rowIndex+1}" />
+						</center>
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<center>
+								<h:outputText value="cognome e nome" />
+							</center>
+						</f:facet>
+						<center>
+							<h:outputText value="#{item.cognome} #{item.nome}" />
+						</center>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<center>
+								<h:outputText value="altri dati" />
+							</center>
+						</f:facet>
+						<center>
+							<h:outputText value="#{item.cognome} #{item.nome}" />
+						</center>
+					</p:column>
+
+					<p:column rendered="#{elezioniController.element.conclusa}">
+						<f:facet name="header">
+							<center>
+								<h:outputText value="voti ricevuti" />
+							</center>
+						</f:facet>
+						<center>
+							<h:outputText value="#{item.nroVoti}" />
+						</center>
+					</p:column>
+
+					<p:column
+						rendered="#{elezioniController.element.aperta and not elezioniController.element.conclusa and not empty elezioniController.elettore and not elezioniController.elettore.votato}">
+						<f:facet name="header">
+							<center>
+								<h:outputText value="operazioni" />
+							</center>
+						</f:facet>
+						<center>
+							<h:commandButton value="Vota"
+								action="#{elezioniController.vota(item.id)}"
+								onclick="if (!confirm('Confermi il voto per #{item.cognome} #{item.nome}?')) return false" />
+						</center>
+					</p:column>
+
+				</p:dataTable>
+
+				<br />
+				<br />
+
+				<h:outputLink target="_blank"
+					rendered="#{elezioniController.element.conclusa}"
+					value="../risultati/#{elezioniController.element.id}/#{gel:clean(elezioniController.element.nomeElezione)}.pdf">
+					<h:outputText value="Scarica i risultati in pdf" />
+					<h:graphicImage value="../images/pdf-logo.jpg"
+						style="border: none; width: 24px; height: 24px;" />
+				</h:outputLink>
+
+				<br />
+			</p:panel>
+		</h:form>
+
+		<br />
+		<br />
+
+		<h:form
+			rendered="#{not elezioniController.element.conclusa and empty elezioniController.elettore}">
+			<p:panel style="width: 95%;" header="Richiesta credenziali">
+
+				<h:outputLabel styleClass="optional" for="captcha"
+					value="Verifica del Testo" />
+				<p:captcha language="it" id="captcha" rendered="true"
+					validatorMessage="Verifica del testo fallita"
+					requiredMessage="E' obbligatorio compilare il campo 'Verifica del Testo'" />
+
+				<h:panelGrid columns="6">
+					<h:outputLabel value="Matricola: " for="ncontatto" />
+					<h:inputText value="#{elezioniController.contatto}" id="ncontatto"
+						required="true"
+						requiredMessage="E' obbligatorio indicare il proprio numero di matricola per ricevere le credenziali" />
+					<h:outputLabel value="Ho perso le credenziali precedenti "
+						for="nperse" />
+					<h:selectBooleanCheckbox value="#{elezioniController.perse}"
+						id="nperse" />
+					<h:commandButton action="#{elezioniController.richiediCredenziali}"
+						value="Richiedi credenziali per votare" rendered="false" />
+					<p:commandButton value="Richiedi credenziali per votare"
+						type="submit" ajax="false"
+						actionListener="#{elezioniController.richiediCredenziali}" />
+
+				</h:panelGrid>
+
+				<br />
+
+			</p:panel>
+
+		</h:form>
+
+		<br />
+		<br />
+
+
+		<h:form>
+			<h:panelGrid columns="2">
+
+
+
+				<h:commandButton action="#{elezioniController.reload}" value="Esci"
+					immediate="true" />
+
+			</h:panelGrid>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

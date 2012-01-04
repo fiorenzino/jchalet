@@ -1,0 +1,35 @@
+<!DOCTYPE facelet-taglib PUBLIC
+  "-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN"
+  "facelet-taglib_1_0.dtd">
+
+<facelet-taglib>
+
+	<namespace>http://www.rhcloud.com/geelection</namespace>
+
+	<tag>
+		<tag-name>spacer</tag-name>
+		<source>ge/spacer.xhtml</source>
+	</tag>
+	<tag>
+		<tag-name>center</tag-name>
+		<source>ge/center.xhtml</source>
+	</tag>
+
+	<function>
+		<function-name>clean</function-name>
+		<function-class>it.coopservice.commons2.utils.StringUtils</function-class>
+		<function-signature>java.lang.String clean(java.lang.String)</function-signature>
+	</function>
+
+	<function>
+		<function-name>date</function-name>
+		<function-class>it.coopservice.commons2.utils.DateUtils</function-class>
+		<function-signature>java.util.Date getLinuxDate()</function-signature>
+	</function>
+	<function>
+		<function-name>hostPort</function-name>
+		<function-class>it.coopservice.commons2.utils.JSFUtils</function-class>
+		<function-signature>java.lang.String getHostPort()</function-signature>
+	</function>
+
+</facelet-taglib>
