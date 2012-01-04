@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file-systems application-name="geelectionWeb"
+ model-entity="FileSystems" workspace-home="./target/geelection.war/WEB-INF">
+ <file-system NAME="WEB-INF" location="%workspace.home%" model-entity="FileSystemFolder"/>
+ <file-system NAME="WEB-ROOT" info="Content-Type=Web"
+  location="%workspace.home%/.." model-entity="FileSystemFolder"/>
+ <file-system NAME="src"
+  location="%workspace.home%/../../../src/main/java" model-entity="FileSystemFolder"/>
+ <file-system NAME="src2"
+  location="%workspace.home%/../../../src/main/resources" model-entity="FileSystemFolder"/>
+ <file-system NAME="src3"
+  location="%workspace.home%/../../../src/test/java" model-entity="FileSystemFolder"/>
+ <file-system NAME="src4"
+  location="%workspace.home%/../../../src/test/resources" model-entity="FileSystemFolder"/>
+ <file-system NAME="classes" location="%workspace.home%/../../classes" model-entity="FileSystemFolder"/>
+ <file-system NAME="lib" location="%workspace.home%/lib" model-entity="FileSystemFolder"/>
+ <web model-entity="JstWeb" model-path="/web.xml">
+  <module URI="/WEB-INF/faces-config.xml" model-entity="WebJSFModule"
+   src="src,src2,src3,src4" web-root="WEB-ROOT"/>
+ </web>
+</file-systems>
