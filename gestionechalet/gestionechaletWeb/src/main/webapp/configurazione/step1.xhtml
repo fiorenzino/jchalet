@@ -98,9 +98,9 @@
 
 					<p:commandButton action="#{configurazioneController.delete}"
 						value="Elimina"
-						onclick="if (!confirm('Confermi l'eliminazione?')) return false"
+						onclick="if (!confirm('Confermi l\' eliminazione?')) return false"
 						rendered="#{not empty configurazioneController.element.id}"
-						ajax="true" />
+						ajax="true" immediate="true" />
 
 				</h:panelGrid>
 			</p:panel>
