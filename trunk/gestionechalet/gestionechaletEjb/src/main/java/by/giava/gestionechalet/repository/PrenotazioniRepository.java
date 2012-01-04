@@ -148,6 +148,7 @@ public class PrenotazioniRepository extends BaseRepository<Prenotazione> {
 
 		return q;
 	}
+	
 
 	public Map<String, Map<String, Prenotazione>> getMappaPrenotazioni(
 			Search<Prenotazione> search) {
