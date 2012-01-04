@@ -91,4 +91,23 @@
 
 	</target>
 
+	<target name="gitAll">
+		<!--
+		 /home/fiorenzo/git/chalet/deployments/ROOT.war
+		copia tutto il contenuto in ROOT.war 
+		git add *
+		git commit -a -m " "
+		git push
+		-->
+		<exec dir="${openshift.root}" executable="${git.command}">
+			<arg line="add *" />
+		</exec>
+		<exec dir="${openshift.root}" executable="${git.command}">
+			<arg line="commit -a -m antcommit" />
+		</exec>
+		<exec dir="${openshift.root}" executable="${git.command}">
+			<arg line="push" />
+		</exec>
+	</target>
+
 </project>
