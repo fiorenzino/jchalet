@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import by.giava.gestionechalet.enums.StatoContrattoEnum;
 
@@ -37,6 +38,7 @@ public class Contratto implements Serializable {
 	private float importoFinale;
 	private float importoAcconto;
 	private float importoVariazione;
+	private String numero;
 
 	private boolean attivo = true;
 
@@ -163,6 +165,15 @@ public class Contratto implements Serializable {
 
 	public void setStato(StatoContrattoEnum stato) {
 		this.stato = stato;
+	}
+
+	@Transient
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
 	}
 
 }

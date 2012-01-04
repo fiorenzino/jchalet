@@ -15,7 +15,7 @@ import javax.inject.Named;
 import by.giava.gestionechalet.model.Costo;
 import by.giava.gestionechalet.model.Tariffa;
 import by.giava.gestionechalet.repository.TariffeRepository;
-import by.giava.gestionechalet.repository.util.TimeUtil;
+import by.giava.gestionechalet.repository.util.TimeUtils;
 
 @Named
 @SessionScoped
@@ -74,7 +74,7 @@ public class TariffeController extends AbstractLazyController<Tariffa> {
 			} else {
 				// getElement().setCosti(null);
 				// provo ad aggiungere quello che non c'è
-				Long num = TimeUtil.getDiffDays(getElement().getDal(),
+				Long num = TimeUtils.getDiffDays(getElement().getDal(),
 						getElement().getAl(), true);
 				for (int i = 1; i <= num; i++) {
 					Costo costo = new Costo();
@@ -89,7 +89,7 @@ public class TariffeController extends AbstractLazyController<Tariffa> {
 				logger.info("dal: " + getElement().getDal() + " - al: "
 						+ getElement().getAl());
 
-				Long num = TimeUtil.getDiffDays(getElement().getDal(),
+				Long num = TimeUtils.getDiffDays(getElement().getDal(),
 						getElement().getAl(), true);
 				logger.info("DIFF OLD: " + num);
 				for (int i = 1; i <= num; i++) {

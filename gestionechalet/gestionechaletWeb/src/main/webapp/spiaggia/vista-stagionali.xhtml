@@ -10,7 +10,7 @@
 	<ui:define name="title">Vista Stagionali</ui:define>
 
 	<ui:define name="content">
-		<h2>Vista Stagionali</h2>
+		<h2>Vista Stagionali (numero fila)</h2>
 		<h:form id="bv">
 
 			<p:dataTable var="posto" value="#{tabelloneController.posti}"
@@ -23,14 +23,18 @@
 					<div style="text-align: center;">
 						<h:outputText value="#{posto[colIndex].descrizione}"
 							rendered="false" />
+						<h:outputText
+							value="#{posto[colIndex].numero}"
+							rendered="#{not empty posto[colIndex].numero}"
+							style="font-weight: bold; " />
 						<h:graphicImage library="images" name="red.png"
 							style="border: none; width: 10px; height: 10px;"
 							rendered="#{not empty posto[colIndex].numero}" />
-						<h:graphicImage library="images" name="green.png"
+						<h:graphicImage library="images" name="white.png"
 							style="border: none; width: 10px; height: 10px;"
 							rendered="#{empty posto[colIndex].numero}" />
 						<h:outputText
-							value="#{posto[colIndex].numero} #{posto[colIndex].fila}"
+							value="#{posto[colIndex].fila}"
 							rendered="#{not empty posto[colIndex].numero}"
 							style="font-weight: bold; " />
 					</div>

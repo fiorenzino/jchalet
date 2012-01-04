@@ -3,6 +3,7 @@ package by.giava.gestionechalet.repository;
 import it.coopservice.commons2.domain.Search;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,8 @@ import javax.ejb.Stateless;
 import javax.persistence.Query;
 
 import by.giava.gestionechalet.model.servizi.Ombrellone;
+import by.giava.gestionechalet.repository.util.AlphanumComparator;
+import by.giava.gestionechalet.repository.util.OmbrelloniUtils;
 
 @Stateless
 @LocalBean
@@ -130,6 +133,15 @@ public class OmbrelloniRepository extends BaseRepository<Ombrellone> {
 		}
 
 		return q;
+	}
+
+	@Override
+	public List<Ombrellone> getList(Search<Ombrellone> ricerca, int startRow,
+			int pageSize) {
+		// TODO Auto-generated method stub
+		List<Ombrellone> lista = super.getList(ricerca, startRow, pageSize);
+		Collections.sort(lista, OmbrelloniUtils.OMBRELLONI_NUMBERS);
+		return lista;
 	}
 
 }

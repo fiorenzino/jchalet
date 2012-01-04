@@ -1,8 +1,15 @@
+GENERALI
+aggiornare primefaces
+aggiornare le commons
+verificare funzionamento del p:growl
+query sui contratti.servizi per numero ombrellone
+
+
 BETA3
-modellazione persistenza
-modellazione navigazione pagine
-gestire la vista giornaliera
-gestire la vista stagionale
+modellazione persistenza ok
+modellazione navigazione pagine ok
+gestire la vista giornaliera ok
+gestire la vista stagionale 
 
 M1
 possibilità di modificare importo finale (permettere sconto/aumento) OK

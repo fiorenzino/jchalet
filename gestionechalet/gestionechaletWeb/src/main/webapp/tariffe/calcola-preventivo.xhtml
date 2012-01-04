@@ -36,7 +36,7 @@
 						<p:ajax update="dati fila" />
 					</p:selectBooleanCheckbox>
 				</h:panelGrid>
-				<h:panelGrid columns="11">
+				<h:panelGrid columns="11" id="numeri">
 					<h:panelGroup id="fila">
 						<h:outputLabel for="fila" value="Fila:" id="filaLabel" />
 						<p:selectOneMenu value="#{prenotazioniController.search.obj.fila}">
@@ -74,7 +74,11 @@
 
 			<p:panel style="width: 95%;">
 				<p:commandButton action="#{prenotazioniController.calcolaPrezzo}"
-					value="calcola prezzo" update="prev" />
+					ajax="true" value="calcola prezzo" update="prev" />
+
+				<p:commandButton
+					action="#{prenotazioniController.resetCalcolaPrezzo}" value="reset"
+					ajax="true" immediate="true" update="dati, numeri" />
 			</p:panel>
 
 			<br />

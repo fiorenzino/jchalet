@@ -10,7 +10,7 @@
 	<ui:define name="title">Disposizione Ombrelloni</ui:define>
 
 	<ui:define name="content">
-		<h3>disposizione ombrelloni</h3>
+		<h3>disposizione ombrelloni (numero fila)</h3>
 		<h:form id="bv">
 			<p:dataTable var="posto" value="#{configurazioneController.posti}"
 				id="file" columnIndexVar="rowIndex">
@@ -22,14 +22,18 @@
 					<div style="text-align: center;">
 						<h:outputText value="#{posto[colIndex].descrizione}"
 							rendered="false" />
+						<h:outputText
+							value="#{posto[colIndex].numero}"
+							rendered="#{not empty posto[colIndex].numero}"
+							style="font-weight: bold; " />
 						<h:graphicImage library="images" name="red.png"
 							style="border: none; width: 10px; height: 10px;"
 							rendered="#{not empty posto[colIndex].numero}" />
-						<h:graphicImage library="images" name="green.png"
+						<h:graphicImage library="images" name="white.png"
 							style="border: none; width: 10px; height: 10px;"
 							rendered="#{empty posto[colIndex].numero}" />
 						<h:outputText
-							value="#{posto[colIndex].fila} #{posto[colIndex].numero}"
+							value="#{posto[colIndex].fila}"
 							rendered="#{not empty posto[colIndex].numero}"
 							style="font-weight: bold; " />
 					</div>

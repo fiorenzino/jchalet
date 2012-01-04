@@ -13,6 +13,7 @@ import javax.persistence.Query;
 
 import by.giava.gestionechalet.enums.StatoContrattoEnum;
 import by.giava.gestionechalet.model.Contratto;
+import by.giava.gestionechalet.model.Prenotazione;
 import by.giava.gestionechalet.model.Preventivo;
 import by.giava.gestionechalet.model.Servizio;
 import by.giava.gestionechalet.model.ServizioPrenotato;
@@ -64,6 +65,17 @@ public class ContrattiRepository extends BaseRepository<Contratto> {
 			params.put("id", search.getObj().getId());
 			// separatore
 			separator = " and ";
+		}
+
+		// numero ombrellone
+		if (search.getObj().getNumero() != null
+				&& !search.getObj().getNumero().isEmpty()) {
+			// sb.append(separator).append(" ").append(alias).append(".id = :id ");
+			// // aggiunta alla mappa
+			// params.put("id", search.getObj().getId());
+			// // separatore
+			// separator = " and ";
+			logger.info("devo ancora gestire il numero di ombrellone");
 		}
 
 		// stato
@@ -126,13 +138,24 @@ public class ContrattiRepository extends BaseRepository<Contratto> {
 			preventivo.getTariffa();
 		}
 		super.persist(contratto);
-		contratto.getCliente().getCognome();
 		for (ServizioPrenotato servizioPrenotato : contratto
 				.getServiziPrenotati()) {
 			prenotazioniRepository
 					.creaPrenotazionePerServizio(servizioPrenotato);
 		}
 		return contratto;
+	}
+
+	@Override
+	public boolean delete(Object key) {
+		Contratto contratto = find(key);
+		for (ServizioPrenotato serv : contratto.getServiziPrenotati()) {
+			for (Prenotazione pre : serv.getPrenotazioni()) {
+				em.remove(pre);
+			}
+			em.remove(serv);
+		}
+		return super.delete(key);
 	}
 
 	@Override

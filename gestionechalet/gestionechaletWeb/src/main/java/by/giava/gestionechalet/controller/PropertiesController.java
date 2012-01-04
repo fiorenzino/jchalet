@@ -4,9 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -18,6 +16,7 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import by.giava.gestionechalet.controller.util.ComparatorUtils;
 import by.giava.gestionechalet.enums.StatoContrattoEnum;
 import by.giava.gestionechalet.enums.TipoServizioEnum;
 import by.giava.gestionechalet.model.Cliente;
@@ -25,7 +24,6 @@ import by.giava.gestionechalet.model.servizi.Ombrellone;
 import by.giava.gestionechalet.repository.ClientiRepository;
 import by.giava.gestionechalet.repository.ConfigurazioneRepository;
 import by.giava.gestionechalet.repository.OmbrelloniRepository;
-import by.giava.gestionechalet.repository.util.AlphanumComparator;
 
 @Named
 @SessionScoped
@@ -56,17 +54,6 @@ public class PropertiesController implements Serializable {
 	@Inject
 	OmbrelloniRepository ombrelloniRepository;
 
-	private final Comparator<SelectItem> SELECT_ITEMS = new Comparator<SelectItem>() {
-		public int compare(SelectItem o1, SelectItem o2) {
-			Comparator<Object> comparator = new AlphanumComparator();
-			if (o1 == null || o1.getValue() == null)
-				return Integer.MIN_VALUE;
-			else
-				return comparator.compare(o1.getLabel().toUpperCase(), o2
-						.getLabel().toUpperCase());
-		}
-	};
-
 	@PostConstruct
 	public void reset() {
 		items = new HashMap<Class, SelectItem[]>();
@@ -90,7 +77,7 @@ public class PropertiesController implements Serializable {
 				si.add(new SelectItem(c.getId(), c.getCognome() + " "
 						+ c.getNome()));
 			}
-			Collections.sort(si, SELECT_ITEMS);
+			Collections.sort(si, ComparatorUtils.SELECT_ITEMS);
 			items.put(Cliente.class, si.toArray(new SelectItem[] {}));
 		}
 		return items.get(Cliente.class);
@@ -108,7 +95,7 @@ public class PropertiesController implements Serializable {
 		if (numeroAccessori.length == 0) {
 			numeroAccessori = new SelectItem[5];
 			for (int i = 0; i < 5; i++) {
-				numeroAccessori[i] = new SelectItem(i, ""+i);
+				numeroAccessori[i] = new SelectItem(i, "" + i);
 			}
 		}
 		return numeroAccessori;
@@ -160,7 +147,7 @@ public class PropertiesController implements Serializable {
 					ombrellone.getNumero());
 			i++;
 		}
-		Arrays.sort(ombrelloniItems, SELECT_ITEMS);
+		Arrays.sort(ombrelloniItems, ComparatorUtils.SELECT_ITEMS);
 		ombrelloniItems[0] = new SelectItem("", "tutti");
 	}
 

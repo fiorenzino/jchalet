@@ -23,7 +23,7 @@ public class Tariffeutils {
 			stop = al;
 		else
 			stop = tariffa.getAl();
-		return TimeUtil.getDiffDays(start, stop, false);
+		return TimeUtils.getDiffDays(start, stop, false);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -32,7 +32,7 @@ public class Tariffeutils {
 		Preventivo preventivo = null;
 		Date start = dal;
 		Date stop = al;
-		Long numGiorni = TimeUtil.getDiffDays(start, stop, false);
+		Long numGiorni = TimeUtils.getDiffDays(start, stop, false);
 		if (tariffa.isStagionale()) {
 			Costo costo = tariffa.getCosti().get(0L);
 			preventivo = new Preventivo(start, stop, tariffa.getServiceName(),
