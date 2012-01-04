@@ -4,6 +4,12 @@ aggiornare le commons
 verificare funzionamento del p:growl
 query sui contratti.servizi per numero ombrellone
 
+come fare da ant
+i seguenti comandi:
+git add *
+git commit -a -m " "
+git push
+
 
 BETA3
 modellazione persistenza ok
