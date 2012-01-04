@@ -99,6 +99,10 @@
 		git commit -a -m " "
 		git push
 		-->
+		<copy overwrite="true" todir="${openshift.root}">
+			<fileset dir="${deploy.dir}/${war.artifact}">
+			</fileset>
+		</copy>
 		<exec dir="${openshift.root}" executable="${git.command}">
 			<arg line="add *" />
 		</exec>
