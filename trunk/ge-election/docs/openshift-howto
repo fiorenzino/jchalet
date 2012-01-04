@@ -64,3 +64,7 @@ git commit -m "Enabled mysql DS and fixed the password" ./
 git add deployments/geelection.war
 git commit -m "Primo tentativo di deploy online" ./
 git push origin master
+
+# SEGUIRE IN TAIL
+cd /var/lib/gems/1.8/bin/
+./rhc-tail-files -a geelection -l pisi79.spam@gmail.com
