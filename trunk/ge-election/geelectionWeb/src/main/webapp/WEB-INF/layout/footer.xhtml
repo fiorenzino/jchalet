@@ -1,0 +1,16 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:gel="http://www.rhcloud.com/geelection">
+
+	<h:outputText escape="false"
+		value="&lt;i&gt;GE election v1.0&lt;/i&gt;" />
+
+	<h:outputText escape="false" value=" - " />
+	<h:outputText escape="false" value="#{gel:date()}">
+		<f:convertDateTime pattern="EEEE dd/MM/yyyy HH:mm"
+			timeZone="Europe/Rome" locale="it" />
+	</h:outputText>
+
+</ui:composition>

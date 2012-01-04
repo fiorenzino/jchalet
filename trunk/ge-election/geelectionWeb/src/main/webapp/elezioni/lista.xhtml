@@ -1,0 +1,168 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:gel="http://http://www.rhcloud.com/geelection"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">Lista Elezioni</ui:define>
+
+	<ui:define name="content">
+
+		<p:panel style="width: 95%;" id="filtri" header="Parametri di ricerca">
+
+			<h:form>
+
+				<h:panelGrid columns="4">
+
+					<h:outputLabel for="nome" value="Nome:" styleClass="label" />
+					<h:inputText id="nome"
+						value="#{elezioniController.search.obj.nome}" />
+
+					<h:outputLabel for="descrizione" value="Descrizione:"
+						styleClass="label" />
+					<h:inputText id="descrizione"
+						value="#{elezioniController.search.obj.descrizione}" />
+
+				</h:panelGrid>
+
+				<br />
+
+				<h:panelGrid columns="3">
+
+					<p:commandButton action="#{elezioniController.reload}"
+						value="Filtra" update="risultati filtri" immediate="false" />
+
+					<p:commandButton action="#{elezioniController.reset}"
+						value="Azzera filtri" update="risultati filtri" immediate="true" />
+
+				</h:panelGrid>
+
+			</h:form>
+
+		</p:panel>
+
+		<br />
+		<br />
+
+		<h:form>
+			<p:dataTable id="risultati" rowIndexVar="rowIndex" var="item"
+				emptyMessage="Nessun risultato disponibile"
+				value="#{elezioniController.model}" style="width: 95% !important;"
+				rows="#{elezioniController.rowsPerPage}"
+				rowStyleClass="odd-row, even-row" paginator="true"
+				paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+
+				<f:facet name="header">
+					<h:outputText value="Elenco Elezioni" />
+				</f:facet>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#" />
+					</f:facet>
+					<center>
+						<h:outputText value="#{rowIndex+1}" />
+					</center>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<center>
+							<h:outputText value="codice" />
+						</center>
+					</f:facet>
+					<center>
+						<h:outputText value="#{item.id}" />
+					</center>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<center>
+							<h:outputText value="nome" />
+						</center>
+					</f:facet>
+					<center>
+						<h:outputText value="#{item.nome}" />
+					</center>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<center>
+							<h:outputText value="descrizione" />
+						</center>
+					</f:facet>
+					<center>
+						<h:outputText value="#{item.descrizione}" />
+					</center>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<center>
+							<h:outputText value="apertura" />
+						</center>
+					</f:facet>
+					<center>
+						<h:outputText value="#{item.dal}">
+							<f:convertDateTime timeZone="Europe/Rome" pattern="dd/MM/yyyy"
+								locale="it" />
+						</h:outputText>
+					</center>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<center>
+							<h:outputText value="chiusura" />
+						</center>
+					</f:facet>
+					<center>
+						<h:outputText value="#{item.al}">
+							<f:convertDateTime timeZone="Europe/Rome" pattern="dd/MM/yyyy"
+								locale="it" />
+						</h:outputText>
+					</center>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="operazioni" />
+					</f:facet>
+					<center>
+						<h:commandLink action="#{elezioniController.viewElement}">
+							<h:graphicImage alt="Visualizza"
+								title="Vai alla pagina di visualizzazione" library="images/form"
+								name="view.gif" style="border: none;" />
+						</h:commandLink>
+					</center>
+				</p:column>
+
+			</p:dataTable>
+
+		</h:form>
+
+		<br />
+		<br />
+
+		<p:panel header="Aggiungi Nuova Elezione" style="width: 95%;"
+			id="nuovo">
+			<h:form>
+				<h:outputLabel styleClass="optional" for="captcha"
+					value="Verifica del Testo" />
+				<p:captcha language="it" id="captcha" rendered="true"
+					validatorMessage="Verifica del testo fallita"
+					requiredMessage="E' obbligatorio compilare il campo 'Verifica del Testo'" />
+
+				<p:commandButton value="Aggiungi nuova elezione" type="submit"
+					ajax="false" actionListener="#{elezioniController.addElement}" />
+
+			</h:form>
+		</p:panel>
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+	<description>gestione-specimen</description>
+	<display-name>gestione-specimen</display-name>
+
+	<context-param>
+		<param-name>aclFile</param-name>
+		<param-value>permissions.conf</param-value>
+	</context-param>
+	<context-param>
+		<param-name>aclPath</param-name>
+		<param-value>gestione-specimen</param-value>
+	</context-param>
+	<context-param>
+		<param-name>development</param-name>
+		<param-value>${development}</param-value>
+	</context-param>
+
+	<context-param>
+	<!-- 
+		<param-name>org.primefaces.component.captcha.PRIVATE_KEY</param-name>
+	 -->
+		<param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
+		<param-value>6LfgY8kSAAAAAH1JPlLMJxOP2AYuH8F7RuVLAEcb</param-value>
+	</context-param>
+	<context-param>
+		<param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
+		<param-value>6LfgY8kSAAAAAKI9d2xYZQQqPJNw6hWIrzfDbu-2</param-value>
+	</context-param>
+
+	<!-- <context-param> <param-name>javax.faces.CONFIG_FILES</param-name> <param-value>/WEB-INF/path-config.xml,/WEB-INF/faces-config.xml</param-value> 
+		</context-param> <context-param> <param-name>javax.faces.FACELETS_LIBRARIES</param-name> 
+		<param-value>/WEB-INF/coopservice.taglib.xml;/WEB-INF/form.taglib.xml;/WEB-INF/permissions.taglib.xml</param-value> 
+		</context-param> -->
+
+	<context-param>
+		<param-name>primefaces.THEME</param-name>
+		<param-value>bluesky</param-value>
+	</context-param>
+	<filter>
+		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+		<filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+		<init-param>
+			<param-name>thresholdSize</param-name>
+			<param-value>51200</param-value>
+		</init-param>
+		<init-param>
+			<param-name>uploadDirectory</param-name>
+			<param-value>/tmp</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+		<servlet-name>Faces Servlet</servlet-name>
+	</filter-mapping>
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>${javax.faces.PROJECT_STAGE}</param-value>
+	</context-param>
+	<!-- 
+	<context-param>
+		<param-name>org.jboss.jbossfaces.JSF_CONFIG_NAME</param-name>
+		<param-value>Coop-2.0</param-value>
+	</context-param>
+	 -->
+	<context-param>
+		<param-name>org.richfaces.fileUpload.createTempFiles</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	<context-param>
+		<param-name>org.richfaces.fileUpload.maxRequestSize</param-name>
+		<param-value>100000</param-value>
+	</context-param>
+	<context-param>
+		<param-name>org.richfaces.skin</param-name>
+		<param-value>blueSky</param-value>
+	</context-param>
+	<context-param>
+		<param-name>redirectUrl</param-name>
+		<param-value>/proibito.jsp</param-value>
+	</context-param>
+	<!-- Open session in View <filter> <description>Open Session in View filter</description> 
+		<display-name>OSIV</display-name> <filter-name>OSIV</filter-name> <filter-class>it.coopservice.commons2.filters.EJB3OpenSessionInViewFilter</filter-class> 
+		</filter> <filter-mapping> <filter-name>OSIV</filter-name> <servlet-name>Faces 
+		Servlet</servlet-name> </filter-mapping> -->
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+	<filter>
+		<filter-name>RendererFilter</filter-name>
+		<filter-class>it.coopservice.commons2.filter.RendererFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>RendererFilter</filter-name>
+		<url-pattern>/print/*</url-pattern>
+	</filter-mapping>
+	<session-config>
+		<session-timeout>600</session-timeout>
+	</session-config>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	<!-- uncomment these ones to avoid CAS login and exploit JAAS <login-config> 
+		<auth-method>BASIC</auth-method> <realm-name>JBoss JMX Console</realm-name> 
+		</login-config> <security-role> <role-name>JBossAdmin</role-name> </security-role> 
+		<security-role> <role-name>admin</role-name> </security-role> <security-role> 
+		<role-name>user</role-name> </security-role> -->
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/errore.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/errore.jsp</location>
+	</error-page>
+</web-app>

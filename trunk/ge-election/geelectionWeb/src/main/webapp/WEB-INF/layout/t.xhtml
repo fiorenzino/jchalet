@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:gel="http://http://www.rhcloud.com/geelection"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<f:view contentType="text/html">
+
+	<ui:insert name="params">
+	</ui:insert>
+
+	<h:head>
+		<title>${context} - <ui:insert name="title">{title}</ui:insert>
+		</title>
+		<h:outputStylesheet library="css" name="basic.css" />
+
+		<ui:insert name="styles">
+			<style type="text/css">
+</style>
+		</ui:insert>
+		<script type="text/javascript">
+	function textCounter(field, maxlimit) {
+		if (field.value.length > maxlimit)
+			field.value = field.value.substring(0, maxlimit);
+	}
+	</script>
+
+	</h:head>
+
+	<h:body>
+
+		<center>
+			<p:panel style="width: 95%;">
+
+				<p:messages></p:messages>
+
+				<br />
+				<br />
+
+				<ui:insert name="content">{content}</ui:insert>
+
+				<br />
+				<br />
+
+				<ui:insert name="footer">
+					<ui:include src="footer.xhtml" />
+				</ui:insert>
+
+			</p:panel>
+		</center>
+
+	</h:body>
+</f:view>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<f:view contentType="text/html">
+
+	<h:head>
+		<title><ui:insert name="title">Template per stampe multipagina</ui:insert>
+		</title>
+
+		<!-- layout generale -->
+		<c:set var="borders" value="false" />
+
+		<style type="text/css">
+@page :first {
+	size: A4 portrait;
+	margin-left: 1.5cm;
+	margin-right: 1.5cm;
+	margin-top: 4cm;
+	margin-bottom: 2.5cm; 
+	@top-center{ 
+		content:  element(header1)
+}
+
+@
+bottom-center {
+	content: element(footer1)
+}
+
+}
+@page {
+	size: A4 portrait;
+	margin-left: 1.5cm;
+	margin-right: 1.5cm;
+	margin-top: 4cm;
+	margin-bottom: 4cm; 
+ 
+   @top-center{   
+	  content:  element(header2)
+}
+
+@
+bottom-center {
+	content: element(footer2)
+}
+
+}
+body {
+	font-size: 14px;
+	font-family: Arial;
+}
+
+a,a:visited {
+	text-decoration: none;
+	color: black;
+}
+
+#pageNo {
+	font-size: small;
+	margin-bottom: 3mm;
+	float: right;
+}
+
+#pagenumber:before {
+	content: counter(page);
+}
+
+#pagecount:after {
+	content: counter(pages);
+}
+
+.pageBreakMarker {
+	page-break-after: always;
+	visibility: hidden;
+}
+
+table {
+	-fs-table-paginate: paginate;
+}
+
+th {
+	background-color: #E6E6E6;
+}
+
+#header1 {
+	position: running(header1);
+	line-height: 100%;
+	margin-top: 15mm;
+	margin-bottom: 5mm;
+	vertical-align: top;
+	height: 20mm;
+	font-size: small;
+}
+
+.header-lowerright-content {
+	font-weight: bold;
+	text-align: center;
+	font-size: 4mm;
+	text-transform: capitalize;
+	line-height: 6mm;
+	position: absolute;
+	top: 0mm;
+	right: 0mm;
+	margin-top: 52mm;
+	margin-right: 5mm;
+	padding-left: 1mm;
+	height: 23mm;
+	width: 83mm;
+	vertical-align: middle;
+}
+
+#header2 {
+	position: running(header2);
+	line-height: 100%;
+	margin-top: 15mm;
+	margin-bottom: 5mm;
+	vertical-align: top;
+	height: 20mm;
+	font-size: x-small;
+	}
+
+.header-content {
+	position: absolute;
+	top: 0mm;
+	left: 0mm;
+	margin-top: 15mm;
+	margin-left: 0mm;
+	padding-left: 1mm;
+	width: 178mm;
+}
+
+#content { /*text-align: justify;*/
+	overflow: hidden;
+}
+
+#footer1 {
+	position: running(footer1);
+	line-height: 100%;
+	margin-top: 5mm;
+	margin-bottom: 15mm;
+	vertical-align: top;
+	height: 20mm;
+}
+
+#footer2 {
+	position: running(footer2);
+	line-height: 100%;
+	margin-top: 5mm;
+	margin-bottom: 15mm;
+	vertical-align: top;
+	height: 20mm;
+}
+
+.footer-content {
+	clear: both;
+	position: absolute;
+	bottom: 0;
+	margin-bottom: 15mm;
+	padding-bottom: 2mm;
+	padding-left: 1mm;
+	width: 178mm;
+}
+</style>
+
+
+
+
+		<!-- alias per attributi styleClass -->
+		<style type="text/css">
+.floatingLeft {
+	float: left;
+}
+
+.floatingRight {
+	float: right;
+}
+
+.left {
+	text-align: left !important;
+	padding-left: 15px;
+}
+
+.right {
+	text-align: right !important;
+	padding-right: 15px;
+}
+
+.bold {
+	font-weight: bold;
+}
+</style>
+
+
+
+		<!-- stile contenuti -->
+		<ui:insert name="pageStyles">
+			<style type="text/css">
+</style>
+		</ui:insert>
+
+
+
+
+	</h:head>
+
+	<h:body>
+
+		<div id="header1">
+			<div class="header-content">
+				<center>
+					<ui:insert name="header1">Intestazione prima pagina</ui:insert>
+				</center>
+				<div class="floatingLeft">
+					<ui:insert name="header1-left">Intestazione prima pagina (sinistra)</ui:insert>
+				</div>
+				<div class="header-lowerright-content">
+					<ui:insert name="header1-right">Indirizzo prima pagina (destra)</ui:insert>
+				</div>
+			</div>
+		</div>
+
+		<div id="footer1">
+			<div id="pageNo">
+				Pagina <span id="pagenumber" /> di <span id="pagecount" />
+			</div>
+			<div class="footer-content">
+				<center>
+					<ui:insert name="footer1">Pie' di pagina prima pagina</ui:insert>
+				</center>
+				<div class="floatingRight">
+					<ui:insert name="footer1-right">Pie' di pagina prima pagina (destra)</ui:insert>
+				</div>
+				<div class="floatingLeft">
+					<ui:insert name="footer1-left">Pie' di pagina prima pagina (sinistra)</ui:insert>
+				</div>
+			</div>
+		</div>
+
+		<div id="header2">
+			<div class="header-content">
+				<center>
+					<ui:insert name="header2">Intestazione pagine successive</ui:insert>
+				</center>
+				<div class="floatingLeft">
+					<ui:insert name="header2-left">Intestazione pagine successive (sinistra)</ui:insert>
+				</div>
+				<div class="floatingRight">
+					<ui:insert name="header2-right">Intestazione pagine successive (destra)</ui:insert>
+				</div>
+			</div>
+		</div>
+
+		<div id="footer2">
+			<div id="pageNo">
+				Pagina <span id="pagenumber" /> di <span id="pagecount" />
+			</div>
+			<div class="footer-content">
+				<center>
+					<ui:insert name="footer2">Pie' di pagina pagine successive</ui:insert>
+				</center>
+				<div class="floatingRight">
+					<ui:insert name="footer2-right">Pie' di pagina pagine successive (destra)</ui:insert>
+				</div>
+				<div class="floatingLeft">
+					<ui:insert name="footer2-left">Pie' di pagina pagine successive (sinistra)</ui:insert>
+				</div>
+			</div>
+		</div>
+
+
+		<div id="content">
+			<ui:insert name="content">Contenuto</ui:insert>
+			<f:verbatim rendered="#{borders}">
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+Contenuto<br />
+			</f:verbatim>
+		</div>
+
+	</h:body>
+</f:view>
+</html>
