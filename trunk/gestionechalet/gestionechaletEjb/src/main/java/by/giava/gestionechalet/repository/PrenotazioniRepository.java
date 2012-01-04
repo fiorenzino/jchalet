@@ -84,6 +84,17 @@ public class PrenotazioniRepository extends BaseRepository<Prenotazione> {
 			separator = " and ";
 		}
 
+		// id contratto
+		if (search.getObj().getContratto() != null
+				&& search.getObj().getContratto().getId() != null) {
+			sb.append(separator).append(" ").append(alias)
+					.append(".contratto.id = :idContratto ");
+			// aggiunta alla mappa
+			params.put("idContratto", search.getObj().getContratto().getId());
+			// separatore
+			separator = " and ";
+		}
+
 		// numero servizio
 		if (search.getObj().getNumero() != null
 				&& !search.getObj().getNumero().isEmpty()) {

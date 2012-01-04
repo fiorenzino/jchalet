@@ -149,12 +149,15 @@ public class ContrattiRepository extends BaseRepository<Contratto> {
 	@Override
 	public boolean delete(Object key) {
 		Contratto contratto = find(key);
-		for (ServizioPrenotato serv : contratto.getServiziPrenotati()) {
-			for (Prenotazione pre : serv.getPrenotazioni()) {
-				em.remove(pre);
-			}
-			em.remove(serv);
+		Prenotazione prenotazione = new Prenotazione();
+		prenotazione.setContratto(contratto);
+		Search<Prenotazione> search = new Search<Prenotazione>(prenotazione);
+		List<Prenotazione> prenotazioni = prenotazioniRepository.getList(
+				search, 0, 0);
+		for (Prenotazione pre : prenotazioni) {
+			em.remove(pre);
 		}
+
 		return super.delete(key);
 	}
 
