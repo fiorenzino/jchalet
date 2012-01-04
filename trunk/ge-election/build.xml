@@ -1,0 +1,109 @@
+<project name="geelection">
+
+	<property file="build.properties" />
+
+	<target name="init.properties">
+		<echo message="be sure to modify 'init.properties' (e.g., 'ear.artifact') and 'ant.project.name' as needed to fit your project" />
+
+		<property name="applet.module" value="${ant.project.name}Applet" />
+		<property name="web.module" value="${ant.project.name}Web" />
+		<property name="war.artifact" value="${ant.project.name}.war" />
+	</target>
+
+	<target name="update" depends="init.properties,update.one">
+		<copy overwrite="false" todir="${deploy.dir}/${war.artifact}">
+			<fileset dir="${web.module}/src/main/webapp">
+				<include name="**/*.xml" />
+				<include name="**/*.xhtml" />
+				<include name="**/*.jsp" />
+				<include name="**/*.js" />
+				<include name="**/*.gif" />
+				<include name="**/*.jpg" />
+				<include name="**/*.jpeg" />
+				<include name="**/*.png" />
+				<include name="**/*.css" />
+				<exclude name="**/*.jar" />
+			</fileset>
+		</copy>
+		<copy overwrite="false" todir="${deploy.dir}/${war.artifact}/WEB-INF/classes">
+			<fileset dir="${web.module}/src/main/resources">
+				<include name="**/*.xml" />
+				<include name="**/*.xhtml" />
+				<include name="**/*.jsp" />
+				<include name="**/*.js" />
+				<include name="**/*.gif" />
+				<include name="**/*.jpg" />
+				<include name="**/*.jpeg" />
+				<include name="**/*.png" />
+				<include name="**/*.css" />
+				<exclude name="**/*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="update.one" if="modified" depends="init.properties">
+		<copy overwrite="true" todir="${deploy.dir}/${war.artifact}">
+			<fileset dir="${web.module}/src/main/webapp">
+				<include name="**/${modified}" />
+			</fileset>
+		</copy>
+		<copy overwrite="true" todir="${deploy.dir}/${war.artifact}/WEB-INF/classes">
+			<fileset dir="${web.module}/src/main/resources">
+				<include name="**/${modified}" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="update.applet" depends="init.properties">
+		<echo message="Applet is: ${applet.module}"/>
+		<copy overwrite="true" todir="${web.module}/src/main/webapp/jars">
+			<fileset dir="${applet.module}/target">
+				<include name="${applet.module}Signed.jar" />
+				<include name="${applet.module}.cer" />
+			</fileset>
+		</copy>
+		<antcall target="update.one">
+			<param name="modified" value="${applet.module}Signed.jar" />
+		</antcall>
+		<antcall target="update.one">
+			<param name="modified" value="${applet.module}.cer" />
+		</antcall>
+	</target>
+
+	<target name="undeploy">
+		<delete dir="${deploy.dir}" >
+			<include name="${war.artifact}.deployed"/>
+			<include name="${war.artifact}.dodeploy"/>
+			<include name="${war.artifact}.deploying"/>
+			<include name="${war.artifact}.failed"/>
+		</delete>
+	</target>
+
+	<target name="all" depends="clean, package,undeploy, deploy">
+
+	</target>
+
+	<target name="package-deploy" depends="package, deploy">
+	</target>
+
+	<target name="package">
+		<exec dir="${basedir}" executable="${mvn.command}">
+			<arg line="-o -P test -D maven.test.skip=true package" />
+		</exec>
+	</target>
+
+	<target name="clean">
+		<exec dir="${basedir}" executable="${mvn.command}">
+			<arg line="-o -Dmaven.test.skip=true clean" />
+		</exec>
+	</target>
+
+	<target name="deploy" depends="undeploy, init.properties">
+		<touch file="${deploy.dir}/${war.artifact}.dodeploy"></touch>
+	</target>
+
+	<target name="default" depends="undeploy,package,deploy" description="build file per deploy esploso e aggiornamento risorse web on the fly">
+
+	</target>
+
+</project>

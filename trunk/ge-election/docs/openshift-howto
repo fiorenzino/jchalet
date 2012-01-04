@@ -1,0 +1,66 @@
+# INSTALLAZIONE DI RUBY CHE VA (ruby e rubygems da soli non sono sufficienti e non impostano path)
+
+sudo apt-get install ruby rubygems
+sudo apt-get install ruby-full
+
+# INSTALLAZIONE DI GIT SE NON GIA' PRESENTE
+
+git --versione
+
+# OPERIAMO DENTRO AI BINARI DI RUBYGEMS
+
+cd /var/lib/gems/1.8/bin/
+
+# CREAZIONE DEL DOMINIO (evita capital letters... problemi poi con git)
+
+./rhc-create-domain -n PisiTestDomain -l pisi79.spam@gmail.com
+
+# CAMBIO NOME DEL DOMINIO
+
+./rhc-create-domain -n jboss7apps -a -l pisi79.spam@gmail.com
+
+# OCCHIO A METTERE UN PATH DOVE CREARE IL REPOSITORY PER LE APP
+
+./rhc-create-app -a testapp -l pisi79.spam@gmail.com -t jbossas-7.0 -r /media/extra/Projects/OpenShiftExpress/testapp
+./rhc-create-app -a geelection -l pisi79.spam@gmail.com -t jbossas-7.0 -r /media/extra/Projects/OpenShiftExpress/geelection
+
+# CREAZIONE DB PER LA APP
+
+./rhc-ctl-app -a geelection -l pisi79.spam@gmail.com -e add-mysql-5.1   
+
+RESULT:
+
+Mysql 5.1 database added.  Please make note of these credentials:
+
+   Root User: admin
+   Root Password: Swjdwu665je-
+   Database Name: geelection
+
+Connection URL: mysql://127.1.31.129:3306/
+
+# PHPMYADMIN
+
+RESULT:
+
+phpMyAdmin 3.4 added.  Please make note of these credentials:
+
+   Root User: admin
+   Root Password: Swjdwu665je-
+
+Connection URL: https://geelection-jboss7apps.rhcloud.com/phpmyadmin/
+
+
+
+# modificato /home/pisi79/Desktop/extra/Projects/OpenShiftExpress/geelection/.openshift/config/standalone.xml per aggiungere il DS con le credenziali ottenute e committato il file
+
+cd /home/pisi79/Desktop/extra/Projects/OpenShiftExpress/geelection
+git commit -m "Enabled mysql DS and fixed the password" ./
+
+# copiato il file war nella cartella /home/pisi79/Desktop/extra/Projects/OpenShiftExpress/geelection/deployments
+# aggiunto a git
+# committatto
+# deployato online
+
+git add deployments/geelection.war
+git commit -m "Primo tentativo di deploy online" ./
+git push origin master
