@@ -1,0 +1,63 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:coop="http://www.coopservice.it/commons2/taglib"
+	xmlns:perm="http://www.coopservice.it/commons2/permissions"
+	xmlns:form="http://www.coopservice.it/commons2/form"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<!-- attributi: 
+	"colonne" su cui iterare le colonne
+	"prenotazioni" su cui iterare le righe
+	 -->
+	
+	<table border="1">
+		<tr>
+			<ui:repeat varStatus="col" value="#{colonne}" var="colonna">
+				<h:outputText value="&lt;td &gt;" escape="false" />
+				<h:outputText value="seleziona &lt;br /&gt; fila/num" escape="false"
+					rendered="#{col.first}" />
+				<h:outputText value="#{colonna}" escape="false"
+					rendered="#{not col.first}" />
+				<h:outputText value="&lt;/td &gt;" escape="false" />
+			</ui:repeat>
+		</tr>
+
+		<ui:repeat varStatus="row"
+			value="#{prenotazioni}">
+			<tr>
+				<ui:repeat varStatus="col" value="#{colonne}"
+					var="colonna">
+					<h:outputText value="&lt;td &gt;" escape="false" />
+					<div style="text-align: center;"><h:graphicImage
+						library="images" name="red.png"
+						style="border: none; width: 10px; height: 10px;"
+						alt="#{prenotazioni[row.index][col.index].numero}"
+						title="#{prenotazioni[row.index][col.index].numero}"
+						rendered="#{prenotazioni[row.index][col.index].occupato and (col.index != 0)}" />
+
+					<h:graphicImage library="images" name="green.png"
+						style="border: none; width: 10px; height: 10px;"
+						alt="#{prenotazioni[row.index][col.index].numero}"
+						title="#{prenotazioni[row.index][col.index].numero}"
+						rendered="#{not prenotazioni[row.index][col.index].occupato and (col.index != 0)}" />
+
+					<h:outputText
+						value="#{prenotazioni[row.index][col.index].occupato}"
+						rendered="#{false and not empty prenotazione[col.index].numero and (col.index != 0)}"
+						style="font-weight: bold; " /> <p:commandButton
+						action="#{prenotazioniController.aggiungiServizio(prenotazioni[row.index][col.index].fila,prenotazioni[row.index][col.index].numero, 'OMB')}"
+						value="#{prenotazioni[row.index][col.index].fila}:#{prenotazioni[row.index][col.index].numero}"
+						ajax="true" immediate="false" update="servx"
+						rendered="#{(col.index == 0) }" >
+						</p:commandButton>
+						</div>
+					<h:outputText value="&lt;/td &gt;" escape="false" />
+				</ui:repeat>
+			</tr>
+		</ui:repeat>
+	</table>
+
+</ui:composition>
