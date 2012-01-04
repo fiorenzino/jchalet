@@ -14,11 +14,11 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<commons2Ejb.version>1.2.0</commons2Ejb.version>
-		<commons2Web.version>1.2.0</commons2Web.version>
+		<commons2Ejb.version>1.1.2</commons2Ejb.version>
+		<commons2Web.version>1.2.2</commons2Web.version>
 		<jboss.spec.version>1.0.1.Final</jboss.spec.version>
 		<org.richfaces.bom.version>4.0.0.Final</org.richfaces.bom.version>
-		<primefaces.version>3.0.M4</primefaces.version>
+		<primefaces.version>3.0</primefaces.version>
 		<hibernate.entitymanager.version>3.5.2-Final</hibernate.entitymanager.version>
 		<arquillian.version>1.0.0.Alpha4</arquillian.version>
 
