@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>ge-election</artifactId>
+		<groupId>it.pisi79.geelection</groupId>
+		<version>1.0</version>
+	</parent>
+	<artifactId>geelectionEjb</artifactId>
+	<name>${project.artifactId}</name>
+	<description>${project.artifactId}</description>
+	<packaging>ejb</packaging>
+
+	<properties>
+		<arquillian.version>1.0.0.Alpha4</arquillian.version>
+	</properties>
+
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<!-- Ci serve per avere la versione ejb 3 del packaging ejb -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ejb-plugin</artifactId>
+				<configuration>
+					<ejbVersion>3.0</ejbVersion>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+			</plugin>
+			<!-- Test -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+		</dependency>
+	</dependencies>
+
+</project>
