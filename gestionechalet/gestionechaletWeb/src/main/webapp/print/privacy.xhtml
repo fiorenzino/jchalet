@@ -1,0 +1,128 @@
+<ui:composition template="/print/stampa.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"	>
+
+	<ui:define name="title">#{elezioniController.element.nomeElezione}</ui:define>
+
+	<ui:define name="pageStyles">
+		<ui:include src="stili-testata.xhtml">
+		</ui:include>
+		<ui:include src="stili-righe.xhtml">
+		</ui:include>
+	</ui:define>
+
+	<ui:define name="header1">
+		<ui:include src="testata.xhtml">
+			<ui:param name="titolo" value="Risultati Elezione" />
+		</ui:include>
+	</ui:define>
+
+	<ui:define name="header1-left">
+	</ui:define>
+
+	<ui:define name="header1-right">
+	</ui:define>
+
+	<ui:define name="footer1">
+	</ui:define>
+	<ui:define name="footer1-left">
+	</ui:define>
+	<ui:define name="footer1-right"></ui:define>
+
+	<ui:define name="header2"></ui:define>
+	<ui:define name="header2-left">
+	</ui:define>
+	<ui:define name="header2-right">
+	</ui:define>
+	<ui:define name="footer2">
+	</ui:define>
+	<ui:define name="footer2-left">
+	</ui:define>
+	<ui:define name="footer2-right"></ui:define>
+
+	<ui:define name="content">
+
+		<h:panelGrid columns="2">
+
+			<h:outputLabel for="nome" value="Nome:" />
+			<h:outputText value="#{elezioniController.element.nome}" id="nome" />
+
+			<h:outputLabel for="desc" value="Descrizione:" />
+			<h:outputText value="#{elezioniController.element.descrizione}"
+				id="desc" />
+
+			<h:outputLabel for="cre" value="Creata il:" />
+			<h:outputText value="#{elezioniController.element.creata}" id="cre">
+				<f:convertDateTime timeZone="Europe/Rome" locale="it"
+					pattern="dd/MM/yyyy HH:mm" />
+			</h:outputText>
+
+			<h:outputLabel for="dal" value="Inizio votazioni:" />
+			<h:outputText value="#{elezioniController.element.dal}" id="dal">
+				<f:convertDateTime timeZone="Europe/Rome" locale="it"
+					pattern="dd/MM/yyyy" />
+			</h:outputText>
+
+			<h:outputLabel for="al" value="Fine votazioni:" />
+			<h:outputText value="#{elezioniController.element.al}" id="al">
+				<f:convertDateTime timeZone="Europe/Rome" locale="it"
+					pattern="dd/MM/yyyy" />
+			</h:outputText>
+
+			<h:outputLabel for="totE" value="Elettori registrati:" />
+			<h:outputText value="#{elezioniController.element.totaleElettori}"
+				id="totE" />
+
+			<h:outputLabel for="totV" value="Totale voti:" />
+			<h:outputText value="#{elezioniController.element.totaleVoti}"
+				id="totV" />
+
+		</h:panelGrid>
+
+		<br />
+		<br />
+
+		<h:dataTable value="#{elezioniController.element.candidati}" 
+			cellpadding="0" cellspacing="0" var="item" styleClass="tabella"
+			rowClasses="oddRow,evenRow">
+
+			<h:column>
+				<f:facet name="header">
+					<center>
+						<h:outputText value="cognome e nome" />
+					</center>
+				</f:facet>
+				<center>
+					<h:outputText value="#{item.cognome} #{item.nome}" />
+				</center>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<center>
+						<h:outputText value="altri dati" />
+					</center>
+				</f:facet>
+				<center>
+					<h:outputText value="#{item.cognome} #{item.nome}" />
+				</center>
+			</h:column>
+
+			<h:column rendered="#{elezioniController.element.conclusa}">
+				<f:facet name="header">
+					<center>
+						<h:outputText value="voti ricevuti" />
+					</center>
+				</f:facet>
+				<center>
+					<h:outputText value="#{item.nroVoti}" />
+				</center>
+			</h:column>
+
+		</h:dataTable>
+
+	</ui:define>
+
+</ui:composition>
