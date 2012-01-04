@@ -1,22 +1,24 @@
 package by.giava.gestionechalet.controller;
 
-import java.util.Date;
-import java.util.List;
-
 import it.coopservice.commons2.annotations.EditPage;
 import it.coopservice.commons2.annotations.ListPage;
 import it.coopservice.commons2.annotations.OwnRepository;
 import it.coopservice.commons2.annotations.ViewPage;
 import it.coopservice.commons2.controllers.AbstractLazyController;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import by.giava.gestionechalet.enums.StatoContrattoEnum;
+import by.giava.gestionechalet.model.Cliente;
 import by.giava.gestionechalet.model.Contratto;
 import by.giava.gestionechalet.model.Preventivo;
 import by.giava.gestionechalet.model.ServizioPrenotato;
+import by.giava.gestionechalet.repository.ClientiRepository;
 import by.giava.gestionechalet.repository.ContrattiRepository;
 
 @Named
@@ -40,6 +42,9 @@ public class ContrattiController extends AbstractLazyController<Contratto> {
 
 	@Inject
 	PrenotazioniController prenotazioniController;
+
+	@Inject
+	ClientiRepository clientiRepository;
 
 	@Override
 	public Object getId(Contratto t) {
@@ -76,13 +81,25 @@ public class ContrattiController extends AbstractLazyController<Contratto> {
 	@Override
 	public String save() {
 		// TODO Auto-generated method stub
-		return super.save();
+		super.save();
+		ricaricaCliente();
+		return VIEW;
 	}
 
 	@Override
 	public String update() {
 		// TODO Auto-generated method stub
-		return super.update();
+		super.update();
+		ricaricaCliente();
+		return VIEW;
+	}
+
+	private void ricaricaCliente() {
+		if (getElement().getCliente().getId() != null) {
+			Cliente cliente = clientiRepository.find(getElement().getCliente()
+					.getId());
+			getElement().setCliente(cliente);
+		}
 	}
 
 	public String vediContratti(Long id) {

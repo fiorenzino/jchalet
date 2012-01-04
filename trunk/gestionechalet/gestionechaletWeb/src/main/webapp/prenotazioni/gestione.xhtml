@@ -14,7 +14,7 @@
 		<h:form id="bv" prependId="false">
 			<h2>Gestione Prenotazione</h2>
 			<p:panel style="width: 95%;">
-				<h:panelGrid columns="6" id="cerca">
+				<h:panelGrid columns="4" id="cerca">
 					<h:outputLabel for="dal" value="Dal:" />
 					<p:calendar id="dal"
 						value="#{prenotazioniController.search.obj.dataDal}"
@@ -27,8 +27,9 @@
 						pattern="dd/MM/yyyy" title="Data al" locale="it" startWeekday="1"
 						showOn="button" />
 
-					<h:outputLabel for="stagionali" value="Solo stagionali" />
-					<p:selectBooleanCheckbox id="stagionali"
+					<h:outputLabel for="stagionali" value="Solo stagionali"
+						rendered="false" />
+					<p:selectBooleanCheckbox id="stagionali" rendered="false"
 						value="#{prenotazioniController.search.obj.soloStagionali}">
 						<p:ajax
 							listener="#{prenotazioniController.impostaRicercaStagionali}"
@@ -70,7 +71,7 @@
 			<br />
 			<p:panel style="width: 95%;" id="prenotazioni"
 				header="risultati della ricerca">
-				<table style="border: 1px solid;">
+				<table border="1">
 					<tr>
 						<ui:repeat varStatus="col"
 							value="#{prenotazioniController.colonne}" var="colonna">

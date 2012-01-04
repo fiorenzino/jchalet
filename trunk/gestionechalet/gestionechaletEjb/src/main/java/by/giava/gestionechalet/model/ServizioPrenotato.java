@@ -3,6 +3,7 @@ package by.giava.gestionechalet.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -72,7 +73,7 @@ public class ServizioPrenotato {
 		this.al = al;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@OrderBy("data")
 	public List<Prenotazione> getPrenotazioni() {
 		return prenotazioni;

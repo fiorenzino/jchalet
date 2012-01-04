@@ -13,11 +13,15 @@
 		<h1>Lista Contratti</h1>
 		<h:form id="contratti">
 			<p:panel style="width: 95%;">
-				<h:panelGrid columns="8">
+				<h:panelGrid columns="10">
 
 					<h:outputLabel value="id cliente:" for="id" />
 					<p:inputText id="id"
 						value="#{contrattiController.search.obj.cliente.id}" />
+
+					<h:outputLabel value="num ombrellone:" for="numOmb" />
+					<p:inputText id="numOmb"
+						value="#{contrattiController.search.obj.numero}" />
 
 
 					<h:outputLabel value="cognome:" for="cercaNome" />
@@ -35,7 +39,7 @@
 					<p:commandButton actionListener="#{contrattiController.reloadAjax}"
 						value="Cerca" ajax="true" immediate="false" update="lista" />
 					<p:commandButton action="#{contrattiController.reset}"
-						value="Annulla" ajax="false" immediate="true" />
+						value="Reset" ajax="false" immediate="true" />
 				</h:panelGrid>
 			</p:panel>
 			<br />

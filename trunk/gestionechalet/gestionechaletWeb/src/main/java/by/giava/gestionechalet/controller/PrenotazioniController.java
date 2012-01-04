@@ -8,6 +8,7 @@ import it.coopservice.commons2.domain.Search;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,8 +102,25 @@ public class PrenotazioniController extends
 	}
 
 	public String creaPrenotazione() {
-		reset();
 		resetRicercaOmbrelloni();
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		if (cal.getTime().before(
+				configurazioneController.getActual().getDataInizioStagione())) {
+			cal.setTime(configurazioneController.getActual()
+					.getDataInizioStagione());
+		}
+
+		getSearch().getObj().setDataDal(cal.getTime());
+		cal.add(Calendar.DAY_OF_YEAR, 15);
+		if (cal.getTime().after(
+				configurazioneController.getActual().getDataFineStagione())) {
+			cal.setTime(configurazioneController.getActual()
+					.getDataFineStagione());
+		}
+		getSearch().getObj().setDataAl(cal.getTime());
+
 		this.preventivi = null;
 		return EDIT + "?faces-redirect=true";
 	}
@@ -145,6 +163,14 @@ public class PrenotazioniController extends
 
 	public void calcolaPrezzo() {
 		this.serviziMap = null;
+		if (getSearch().getObj().getDataAl() == null
+				|| getSearch().getObj().getDataDal() == null
+				|| getSearch().getObj().getDataAl()
+						.before(getSearch().getObj().getDataDal())) {
+			super.addFacesMessage("periodo selezionato non valido");
+
+			return;
+		}
 		// numeroSdraie;
 		if (getSearch().getObj().getFila() == null
 				|| getSearch().getObj().getFila().equals("TUTTE"))
@@ -229,6 +255,7 @@ public class PrenotazioniController extends
 		this.serviziMap = null;
 		this.total = 0;
 		this.fila = 0;
+		this.numAccessori = 1;
 		reset();
 	}
 
@@ -244,10 +271,15 @@ public class PrenotazioniController extends
 	}
 
 	public void ricercaOmbrelloni() {
-		// cerca ombrelloni dal/al
-		if (getSearch().getObj().getDataDal() == null
-				&& getSearch().getObj().getDataDal() == null)
+		if (getSearch().getObj().getDataAl() == null
+				|| getSearch().getObj().getDataDal() == null
+				|| getSearch().getObj().getDataAl()
+						.before(getSearch().getObj().getDataDal())) {
+			super.addFacesMessage("periodo selezionato non valido");
+
 			return;
+		}
+		// cerca ombrelloni dal/al
 		Search<Ombrellone> search = new Search<Ombrellone>(new Ombrellone(
 				getSearch().getObj().getNumero(), getSearch().getObj()
 						.getFila(), configurazioneController.getActual()));

@@ -31,6 +31,10 @@
 			<p:submenu label="Prenotazioni" icon="ui-icon ui-icon-pencil">
 				<p:menuitem value="cerca e prenota"
 					action="#{prenotazioniController.creaPrenotazione}" ajax="false" />
+				<p:menuitem value="cerca stagionale"
+					action="#{prenotazioniController.creaPrenotazione}" ajax="false" />
+				<p:menuitem value="cerca gionraliero"
+					action="#{prenotazioniController.creaPrenotazione}" ajax="false" />
 			</p:submenu>
 			<p:submenu label="Contratti" icon="ui-icon ui-icon-pencil">
 				<p:menuitem value="lista" url="/contratti/lista.jsf" />
@@ -65,5 +69,7 @@
 				<h:outputText value="" />
 			</f:facet>
 		</p:ajaxStatus>
+		<p:growl id="messages" showDetail="true" sticky="true"
+			autoUpdate="true" globalOnly="true" />
 	</h:form>
 </ui:composition>

@@ -15,7 +15,7 @@ import by.giava.gestionechalet.enums.TipoServizioEnum;
 import by.giava.gestionechalet.model.Prenotazione;
 import by.giava.gestionechalet.model.ServizioPrenotato;
 import by.giava.gestionechalet.model.servizi.Ombrellone;
-import by.giava.gestionechalet.repository.util.TimeUtil;
+import by.giava.gestionechalet.repository.util.TimeUtils;
 
 @Stateless
 @LocalBean
@@ -156,10 +156,10 @@ public class PrenotazioniRepository extends BaseRepository<Prenotazione> {
 
 	public void creaPrenotazionePerServizio(ServizioPrenotato servizioPrenotato) {
 		Calendar calendar = Calendar.getInstance();
-		Long num = TimeUtil.getDiffDays(servizioPrenotato.getDal(),
-				servizioPrenotato.getAl(), false);
+		Long num = TimeUtils.getDiffDays(servizioPrenotato.getDal(),
+				servizioPrenotato.getAl(), true);
 		calendar.setTime(servizioPrenotato.getDal());
-		for (int i = 0; i <= num + 1; i++) {
+		for (int i = 0; i < num; i++) {
 			Prenotazione prenotazione = new Prenotazione();
 			prenotazione.setAttivo(true);
 			prenotazione.setData(calendar.getTime());
@@ -171,6 +171,7 @@ public class PrenotazioniRepository extends BaseRepository<Prenotazione> {
 						.getServizio();
 				prenotazione.setFila(ombrellone.getFila());
 			}
+			prenotazione.setServizio(servizioPrenotato.getServizio());
 			persist(prenotazione);
 			calendar.add(Calendar.DAY_OF_YEAR, 1);
 		}

@@ -7,9 +7,9 @@ import java.util.Date;
 
 import org.jboss.logging.Logger;
 
-public class TimeUtil {
+public class TimeUtils {
 
-	static Logger logger = Logger.getLogger(TimeUtil.class);
+	static Logger logger = Logger.getLogger(TimeUtils.class);
 
 	static DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -34,5 +34,27 @@ public class TimeUtil {
 		} else {
 			return new Long(0);
 		}
+	}
+
+	public static String getSingleDayName(Date data, boolean withYear) {
+		String dataS = "";
+		if (data != null) {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(data);
+
+			if (withYear) {
+				dataS = cal.get(Calendar.DAY_OF_MONTH) + "-"
+						+ (cal.get(Calendar.MONTH) + 1) + "-"
+						+ cal.get(Calendar.YEAR);
+			} else {
+				dataS = cal.get(Calendar.DAY_OF_MONTH) + "-"
+						+ (cal.get(Calendar.MONTH) + 1);
+				// + "-"
+				// + cal.get(Calendar.YEAR);
+			}
+
+		}
+		logger.info(dataS);
+		return dataS;
 	}
 }
