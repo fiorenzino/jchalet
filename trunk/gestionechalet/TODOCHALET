@@ -6,6 +6,9 @@ query sui contratti.servizi per numero ombrellone
 
 come fare da ant
 i seguenti comandi:
+
+/home/fiorenzo/git/chalet/deployments/ROOT.war
+copia tutto il contenuto in ROOT.war 
 git add *
 git commit -a -m " "
 git push
